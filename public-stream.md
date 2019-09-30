@@ -18,8 +18,8 @@
 
 ## General WSS information
 
-- The base endpoint is: **wss://stream.bitbank.com**
-- A single connection to **stream.bitbank.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
+- The base endpoint is: **wss://stream.bitbank.cc**
+- A single connection to **stream.bitbank.cc** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
 
 ## General endpoints
 

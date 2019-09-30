@@ -18,7 +18,7 @@
 
 ## API 概要
 
-- エンドポイント URL: **wss://stream.bitbank.com**.
+- エンドポイント URL: **wss://stream.bitbank.cc**.
 
 ## WSチャンネル一覧
 
