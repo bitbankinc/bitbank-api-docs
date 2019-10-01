@@ -581,7 +581,7 @@ quote_asset | string | quote asset
 maker_fee_rate_base | string | maker fee (base asset)
 taker_fee_rate_base| string |taker fee (base asset)
 maker_fee_rate_quote| string |maker fee (quote asset)
-taker_fee_rate_quote| string |taker fee (base asset)
+taker_fee_rate_quote| string |taker fee (quote asset)
 unit_amount| string | minimum order amount
 limit_max_amount| string |max order amount
 market_max_amount| string |market order max amount
