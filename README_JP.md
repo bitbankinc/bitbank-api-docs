@@ -11,3 +11,9 @@
 [public-stream_JP.md](./public-stream_JP.md) | リアルタイムデータ配信API
 [realtime-api_JP.md](./realtime-api_JP.md) | [非推奨] リアルタイム API (リアルタイムデータ配信APIを利用してください)
 [errors_JP.md](./errors_JP.md) | エラーコードの一覧
+
+_APIに関する改善、機能追加の要望、ドキュメント記載内容の誤り、サンプルコードのバグなどに関する内容は本リポジトリのIssueからご報告ください。_
+[https://github.com/bitbankinc/bitbank-api-docs/issues](https://github.com/bitbankinc/bitbank-api-docs/issues)
+
+_具体的なドキュメント記載内容の修正、記載の追加がある場合、Pull Requestも受け付けております。_
+[https://github.com/bitbankinc/bitbank-api-docs/pulls](https://github.com/bitbankinc/bitbank-api-docs/pulls).

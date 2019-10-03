@@ -55,7 +55,7 @@
   - ACCESS-KEY : ACCESS-KEY and API secret can be generated in your access key page.
   - ACCESS-NONCE : ACCESS-NONCE should be an integer and increased every time a new request is issued (you can use unix timestamp as ACCESS-NONCE).
   - ACCESS-SIGNATURE : Hash the following string with `HMAC-SHA256`, using your API secret as hash key.
-    - GET: [ACCESS-NONCE, request path, query parameters] concatenated (include `/v1` in request path).
+    - GET: [ACCESS-NONCE, full request path with query parameters] concatenated (include `/v1` in request path).
     - POST: [ACCESS-NONCE, JSON string of request body] concatenated (include query parameters in request body).
 
 ## General endpoints
@@ -73,6 +73,38 @@ None
 
 **Response:**
 
+Name | Type | Description
+------------ | ------------ | ------------
+asset | string  | asset enum: `jpy`, `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+free_amount | string | free amount
+amount_precision | number | amount precision
+onhand_amount | string | onhand amount
+locked_amount | string | locked amount
+withdrawal_fee | string | withdrawal fee
+stop_deposit | boolean | deposit status
+stop_withdrawal | boolean | withdrawal status
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/assets
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
 ```json
 {
   "success": 1,
@@ -80,12 +112,28 @@ None
     "assets": [
       {
         "asset": "string",
+        "free_amount": "string",
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawal_fee": "string",
+        "stop_deposit": false,
+        "stop_withdrawal": false,
+      },
+      {
+        "asset": "jpy",
         "free_amount": "string",
-        "withdrawal_fee": "string"
-      }
+        "amount_precision": 0,
+        "onhand_amount": "string",
+        "locked_amount": "string",
+        "withdrawal_fee": {
+            "under": "string",
+            "over": "string",
+            "threshold": "string"
+        },
+        "stop_deposit": false,
+        "stop_withdrawal": false,
+    },
     ]
   }
 }
@@ -122,7 +170,26 @@ average_price | string | avg executed price
 ordered_at | number | ordered at
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/order?pair=btc_jpy&order_id=1" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/order?pair=btc_jpy\&order_id=1
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -175,7 +242,27 @@ average_price | string | avg executed price
 ordered_at | number | ordered at
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/order
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -226,7 +313,27 @@ ordered_at | number | ordered at
 canceled_at | number | canceled at
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "order_id": 1}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/cancel_order
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -302,7 +409,27 @@ Name | Type | Mandatory | Description
 pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
 order_ids | number[] | YES | order ids
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "order_ids": [1]}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/orders_info
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -339,13 +466,47 @@ GET /user/spot/active_orders
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
-count | number | YES | take limit
-from_id | number | YES | take from order id
-end_id | number | YES | take until order id
-since | number | YES | since unix timestamp
-end | number | YES | end unix timestamp
+count | number | NO | take limit
+from_id | number | NO | take from order id
+end_id | number | NO | take until order id
+since | number | NO | since unix timestamp
+end | number | NO | end unix timestamp
 
-response format:
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+side | string | `buy` or `sell`
+type | string | `limit` or `market`
+start_amount | string | order qty when placed
+remaining_amount | string | qty not executed
+executed_amount| string | qty executed
+price | string | order price
+average_price | string | avg executed price
+ordered_at | number | ordered at
+status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/active_orders?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/active_orders?pair=btc_jpy
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -383,10 +544,10 @@ GET /user/spot/trade_history
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
-count | number | YES |take limit
-order_id | number | YES | order id
-since | number | YES | since unix timestamp
-end | number | YES | emd unix timestamp
+count | number | NO |take limit
+order_id | number | NO | order id
+since | number | NO | since unix timestamp
+end | number | NO | emd unix timestamp
 order | string | NO | histories in order(order enum: `asc`or `desc`, default to `desc`)
 
 **Response:**
@@ -405,7 +566,26 @@ fee_amount_base | string | base asset fee amount
 fee_amount_quote | string | quote asset fee amount
 executed_at | number | order executed at unix timestamp
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/trade_history?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/trade_history?pair=btc_jpy
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -452,7 +632,26 @@ uuid | string | withdrawal account uuid
 label | string | withdrawal account label
 address | string | withdrawal address
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_account?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_account?asset=btc
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -500,7 +699,28 @@ txid | string | withdrawal transaction id
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number| requested at unix timestamp
 
-response format:
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"asset": "xrp", "uuid": "___your uuid___", amount: "1"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/request_withdrawal
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -541,7 +761,26 @@ pair | string | pair
 status | string | enum: `NORMAL`, `BUSY`,  `VERY_BUSY`
 min_amount| string | minimum order amount (The busier the exchange is, the higher the min_amount will be)
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/status
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {
@@ -591,7 +830,26 @@ amount_digits| number | amount digits count
 is_stop_buy| boolean | buy order suspended flag
 is_stop_sell| boolean | sell order suspended flag
 
-response format:
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/pairs" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/pairs
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 {

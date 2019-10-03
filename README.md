@@ -11,3 +11,9 @@ Name | Description
 [public-stream.md](./public-stream.md) | Details on available real time streams api.
 [realtime-api.md](./realtime-api.md) | [DEPRECATED] Details on real time api. (Please use public-stream instead.)
 [errors.md](./errors.md) | Descriptions of possible error messages from the Private REST API.
+
+**Issue Tracker:**
+
+Bug reports are welcome! You can use the issue tracker to report bugs and request features on [https://github.com/bitbankinc/bitbank-api-docs/issues](https://github.com/bitbankinc/bitbank-api-docs/issues).
+
+Pull request welcome! You can use our pull request to improve our documents [https://github.com/bitbankinc/bitbank-api-docs/pulls](https://github.com/bitbankinc/bitbank-api-docs/pulls).

@@ -79,6 +79,38 @@ None
 
 **Response:**
 
+Name | Type | Description
+------------ | ------------ | ------------
+asset | string | アセット名: `jpy`,`btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+free_amount | string | 利用可能な量
+amount_precision | number | 精度
+onhand_amount | string | 保有量
+locked_amount | string | ロックされている量
+withdrawal_fee | string or { under: string, over: string, threshold:string } for `jpy` | 引き出し手数料
+stop_deposit | boolean | 入金ステータス
+stop_withdrawal | boolean | 出金ステータス
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/assets
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
+
 ```json
 {
   "success": 1,
@@ -86,12 +118,28 @@ None
     "assets": [
       {
         "asset": "string",
+        "free_amount": "string",
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawal_fee": "string",
+        "stop_deposit": false,
+        "stop_withdrawal": false,
+      },
+      {
+        "asset": "jpy",
         "free_amount": "string",
-        "withdrawal_fee": "string"
-      }
+        "amount_precision": 0,
+        "onhand_amount": "string",
+        "locked_amount": "string",
+        "withdrawal_fee": {
+            "under": "string",
+            "over": "string",
+            "threshold": "string"
+        },
+        "stop_deposit": false,
+        "stop_withdrawal": false,
+    },
     ]
   }
 }
@@ -128,7 +176,8 @@ average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
-レスポンスのフォーマット:
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -181,7 +230,27 @@ average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
-レスポンスのフォーマット:
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/order
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -232,7 +301,27 @@ ordered_at | number | 注文日時(UnixTimeのミリ秒)
 canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
-レスポンスのフォーマット:
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "order_id": 1}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/cancel_order
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -308,7 +397,27 @@ Name | Type | Mandatory | Description
 pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
 order_ids | number[] | YES | 注文ID
 
-レスポンスのフォーマット:
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"pair": "xrp_jpy", "order_ids": [1]}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/orders_info
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -344,13 +453,47 @@ GET /user/spot/active_orders
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
-count | number | YES | 取得する注文数
-from_id | number | YES | 取得開始注文ID
-end_id | number | YES | 取得終了注文ID
-since | number | YES | 開始UNIXタイムスタンプ
-end | number | YES | 終了UNIXタイムスタンプ
+count | number | NO | 取得する注文数
+from_id | number | NO | 取得開始注文ID
+end_id | number | NO | 取得終了注文ID
+since | number | NO | 開始UNIXタイムスタンプ
+end | number | NO | 終了UNIXタイムスタンプ
 
-レスポンスのフォーマット:
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+side | string | `buy` または `sell`
+type | string | `limit` または `market`
+start_amount | string | 注文時の数量
+remaining_amount | string | 未約定の数量
+executed_amount| string | 約定済み数量
+price | string |注文価格
+average_price | string | 平均約定価格
+ordered_at | number | 注文日時(UnixTimeのミリ秒)
+status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/active_orders?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/active_orders?pair=btc_jpy
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -388,10 +531,10 @@ GET /user/spot/trade_history
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
-count | number | YES | 取得する約定数
-order_id | number | YES | 注文ID
-since | number | YES | 開始UNIXタイムスタンプ
-end | number | YES | 終了UNIXタイムスタンプ
+count | number | NO | 取得する約定数
+order_id | number | NO | 注文ID
+since | number | NO | 開始UNIXタイムスタンプ
+end | number | NO | 終了UNIXタイムスタンプ
 order | string | NO | 約定時刻順序(`asc`: 昇順、`desc`: 降順、デフォルト`desc`)
 
 **Response:**
@@ -410,7 +553,26 @@ fee_amount_base | string | base手数料
 fee_amount_quote | string | quote手数料
 executed_at | number | 約定日時（UnixTimeのミリ秒）
 
-レスポンスのフォーマット:
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/trade_history?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/trade_history?pair=btc_jpy
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -457,7 +619,26 @@ uuid | string | 出金アカウントのID
 label | string | ラベル
 address | string | 出金先アドレス
 
-レスポンスのフォーマット:
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_account?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_account?asset=btc
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -505,7 +686,29 @@ txid | string | 引き出し送金トランザクションID
 status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | リクエスト日時(UnixTimeのミリ秒)
 
-レスポンスのフォーマット:
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"asset": "xrp", "uuid": "___your uuid___", amount: "1"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/request_withdrawal
+```
+
+</p>
+</details>
+
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -546,7 +749,27 @@ pair | string | 通貨ペア
 status | string | 取引所ステータス: `NORMAL`, `BUSY`,  `VERY_BUSY`
 min_amount| string | 取引所ステータスに応じた最小注文数量（負荷が高いほど大きくなります）
 
-レスポンスのフォーマット:
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/status
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -596,7 +819,28 @@ amount_digits| number |数量切り捨て対象桁数(0起点)
 is_stop_buy| boolean |買注文停止ステータス
 is_stop_sell| boolean |売注文停止ステータス
 
-レスポンスのフォーマット:
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/pairs" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/pairs
+```
+
+</p>
+</details>
+
+
+
+**レスポンスのフォーマット:**
 
 ```json
 {
