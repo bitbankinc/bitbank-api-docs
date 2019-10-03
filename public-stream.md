@@ -18,8 +18,7 @@
 
 ## General WSS information
 
-- The base endpoint is: **wss://stream.bitbank.cc**
-- A single connection to **stream.bitbank.cc** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
+- The base endpoint is: **wss://stream.bitbank.cc**. ([socket.io](https://socket.io/) is used under the hood, and the following code examples are demonstrated with [github.com/websockets/wscat](https://github.com/websockets/wscat))
 
 ## General endpoints
 
@@ -39,7 +38,30 @@ last | string | last executed price
 vol | string | volume
 timestamp | number | ticked at unix timestamp
 
-response format:
+**Sample code:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+
+connected (press CTRL+C to quit)
+< 0{"sid":"bDAf6vgk5xPau87WAA1u","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","ticker_btc_jpy"]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203833,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2026","timestamp":1570080042822}}}]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203952,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2226","timestamp":1570080053768}}}]
+...
+
+```
+
+</p>
+</details>
+
+
+**Response format:**
 
 ```json
 [
@@ -76,7 +98,28 @@ amount | string | amount
 price | string | price
 executed_at | number | executed at unix timestamp
 
-response format:
+**Sample code:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+
+connected (press CTRL+C to quit)
+< 0{"sid":"PG3FbI0WrKIP7hKMABH_","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","transactions_xrp_jpy"]
+< 42["message",{"room_name":"transactions_xrp_jpy","message":{"pid":851205254,"data":{"transactions":[{"transaction_id":34745047,"side":"sell","price":"26.930","amount":"4703.5671","executed_at":1570080162855},{"transaction_id":34745046,"side":"sell","price":"26.930","amount":"500.0000","executed_at":1570080162829},{"transaction_id":34745045,"side":"sell","price":"26.930","amount":"378.0000","executed_at":1570080162802},{"transaction_id":34745044,"side":"sell","price":"26.930","amount":"12.0000","executed_at":1570080162758},{"transaction_id":34745043,"side":"sell","price":"26.930","amount":"301.4874","executed_at":1570080162725}]}}}]
+...
+
+```
+
+</p>
+</details>
+
+**Response format:**
 
 ```json
 [
@@ -113,7 +156,29 @@ a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
 t | number | published at unix timestamp
 
-response format:
+
+**Sample code:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+connected (press CTRL+C to quit)
+< 0{"sid":"9-zd3P1G-BNu_w37ABMX","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","depth_diff_xrp_jpy"]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.758","20000.0000"],["26.212","0"]],"t":1570080269609}}}]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.212","1000.0000"],["26.815","0"]],"t":1570080270100}}}]
+...
+
+```
+
+</p>
+</details>
+
+**Response format:**
 
 ```json
 [
@@ -161,7 +226,27 @@ asks | [string, string][] | [ask, amount][]
 bids | [string, string][] | [bid, amount][]
 timestamp | number | published at timestamp
 
-response format:
+
+**Sample code:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+connected (press CTRL+C to quit)
+< 0{"sid":"PR6GLrwlEFjzHIPrABBM","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","depth_whole_xrp_jpy"]
+< 42["message",{"room_name":"depth_whole_xrp_jpy","message":{"data":{"asks":[["26.928","1000.0000"],["26.929","56586.5153"],["26.930","218.3431"],["26.931","3123.8845"],["26.933","1799.0000"],["26.934","377.9136"],["26.938","3411.1507"],["26.950","80.0000"],["26.955","80.0000"],["26.958","7434.5900"],["26.959","15000.0000"],["26.960","15000.0000"],["26.964","10837.6620"],["26.979","15000.0000"], ...
+
+```
+
+</p>
+</details>
+
+**Response format:**
 
 ```json
 [
