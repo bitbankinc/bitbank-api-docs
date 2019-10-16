@@ -846,7 +846,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 {
   "success": 1,
   "data": {
-    "paris": [
+    "pairs": [
       {
         "name": "string",
         "base_asset": "string",
