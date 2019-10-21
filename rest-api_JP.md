@@ -29,7 +29,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2019-09-27)
+# Private REST API一覧 (2019-10-18)
 
 ## API 概要
 
@@ -746,7 +746,7 @@ None
 Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | 通貨ペア
-status | string | 取引所ステータス: `NORMAL`, `BUSY`,  `VERY_BUSY`
+status | string | 取引所ステータス: `NORMAL`, `BUSY`,  `VERY_BUSY`, `HALT`
 min_amount| string | 取引所ステータスに応じた最小注文数量（負荷が高いほど大きくなります）
 
 
@@ -757,12 +757,7 @@ min_amount| string | 取引所ステータスに応じた最小注文数量（�
 <p>
 
 ```sh
-export API_KEY=___your api key___
-export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
-
-curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/status
+curl https://api.bitbank.cc/v1/spot/status
 ```
 
 </p>
@@ -807,17 +802,18 @@ name | string | 銘柄名
 base_asset | string | 原資産
 quote_asset | string | クオート資産
 maker_fee_rate_base | string | メイカー手数料率(原資産)
-taker_fee_rate_base| string |テイカー手数料率(原資産)
-maker_fee_rate_quote| string |メイカー手数料率(クオート資産)
-taker_fee_rate_quote| string |テイカー手数料率(クオート資産)
-unit_amount| string |最小注文数量
-limit_max_amount| string |最大注文数量
-market_max_amount| string |成行注文時の最大数量
-market_allowance_rate| string |成行買注文時の余裕率
-price_digits| number |価格切り捨て対象桁数(0起点)
-amount_digits| number |数量切り捨て対象桁数(0起点)
-is_stop_buy| boolean |買注文停止ステータス
-is_stop_sell| boolean |売注文停止ステータス
+taker_fee_rate_base | string | テイカー手数料率(原資産)
+maker_fee_rate_quote | string | メイカー手数料率(クオート資産)
+taker_fee_rate_quote | string | テイカー手数料率(クオート資産)
+unit_amount| string | 最小注文数量
+limit_max_amount | string | 最大注文数量
+market_max_amount | string | 成行注文時の最大数量
+market_allowance_rate | string | 成行買注文時の余裕率
+price_digits | number | 価格切り捨て対象桁数(0起点)
+amount_digits | number | 数量切り捨て対象桁数(0起点)
+is_enabled | boolean | 通貨ペアステータス(有効/無効)
+stop_order | boolean | 注文停止ステータス
+stop_order_and_cancel | boolean | 注文および注文キャンセル停止ステータス
 
 
 **サンプルコード:**
@@ -827,12 +823,7 @@ is_stop_sell| boolean |売注文停止ステータス
 <p>
 
 ```sh
-export API_KEY=___your api key___
-export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/pairs" | openssl dgst -sha256 -hmac "$API_SECRET")"
-
-curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/pairs
+curl https://api.bitbank.cc/v1/spot/pairs
 ```
 
 </p>
@@ -860,8 +851,9 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "market_allowance_rate": "string",
         "price_digits": 0,
         "amount_digits": 0,
-        "is_stop_buy": true,
-        "is_stop_sell": true
+        "is_enabled": true,
+        "stop_order": false,
+        "stop_order_and_cancel": false
       }
     ]
   }

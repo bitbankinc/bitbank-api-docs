@@ -28,7 +28,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2019-09-27)
+# Private REST API for Bitbank (2019-10-18)
 
 ## General API Information
 
@@ -758,7 +758,7 @@ None
 Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | pair
-status | string | enum: `NORMAL`, `BUSY`,  `VERY_BUSY`
+status | string | enum: `NORMAL`, `BUSY`,  `VERY_BUSY`, `HALT`
 min_amount| string | minimum order amount (The busier the exchange is, the higher the min_amount will be)
 
 **Sample code:**
@@ -768,12 +768,7 @@ min_amount| string | minimum order amount (The busier the exchange is, the highe
 <p>
 
 ```sh
-export API_KEY=___your api key___
-export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
-
-curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/status
+curl https://api.bitbank.cc/v1/spot/status
 ```
 
 </p>
@@ -818,17 +813,18 @@ name | string | pair name
 base_asset | string | base asset
 quote_asset | string | quote asset
 maker_fee_rate_base | string | maker fee (base asset)
-taker_fee_rate_base| string |taker fee (base asset)
-maker_fee_rate_quote| string |maker fee (quote asset)
-taker_fee_rate_quote| string |taker fee (quote asset)
-unit_amount| string | minimum order amount
-limit_max_amount| string |max order amount
-market_max_amount| string |market order max amount
-market_allowance_rate| string |market order allowance rate
-price_digits| number | price digits count
-amount_digits| number | amount digits count
-is_stop_buy| boolean | buy order suspended flag
-is_stop_sell| boolean | sell order suspended flag
+taker_fee_rate_base | string | taker fee (base asset)
+maker_fee_rate_quote | string | maker fee (quote asset)
+taker_fee_rate_quote | string | taker fee (quote asset)
+unit_amount | string | minimum order amount
+limit_max_amount | string | max order amount
+market_max_amount | string | market order max amount
+market_allowance_rate | string | market order allowance rate
+price_digits | number | price digits count
+amount_digits | number | amount digits count
+is_enabled | boolean | pair enable flag
+stop_order | boolean | order suspended flag
+stop_order_and_cancel | boolean | order and cancel suspended flag
 
 **Sample code:**
 
@@ -837,12 +833,7 @@ is_stop_sell| boolean | sell order suspended flag
 <p>
 
 ```sh
-export API_KEY=___your api key___
-export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/spot/pairs" | openssl dgst -sha256 -hmac "$API_SECRET")"
-
-curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/spot/pairs
+curl https://api.bitbank.cc/v1/spot/pairs
 ```
 
 </p>
@@ -869,8 +860,9 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "market_allowance_rate": "string",
         "price_digits": 0,
         "amount_digits": 0,
-        "is_stop_buy": true,
-        "is_stop_sell": true
+        "is_enabled": true,
+        "stop_order": false,
+        "stop_order_and_cancel": false
       }
     ]
   }

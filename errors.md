@@ -1,6 +1,6 @@
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2019-09-27)
+# Error codes for Bitbank (2019-10-18)
 
 Here is the format of error JSON payload:
 
@@ -79,3 +79,11 @@ The following is the list of Bitbank's error codes.
 - `70009` Market order has been temporarily restricted. Please use limit order instead.
 - `70010` Minimum Order Quantity is increased temporarily.
 - `70011` System is busy. Please try again.
+- `70012` System error.
+- `70013` Order and cancel has been temporarily restricted.
+- `70014` Withdraw and cancel request has been temporarily restricted.
+- `70015` Lending and cancel request has been temporarily restricted.
+- `70016` Lending and cancel request has been restricted.
+- `70017` Orders on pair have been suspended.
+- `70018` Order and cancel on pair have been suspended.
+- `70019` Order cancel request is in process.
