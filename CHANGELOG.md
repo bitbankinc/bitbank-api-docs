@@ -1,4 +1,10 @@
-# CHANGELOG for Bitbank's API (2019-10-18)
+# CHANGELOG for Bitbank's API (2019-10-24)
+---
+## 2019-10-24
+* Remove `realtime-api.md`
+  * Realtime API, PubNub was abolished.
+  * Use public-stream instead.
+
 ---
 ## 2019-10-18
 * Added new error codes to `errors.md`.
