@@ -469,7 +469,7 @@ type | string | `limit` または `market`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string |注文価格
+price | string | 注文価格
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
@@ -746,7 +746,7 @@ None
 Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | 通貨ペア
-status | string | 取引所ステータス: `NORMAL`, `BUSY`,  `VERY_BUSY`, `HALT`
+status | string | 取引所ステータス: `NORMAL`, `BUSY`, `VERY_BUSY`, `HALT`
 min_amount| string | 取引所ステータスに応じた最小注文数量（負荷が高いほど大きくなります）
 
 

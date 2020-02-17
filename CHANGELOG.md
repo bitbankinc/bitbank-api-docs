@@ -1,4 +1,9 @@
-# CHANGELOG for Bitbank's API (2019-10-24)
+# CHANGELOG for Bitbank's API (2020-02-17)
+---
+## 2020-02-17
+* Fix ([#10](https://github.com/bitbankinc/bitbank-api-docs/issues/10))
+* Added candlestick params additional info to `public-api.md`.
+
 ---
 ## 2019-10-24
 * Remove `realtime-api.md`

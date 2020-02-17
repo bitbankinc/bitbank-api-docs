@@ -167,7 +167,7 @@ remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
 average_price | string | avg executed price
-ordered_at | number | ordered at
+ordered_at | number | ordered at unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -239,7 +239,7 @@ remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
 average_price | string | avg executed price
-ordered_at | number | ordered at
+ordered_at | number | ordered at unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -309,8 +309,8 @@ remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
 average_price | string | avg executed price
-ordered_at | number | ordered at
-canceled_at | number | canceled at
+ordered_at | number | ordered at unix timestamp (milliseconds)
+canceled_at | number | canceled at unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -484,7 +484,7 @@ remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
 average_price | string | avg executed price
-ordered_at | number | ordered at
+ordered_at | number | ordered at unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -564,7 +564,7 @@ price | string | order price
 maker_taker | string | maker or taker
 fee_amount_base | string | base asset fee amount
 fee_amount_quote | string | quote asset fee amount
-executed_at | number | order executed at unix timestamp
+executed_at | number | order executed at unix timestamp (milliseconds)
 
 **Sample code:**
 
@@ -697,7 +697,7 @@ label | string | withdrawal account label
 address | string | withdrawal address
 txid | string | withdrawal transaction id
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
-requested_at | number| requested at unix timestamp
+requested_at | number| requested at unix timestamp (milliseconds)
 
 
 **Sample code:**
@@ -758,7 +758,7 @@ None
 Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | pair
-status | string | enum: `NORMAL`, `BUSY`,  `VERY_BUSY`, `HALT`
+status | string | enum: `NORMAL`, `BUSY`, `VERY_BUSY`, `HALT`
 min_amount| string | minimum order amount (The busier the exchange is, the higher the min_amount will be)
 
 **Sample code:**

@@ -59,7 +59,7 @@ high | string | the highest price in last 24 hours
 low | string | the lowest price in last 24 hours
 last | string | the latest price executed
 vol | string | trading volume in last 24 hours
-timestamp | number | ticked at unix timestamp
+timestamp | number | ticked at unix timestamp (milliseconds)
 
 response format:
 
@@ -142,7 +142,7 @@ transaction_id | string | transaction id
 side | string | enum: `buy`, `sell`
 price | string | price
 amount | string |amount
-executed_at | number | executed at unix timestamp
+executed_at | number | executed at unix timestamp (milliseconds)
 
 response format:
 
@@ -179,11 +179,15 @@ pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mo
 candle-type | string | YES | candle type enum: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`
 YYYY | string | YES | date formatted as `YYYY` or  `YYYYMMDD`
 
+- YYYY Format depends on the candle-type:
+  - `YYYYMMDD`: `1min`, `5min`, `15min`, `30min`, `1hour`
+  - `YYYY`: `4hour`, `8hour`, `12hour`, `1day`, `1week`
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
-ohlcv | string[] | [open, high, low, close, volume, **unix timestamp**]
+ohlcv | string[] | [open, high, low, close, volume, **unix timestamp (milliseconds)**]
 
 response format:
 

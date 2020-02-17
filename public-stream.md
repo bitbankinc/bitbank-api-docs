@@ -36,7 +36,7 @@ high | string | highest price in last 24 hours
 low | string | lowest price in last 24 hours
 last | string | last executed price
 vol | string | volume
-timestamp | number | ticked at unix timestamp
+timestamp | number | ticked at unix timestamp (milliseconds)
 
 **Sample code:**
 
@@ -96,7 +96,7 @@ transaction_id | number | transaction id
 side | string | enum: `buy` or `sell`
 amount | string | amount
 price | string | price
-executed_at | number | executed at unix timestamp
+executed_at | number | executed at unix timestamp (milliseconds)
 
 **Sample code:**
 
@@ -154,7 +154,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
-t | number | published at unix timestamp
+t | number | published at unix timestamp (milliseconds)
 
 
 **Sample code:**
