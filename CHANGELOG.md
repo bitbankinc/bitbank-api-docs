@@ -1,4 +1,13 @@
-# CHANGELOG for Bitbank's API (2020-02-17)
+# CHANGELOG for Bitbank's API (2020-05-24)
+## 2020-05-24
+* Added new pairs to
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+
 ---
 ## 2020-02-17
 * Fix ([#10](https://github.com/bitbankinc/bitbank-api-docs/issues/10))

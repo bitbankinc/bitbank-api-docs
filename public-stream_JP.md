@@ -25,7 +25,7 @@
 ### ティッカー
 
 ティッカーのwsチャンネルの名前： `ticker_{pair}`。
-通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
+通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
 
 **Response:**
 
@@ -89,7 +89,7 @@ connected (press CTRL+C to quit)
 ### 約定履歴
 
 約定履歴のwsチャンネルの名前： `transactions_{pair}`。
-通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
+通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
 
 **Response:**
 
@@ -151,7 +151,7 @@ connected (press CTRL+C to quit)
 ### 板情報の差分配信
 
 板情報の差分配信のwsチャンネルの名前： `depth_diff_{pair}`。
-通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
+通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
 
 **Response:**
 
@@ -222,7 +222,7 @@ connected (press CTRL+C to quit)
 ### 板情報
 
 板情報のwsチャンネルの名前： `depth_whole_{pair}`
-通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `ltc_btc`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
+通貨ペアの一覧: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`。
 
 **Response:**
 
