@@ -31,7 +31,7 @@ The following is the list of Bitbank's error codes.
 - `30006` Missing order id.
 - `30007` Missing order id array.
 - `30009` Missing asset.
-- `30012` Missing oder price.
+- `30012` Missing order price.
 - `30013` Missing side.
 - `30015` Missing order type.
 - `30016` Missing asset.
@@ -47,7 +47,7 @@ The following is the list of Bitbank's error codes.
 - `40015` Too many orders are specified.
 - `40017` Invalid asset.
 - `40020` Invalid order price.
-- `40021` Invalid Order side.
+- `40021` Invalid order side.
 - `40022` Invalid trading start time.
 - `40024` Invalid order type.
 - `40025` Invalid asset.
