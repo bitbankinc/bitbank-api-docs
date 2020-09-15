@@ -24,7 +24,7 @@
 
 ### Ticker
 
-Ticker channel name is `ticker_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`.
+Ticker channel name is `ticker_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`.
 
 **Response:**
 
@@ -86,7 +86,7 @@ connected (press CTRL+C to quit)
 
 ### Transactions
 
-Transactions channel name is `transactions_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`.
+Transactions channel name is `transactions_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`.
 
 **Response:**
 
@@ -146,7 +146,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Diff
 
-Depth Diff channel name is `depth_diff_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`.
+Depth Diff channel name is `depth_diff_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`.
 
 **Response:**
 
@@ -216,7 +216,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Whole
 
-Whole depth channel name is `depth_whole_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`.
+Whole depth channel name is `depth_whole_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`.
 
 **Response:**
 

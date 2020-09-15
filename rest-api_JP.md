@@ -81,7 +81,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-asset | string | アセット名: `jpy`,`btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+asset | string | アセット名: `jpy`,`btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`
 free_amount | string | 利用可能な量
 amount_precision | number | 精度
 onhand_amount | string | 保有量
@@ -157,7 +157,7 @@ GET /user/spot/order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 order_id | number | YES | 取引ID
 
 **Response:**
@@ -165,7 +165,7 @@ order_id | number | YES | 取引ID
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | 取引ID
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 side | string | `buy` または `sell`
 type | string | `limit` または `market`
 start_amount | string | 注文時の数量
@@ -208,7 +208,7 @@ POST /user/spot/order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
@@ -219,7 +219,7 @@ type | string | YES | `limit` または `market`
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | 取引ID
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 side | string | `buy` または `sell`
 type | string | `limit` または `market`
 start_amount | string | 注文時の数量
@@ -281,7 +281,7 @@ POST /user/spot/cancel_order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 order_id | number | YES | 注文ID
 
 **Response:**
@@ -289,7 +289,7 @@ order_id | number | YES | 注文ID
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | 注文ID
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 side | string | `buy` または `sell`
 type | string | `limit` または `market`
 start_amount | string | 注文時の数量
@@ -353,7 +353,7 @@ POST /user/spot/cancel_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 order_ids | number[] | YES | 注文ID
 
 **Response:**
@@ -394,7 +394,7 @@ POST /user/spot/orders_info
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 order_ids | number[] | YES | 注文ID
 
 **サンプルコード:**
@@ -452,7 +452,7 @@ GET /user/spot/active_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 count | number | NO | 取得する注文数
 from_id | number | NO | 取得開始注文ID
 end_id | number | NO | 取得終了注文ID
@@ -463,7 +463,7 @@ end | number | NO | 終了UNIXタイムスタンプ
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 side | string | `buy` または `sell`
 type | string | `limit` または `market`
 start_amount | string | 注文時の数量
@@ -530,7 +530,7 @@ GET /user/spot/trade_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 count | number | NO | 取得する約定数
 order_id | number | NO | 注文ID
 since | number | NO | 開始UNIXタイムスタンプ
@@ -542,7 +542,7 @@ order | string | NO | 約定時刻順序(`asc`: 昇順、`desc`: 降順、デフ
 Name | Type | Description
 ------------ | ------------ | ------------
 trade_id | number | trade id
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
 order_id | number | 注文ID
 side | string | `buy` または `sell`
 type | string | `limit` または `market`
@@ -609,7 +609,7 @@ GET /user/withdrawal_account
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+asset | string | YES | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`
 
 **Response:**
 
@@ -665,7 +665,7 @@ POST /user/request_withdrawal
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+asset | string | YES | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`
 uuid | string | YES | 出金アカウントのuuid
 amount | string | YES | 引き出し量
 otp_token | string | NO | 二段階認証トークン(設定している場合、otp_tokenかsms_tokenのどちらか一方を指定)
@@ -676,7 +676,7 @@ sms_token | string | NO | SMS認証トークン
 Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | 出金アカウントのID
-asset | string | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`
+asset | string | アセット名: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`
 account_uuid | string | アカウントのID
 amount | number | 引き出し量
 fee | number | 引き出し手数料
