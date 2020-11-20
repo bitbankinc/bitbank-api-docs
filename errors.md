@@ -27,6 +27,10 @@ The following is the list of Bitbank's error codes.
 - `20005` Invalid api signature.
 - `20011` MFA failed.
 - `20014` SMS verification failed.
+- `20023` Missing OTP code.
+- `20024` Missing SMS code.
+- `20025` Missing OTP and SMS code.
+- `20026` MFA is temporarily locked because too many failures. Please retry after 60 seconds.
 - `30001` Missing order quantity.
 - `30006` Missing order id.
 - `30007` Missing order id array.
