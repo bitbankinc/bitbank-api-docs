@@ -1,4 +1,8 @@
-# CHANGELOG for Bitbank's API (2020-05-24)
+# CHANGELOG for Bitbank's API (2020-11-20)
+---
+## 2020-11-20
+* Added some missing error codes to `errors.md`
+
 ---
 ## 2020-09-16
 * Added new pairs to
