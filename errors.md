@@ -91,3 +91,5 @@ The following is the list of Bitbank's error codes.
 - `70017` Orders on pair have been suspended.
 - `70018` Order and cancel on pair have been suspended.
 - `70019` Order cancel request is in process.
+- `70020` Market order has been temporarily restricted.
+- `70021` Limit order price is over the threshold.
