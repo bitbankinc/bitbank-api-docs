@@ -1,4 +1,8 @@
-# CHANGELOG for Bitbank's API (2020-11-20)
+# CHANGELOG for Bitbank's API (2020-12-23)
+---
+## 2020-12-23
+* Added `count` limitation of "Fetch trade history" endpoint to `rest-api.md` and `rest-api_JP.md` ([#19](https://github.com/bitbankinc/bitbank-api-docs/issues/19))
+
 ---
 ## 2020-11-20
 * Added some missing error codes to `errors.md`
