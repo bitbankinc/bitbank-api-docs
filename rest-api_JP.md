@@ -531,7 +531,7 @@ GET /user/spot/trade_history
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
-count | number | NO | 取得する約定数
+count | number | NO | 取得する約定数(最大1000)
 order_id | number | NO | 注文ID
 since | number | NO | 開始UNIXタイムスタンプ
 end | number | NO | 終了UNIXタイムスタンプ

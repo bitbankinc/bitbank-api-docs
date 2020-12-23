@@ -544,11 +544,11 @@ GET /user/spot/trade_history
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`
-count | number | NO |take limit
+count | number | NO | take limit (up to 1000)
 order_id | number | NO | order id
 since | number | NO | since unix timestamp
 end | number | NO | emd unix timestamp
-order | string | NO | histories in order(order enum: `asc`or `desc`, default to `desc`)
+order | string | NO | histories in order(order enum: `asc` or `desc`, default to `desc`)
 
 **Response:**
 
