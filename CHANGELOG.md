@@ -1,4 +1,8 @@
-# CHANGELOG for Bitbank's API (2020-12-23)
+# CHANGELOG for Bitbank's API (2020-12-25)
+---
+## 2020-12-25
+* Added missing 1month for candle-type of candlestick to `public-api.md` and `public-api_JP.md`
+
 ---
 ## 2020-12-23
 * Added `count` limitation of "Fetch trade history" endpoint to `rest-api.md` and `rest-api_JP.md` ([#19](https://github.com/bitbankinc/bitbank-api-docs/issues/19))
