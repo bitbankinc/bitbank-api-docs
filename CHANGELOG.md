@@ -1,4 +1,14 @@
-# CHANGELOG for Bitbank's API (2020-12-25)
+# CHANGELOG for Bitbank's API (2021-01-27)
+---
+## 2021-01-27
+* Added new pairs to
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+
 ---
 ## 2020-12-25
 * Added missing 1month for candle-type of candlestick to `public-api.md` and `public-api_JP.md`
