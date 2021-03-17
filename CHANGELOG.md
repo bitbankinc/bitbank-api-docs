@@ -1,4 +1,4 @@
-# CHANGELOG for Bitbank's API (2021-01-27)
+# CHANGELOG for Bitbank's API (2021-03-17)
 ---
 ## 2021-03-17
 * Added new pairs to

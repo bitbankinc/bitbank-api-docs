@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2019-09-27)](#public-rest-api-for-bitbank-2019-09-27)
+- [Public REST API for Bitbank (2021-03-17)](#public-rest-api-for-bitbank-2021-03-17)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2019-09-27)
+# Public REST API for Bitbank (2021-03-17)
 
 ## General API Information
 

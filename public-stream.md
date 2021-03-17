@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2019-09-27)](#web-socket-streams-for-bitbank-2019-09-27)
+- [Web Socket Streams for Bitbank (2021-03-17)](#web-socket-streams-for-bitbank-2021-03-17)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2019-09-27)
+# Web Socket Streams for Bitbank (2021-03-17)
 
 ## General WSS information
 
