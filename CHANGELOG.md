@@ -1,4 +1,14 @@
-# CHANGELOG for Bitbank's API (2021-01-27)
+# CHANGELOG for Bitbank's API (2021-03-17)
+---
+## 2021-03-17
+* Added new pairs to
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+
 ---
 ## 2021-01-27
 * Added new pairs to
