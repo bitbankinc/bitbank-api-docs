@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2021-03-17)](#private-rest-api%E4%B8%80%E8%A6%A7-2021-03-17)
+- [Private REST API一覧 (2021-04-01)](#private-rest-api%E4%B8%80%E8%A6%A7-2021-04-01)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
@@ -29,7 +29,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2021-03-17)
+# Private REST API一覧 (2021-04-01)
 
 ## API 概要
 
@@ -172,8 +172,10 @@ start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string |注文価格
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ `true` を指定可能）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
+expire_at | number or null | 有効期限(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 
@@ -191,8 +193,10 @@ status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "status": "string"
   }
 }
@@ -213,6 +217,7 @@ amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
 type | string | YES | `limit` または `market`
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ指定可能）
 
 **Response:**
 
@@ -226,8 +231,10 @@ start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string | 注文価格
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
+expire_at | number | 有効期限(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -264,8 +271,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "status": "string"
   }
 }
@@ -296,8 +305,10 @@ start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string | 注文価格
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
+expire_at | number | 有効期限(UnixTimeのミリ秒)
 canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
@@ -335,8 +346,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "canceled_at": 0,
     "status": "string"
   }
@@ -372,8 +385,10 @@ order_ids | number[] | YES | 注文ID
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "canceled_at": 0,
         "status": "string"
       }
@@ -433,8 +448,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "status": "string"
       }
     ]
@@ -470,8 +487,10 @@ start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string | 注文価格
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
+expire_at | number | 有効期限(UnixTimeのミリ秒)
 status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -509,8 +528,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "status": "string"
       }
     ]

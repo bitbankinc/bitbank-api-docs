@@ -1,4 +1,11 @@
-# CHANGELOG for Bitbank's API (2021-03-17)
+# CHANGELOG for Bitbank's API (2021-04-01)
+---
+## 2021-04-01
+* Added some fields to rest-api
+  * post_only (request and response)
+  * expire_at (response only)
+* Added some new error codes to `errors.md` and `errors_JP.md`
+
 ---
 ## 2021-03-17
 * Added new pairs to
