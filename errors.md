@@ -57,6 +57,8 @@ The following is the list of Bitbank's error codes.
 - `40025` Invalid asset.
 - `40028` Invalid uuid.
 - `40048` Invalid withdraw amount.
+- `40113` Invalid post_only.
+- `40114` post_only can not be specified with such order type.
 - `50003` Account is restricted.
 - `50004` Account is provisional.
 - `50005` Account is blocked.

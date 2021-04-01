@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2021-03-17)](#private-rest-api-for-bitbank-2021-03-17)
+- [Private REST API for Bitbank (2021-04-01)](#private-rest-api-for-bitbank-2021-04-01)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [General endpoints](#general-endpoints)
@@ -28,7 +28,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2021-03-17)
+# Private REST API for Bitbank (2021-04-01)
 
 ## General API Information
 
@@ -166,8 +166,10 @@ start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
+post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
+expire_at | number or null | expiration time in unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -203,8 +205,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "status": "string"
   }
 }
@@ -225,6 +229,7 @@ amount | string | YES | amount
 price | string | NO | price
 side | string | YES | `buy` or `sell`
 type | string | YES | `limit` or `market`
+post_only | boolean | Post Only (`true` can be specified only if type = `limit`)
 
 **Response:**
 
@@ -238,8 +243,10 @@ start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
+post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
+expire_at | number or null | expiration time in unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -276,8 +283,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "status": "string"
   }
 }
@@ -308,8 +317,10 @@ start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
+post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
+expire_at | number or null | expiration time in unix timestamp (milliseconds)
 canceled_at | number | canceled at unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
@@ -347,8 +358,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
+    "post_only": false,
     "average_price": "string",
     "ordered_at": 0,
+    "expire_at": 0,
     "canceled_at": 0,
     "status": "string"
   }
@@ -384,8 +397,10 @@ order_ids | number[] | YES | order ids
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "canceled_at": 0,
         "status": "string"
       }
@@ -445,8 +460,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "canceled_at": 0,
         "status": "string"
       }
@@ -483,8 +500,10 @@ start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
 price | string | order price
+post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
+expire_at | number or null | expiration time in unix timestamp (milliseconds)
 status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -522,8 +541,10 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
+        "post_only": false,
         "average_price": "string",
         "ordered_at": 0,
+        "expire_at": 0,
         "status": "string"
       }
     ]
