@@ -172,7 +172,7 @@ start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string |注文価格
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ `true` を指定可能）
+post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number or null | 有効期限(UnixTimeのミリ秒)
@@ -217,7 +217,7 @@ amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
 type | string | YES | `limit` または `market`
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ指定可能）
+post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ指定可能。デフォルト `false`）
 
 **Response:**
 
