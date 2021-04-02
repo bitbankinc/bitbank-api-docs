@@ -1,4 +1,8 @@
-# CHANGELOG for Bitbank's API (2021-04-01)
+# CHANGELOG for Bitbank's API (2021-04-02)
+---
+## 2021-04-02
+* fix style
+
 ---
 ## 2021-04-01
 * Added some fields to rest-api

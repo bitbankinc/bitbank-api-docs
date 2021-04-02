@@ -229,7 +229,7 @@ amount | string | YES | amount
 price | string | NO | price
 side | string | YES | `buy` or `sell`
 type | string | YES | `limit` or `market`
-post_only | boolean | Post Only (`true` can be specified only if type = `limit`)
+post_only | boolean | NO | Post Only (`true` can be specified only if type = `limit`. default `false`)
 
 **Response:**
 
