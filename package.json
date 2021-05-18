@@ -1,0 +1,24 @@
+{
+  "name": "bitbank-api-docs",
+  "version": "1.0.0",
+  "description": "Official Documentation for the bitbank.cc APIs and Streams",
+  "main": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitbankinc/bitbank-api-docs.git"
+  },
+  "keywords": [
+    "bitbank",
+    "api",
+    "docs"
+  ],
+  "author": "bitbank.cc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitbankinc/bitbank-api-docs/issues"
+  },
+  "homepage": "https://github.com/bitbankinc/bitbank-api-docs#readme"
+}
