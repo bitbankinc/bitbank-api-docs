@@ -34,6 +34,7 @@ sell | string | lowest sell price
 buy | string | highest buy price
 high | string | highest price in last 24 hours
 low | string | lowest price in last 24 hours
+open | string | open price
 last | string | last executed price
 vol | string | volume
 timestamp | number | ticked at unix timestamp (milliseconds)
@@ -51,8 +52,8 @@ connected (press CTRL+C to quit)
 < 0{"sid":"bDAf6vgk5xPau87WAA1u","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
 > 42["join-room","ticker_btc_jpy"]
-< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203833,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2026","timestamp":1570080042822}}}]
-< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203952,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2226","timestamp":1570080053768}}}]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203833,"data":{"sell":"896490","buy":"896489","open":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2026","timestamp":1570080042822}}}]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203952,"data":{"sell":"896490","buy":"896489","open":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2226","timestamp":1570080053768}}}]
 ...
 
 ```
@@ -72,6 +73,7 @@ connected (press CTRL+C to quit)
             "pid": 0,
             "data": {
                 "last": "string",
+                "open": "string",
                 "timestamp": 0,
                 "sell": "string",
                 "vol": "string",

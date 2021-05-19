@@ -35,6 +35,7 @@ sell | string |現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格
 low | string | 過去24時間の最安値取引価格
+open | string | 始値
 last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
@@ -53,8 +54,8 @@ connected (press CTRL+C to quit)
 < 0{"sid":"bDAf6vgk5xPau87WAA1u","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
 > 42["join-room","ticker_btc_jpy"]
-< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203833,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2026","timestamp":1570080042822}}}]
-< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203952,"data":{"sell":"896490","buy":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2226","timestamp":1570080053768}}}]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203833,"data":{"sell":"896490","buy":"896489","open":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2026","timestamp":1570080042822}}}]
+< 42["message",{"room_name":"ticker_btc_jpy","message":{"pid":851203952,"data":{"sell":"896490","buy":"896489","open":"896489","high":"905002","low":"881500","last":"896489","vol":"650.2226","timestamp":1570080053768}}}]
 ...
 
 ```
@@ -74,6 +75,7 @@ connected (press CTRL+C to quit)
             "pid": 0,
             "data": {
                 "last": "string",
+                "open": "string",
                 "timestamp": 0,
                 "sell": "string",
                 "vol": "string",
