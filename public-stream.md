@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2021-03-17)](#web-socket-streams-for-bitbank-2021-03-17)
+- [Web Socket Streams for Bitbank (2021-05-21)](#web-socket-streams-for-bitbank-2021-05-21)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2021-03-17)
+# Web Socket Streams for Bitbank (2021-05-21)
 
 ## General WSS information
 
@@ -34,7 +34,7 @@ sell | string | lowest sell price
 buy | string | highest buy price
 high | string | highest price in last 24 hours
 low | string | lowest price in last 24 hours
-open | string | open price
+open | string | open price at 24 hours ago
 last | string | last executed price
 vol | string | volume
 timestamp | number | ticked at unix timestamp (milliseconds)
