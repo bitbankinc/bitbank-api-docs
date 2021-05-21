@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [リアルタイムデータ配信API (2021-03-17)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2021-03-17)
+- [リアルタイムデータ配信API (2021-05-21)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2021-05-21)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [WSチャンネル一覧](#ws%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E4%B8%80%E8%A6%A7)
     - [ティッカー](#%E3%83%86%E3%82%A3%E3%83%83%E3%82%AB%E3%83%BC)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2021-03-17)
+# リアルタイムデータ配信API (2021-05-21)
 
 ## API 概要
 
@@ -35,7 +35,7 @@ sell | string |現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格
 low | string | 過去24時間の最安値取引価格
-open | string | 始値
+open | string | 24時間前の始値
 last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
