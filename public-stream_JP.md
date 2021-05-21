@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2021-03-17)
+# リアルタイムデータ配信API (2021-05-21)
 
 ## API 概要
 
