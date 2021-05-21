@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2021-03-17)](#public-rest-api-for-bitbank-2021-03-17)
+- [Public REST API for Bitbank (2021-05-21)](#public-rest-api-for-bitbank-2021-05-21)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2021-03-17)
+# Public REST API for Bitbank (2021-05-21)
 
 ## General API Information
 
@@ -57,6 +57,7 @@ sell | string | the lowest price of sell orders
 buy | string | the highest price of buy orders
 high | string | the highest price in last 24 hours
 low | string | the lowest price in last 24 hours
+open | string | the open price at 24 hours ago
 last | string | the latest price executed
 vol | string | trading volume in last 24 hours
 timestamp | number | ticked at unix timestamp (milliseconds)
@@ -71,6 +72,7 @@ response format:
     "buy": "string",
     "high": "string",
     "low": "string",
+    "open": "string",
     "last": "string",
     "vol": "string",
     "timestamp": 0

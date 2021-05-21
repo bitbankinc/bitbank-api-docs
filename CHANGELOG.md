@@ -1,4 +1,9 @@
-# CHANGELOG for Bitbank's API (2021-04-02)
+# CHANGELOG for Bitbank's API (2021-05-21)
+---
+## 2021-05-21
+* Added a field to public-api and public-stream
+  * open (response only)
+
 ---
 ## 2021-04-02
 * fix style
