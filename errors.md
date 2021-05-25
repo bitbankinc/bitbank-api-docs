@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Error codes for Bitbank (2019-10-18)](#error-codes-for-bitbank-2019-10-18)
+  - [SYSTEM_ERROR](#system_error)
+  - [AUTHENTICATION_ERROR](#authentication_error)
+  - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
+  - [INVALID_PARAMETER_ERROR](#invalid_parameter_error)
+  - [DATA_ERROR](#data_error)
+  - [VALUE_ERROR](#value_error)
+  - [STOP_UPDATE_REQUEST_SYSTEM_STATUS](#stop_update_request_system_status)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 [日本語](errors_JP.md)
 
 # Error codes for Bitbank (2019-10-18)
@@ -15,11 +30,16 @@ Here is the format of error JSON payload:
 
 The following is the list of Bitbank's error codes.
 
+## SYSTEM_ERROR
+
 - `10000` Url not found.
 - `10001` System error.
 - `10002` Malformed request.
 - `10003` System error.
 - `10005` Timeout waiting for response.
+
+## AUTHENTICATION_ERROR
+
 - `20001` Authentication failed api authorization.
 - `20002` Invalid api key.
 - `20003` Api key not found.
@@ -31,6 +51,9 @@ The following is the list of Bitbank's error codes.
 - `20024` Missing SMS code.
 - `20025` Missing OTP and SMS code.
 - `20026` MFA is temporarily locked because too many failures. Please retry after 60 seconds.
+
+## REQUIRED_PARAMETER_ERROR
+
 - `30001` Missing order quantity.
 - `30006` Missing order id.
 - `30007` Missing order id array.
@@ -41,6 +64,9 @@ The following is the list of Bitbank's error codes.
 - `30016` Missing asset.
 - `30019` Missing uuid.
 - `30039` Missing withdraw amount.
+
+## INVALID_PARAMETER_ERROR
+
 - `40001` Invalid order quantity.
 - `40006` Invalid count.
 - `40007` Invalid end param.
@@ -59,6 +85,9 @@ The following is the list of Bitbank's error codes.
 - `40048` Invalid withdraw amount.
 - `40113` Invalid post_only.
 - `40114` post_only can not be specified with such order type.
+
+## DATA_ERROR
+
 - `50003` Account is restricted.
 - `50004` Account is provisional.
 - `50005` Account is blocked.
@@ -69,6 +98,9 @@ The following is the list of Bitbank's error codes.
 - `50011` Api not found.
 - `50026` Order has already been canceled.
 - `50027` Order has already been executed.
+
+## VALUE_ERROR
+
 - `60001` Insufficient amount.
 - `60002` Market buy ​​order quantity has exceeded the upper limit.
 - `60003` Order quantity has exceeded the limit.
@@ -76,6 +108,9 @@ The following is the list of Bitbank's error codes.
 - `60005` Order quantity has exceeded the upper limit.
 - `60006` Order price has exceeded the lower limit.
 - `60011` Too many Simultaneous orders, current limit is 30.
+
+## STOP_UPDATE_REQUEST_SYSTEM_STATUS
+
 - `70001` System error.
 - `70002` System error.
 - `70003` System error.
