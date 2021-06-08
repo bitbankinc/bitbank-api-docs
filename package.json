@@ -5,7 +5,7 @@
   "main": "README.md",
   "scripts": {
     "toc": "doctoc rest-api.md rest-api_JP.md public-stream.md public-stream_JP.md public-api.md public-api_JP.md errors.md errors_JP.md",
-    "chagelog": "standard-version",
+    "changelog": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,11 +27,5 @@
     "doctoc": "^2.0.0",
     "standard-version": "^9.3.0",
     "textlint": "^11.9.1"
-  },
-  "standard-version": {
-    "skip": {
-      "commit": true,
-      "tag": true
-    }
   }
 }
