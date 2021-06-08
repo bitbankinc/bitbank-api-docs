@@ -8,34 +8,29 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * **error:** add category and table of contents ([40ea517](https://github.com/bitbankinc/bitbank-api-docs/commit/40ea51742abf4f0fa855eebcbd785d07c09fe552))
-* add post_only and expire_at ([#25](https://github.com/bitbankinc/bitbank-api-docs/issues/25)) ([0f0b1c4](https://github.com/bitbankinc/bitbank-api-docs/commit/0f0b1c4ed486b5fc414ed1de3da5efe47fbcc565))
-* **rest-api:** add max count limit to GET /user/spot/trade_history ([#20](https://github.com/bitbankinc/bitbank-api-docs/issues/20)) ([e6a2027](https://github.com/bitbankinc/bitbank-api-docs/commit/e6a202781a611f76ec88cb24835b24696ad01275))
 
-
-### Bug Fixes
-
-* add open in ticker response ([#27](https://github.com/bitbankinc/bitbank-api-docs/issues/27)) ([655b175](https://github.com/bitbankinc/bitbank-api-docs/commit/655b175d58e1f71fa730fb8c1e4fc38c411da9ef))
-* **public-api:** add missing 1month for candle-type of candlestick ([#21](https://github.com/bitbankinc/bitbank-api-docs/issues/21)) ([a6ea956](https://github.com/bitbankinc/bitbank-api-docs/commit/a6ea9569b3aba3f4833a19213168adecdf116a43))
-* **rest-api:** style ([#26](https://github.com/bitbankinc/bitbank-api-docs/issues/26)) ([1076ed3](https://github.com/bitbankinc/bitbank-api-docs/commit/1076ed379074c2c7fa954ea9de5a4f1e58f0f6ca))
-* typo in errors.md ([898cf1f](https://github.com/bitbankinc/bitbank-api-docs/commit/898cf1f7f4188e9627f980d78c9617028a0e32c4))
-* typo in rest-api ([4e2d601](https://github.com/bitbankinc/bitbank-api-docs/commit/4e2d601f68651e2a89532ac1ad9d568bba200441))
-* typo in rest-api ([16c14a6](https://github.com/bitbankinc/bitbank-api-docs/commit/16c14a6165f42f16cb7c798c5242a8ec3fbc0e03))
-
-# CHANGELOG for Bitbank's API (2021-05-21)
 ---
 ## 2021-05-21
 * Added a field to public-api and public-stream
   * open (response only)
 
+### Bug Fixes
+
+* add open in ticker response ([#27](https://github.com/bitbankinc/bitbank-api-docs/issues/27)) ([655b175](https://github.com/bitbankinc/bitbank-api-docs/commit/655b175d58e1f71fa730fb8c1e4fc38c411da9ef))
+
 ---
 ## 2021-04-02
-* fix style
+
+### Bug Fixes
+
+* **rest-api:** style ([#26](https://github.com/bitbankinc/bitbank-api-docs/issues/26)) ([1076ed3](https://github.com/bitbankinc/bitbank-api-docs/commit/1076ed379074c2c7fa954ea9de5a4f1e58f0f6ca))
 
 ---
 ## 2021-04-01
-* Added some fields to rest-api
-  * post_only (request and response)
-  * expire_at (response only)
+
+### Features
+
+* add post_only and expire_at ([#25](https://github.com/bitbankinc/bitbank-api-docs/issues/25)) ([0f0b1c4](https://github.com/bitbankinc/bitbank-api-docs/commit/0f0b1c4ed486b5fc414ed1de3da5efe47fbcc565))
 * Added some new error codes to `errors.md` and `errors_JP.md`
 
 ---
@@ -62,8 +57,16 @@ All notable changes to this project will be documented in this file. See [standa
 ## 2020-12-25
 * Added missing 1month for candle-type of candlestick to `public-api.md` and `public-api_JP.md`
 
+### Bug Fixes
+
+* **public-api:** add missing 1month for candle-type of candlestick ([#21](https://github.com/bitbankinc/bitbank-api-docs/issues/21)) ([a6ea956](https://github.com/bitbankinc/bitbank-api-docs/commit/a6ea9569b3aba3f4833a19213168adecdf116a43))
+
 ---
 ## 2020-12-23
+
+### Features
+
+* **rest-api:** add max count limit to GET /user/spot/trade_history ([#20](https://github.com/bitbankinc/bitbank-api-docs/issues/20)) ([e6a2027](https://github.com/bitbankinc/bitbank-api-docs/commit/e6a202781a611f76ec88cb24835b24696ad01275))
 * Added `count` limitation of "Fetch trade history" endpoint to `rest-api.md` and `rest-api_JP.md` ([#19](https://github.com/bitbankinc/bitbank-api-docs/issues/19))
 
 ---
@@ -79,6 +82,13 @@ All notable changes to this project will be documented in this file. See [standa
   * `public-stream_JP.md`.
   * `rest-api.md`.
   * `rest-api_JP.md`.
+
+---
+## 2020-08-14
+
+### Bug Fixes
+
+* typo in errors.md ([898cf1f](https://github.com/bitbankinc/bitbank-api-docs/commit/898cf1f7f4188e9627f980d78c9617028a0e32c4))
 
 ---
 ## 2020-05-24
@@ -120,6 +130,11 @@ All notable changes to this project will be documented in this file. See [standa
   * is_enabled
   * stop_order
   * stop_order_and_cancel
+
+### Bug Fixes
+
+* typo in rest-api ([4e2d601](https://github.com/bitbankinc/bitbank-api-docs/commit/4e2d601f68651e2a89532ac1ad9d568bba200441))
+* typo in rest-api ([16c14a6](https://github.com/bitbankinc/bitbank-api-docs/commit/16c14a6165f42f16cb7c798c5242a8ec3fbc0e03))
 
 ---
 ## 2019-10-03
