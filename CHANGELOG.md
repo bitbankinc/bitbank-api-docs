@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/bitbankinc/bitbank-api-docs/compare/v1.1.0...v1.2.0) (2021-06-08)
+
+
+### Features
+
+* **license:** UNLICENSED ([4f3ea5a](https://github.com/bitbankinc/bitbank-api-docs/commit/4f3ea5a5691ab1be34e51bd39e409338f99caaac))
+
 ## 1.1.0 (2021-06-08)
 
 
