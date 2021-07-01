@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2021-05-21)](#public-api%E4%B8%80%E8%A6%A7-2021-05-21)
+- [Public API一覧 (2021-07-01)](#public-api%E4%B8%80%E8%A6%A7-2021-07-01)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2021-05-21)
+# Public API一覧 (2021-07-01)
 
 ## API 概要
 
@@ -47,7 +47,7 @@ GET /{pair}/ticker
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 
 **Response:**
 
@@ -92,7 +92,7 @@ GET /{pair}/depth
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 
 **Response:**
 
@@ -133,7 +133,7 @@ GET /{pair}/transactions/{YYYYMMDD}
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 YYYYMMDD | string | NO | date formatted as `YYYYMMDD`
 
 **Response:**
@@ -177,7 +177,7 @@ GET /{pair}/candlestick/{candle-type}/{YYYY}
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 candle-type | string | YES | 以下の期間から指定: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 YYYY | string | YES | 日付 `YYYYMMDD` 形式または `YYYY` を指定
 
