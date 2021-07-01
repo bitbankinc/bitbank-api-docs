@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2021-04-01)](#private-rest-api-for-bitbank-2021-04-01)
+- [Private REST API for Bitbank (2021-07-01)](#private-rest-api-for-bitbank-2021-07-01)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [General endpoints](#general-endpoints)
@@ -28,7 +28,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2021-04-01)
+# Private REST API for Bitbank (2021-07-01)
 
 ## General API Information
 
@@ -75,7 +75,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-asset | string  | asset enum: `jpy`, `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`
+asset | string  | asset enum: `jpy`, `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`, `omg`
 free_amount | string | free amount
 amount_precision | number | amount precision
 onhand_amount | string | onhand amount
@@ -151,7 +151,7 @@ GET /user/spot/order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_id | number | YES | order id
 
 **Response:**
@@ -159,7 +159,7 @@ order_id | number | YES | order id
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | order id
-pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
 type | string | `limit` or `market`
 start_amount | string | order qty when placed
@@ -224,7 +224,7 @@ POST /user/spot/order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 amount | string | YES | amount
 price | string | NO | price
 side | string | YES | `buy` or `sell`
@@ -236,7 +236,7 @@ post_only | boolean | NO | Post Only (`true` can be specified only if type = `li
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | order id
-pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
 type | string | `limit` or `market`
 start_amount | string | order qty when placed
@@ -302,7 +302,7 @@ POST /user/spot/cancel_order
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_id | number | YES | order id
 
 **Response:**
@@ -310,7 +310,7 @@ order_id | number | YES | order id
 Name | Type | Description
 ------------ | ------------ | ------------
 order_id | number | order id
-pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
 type | string | `limit` or `market`
 start_amount | string | order qty when placed
@@ -378,7 +378,7 @@ POST /user/spot/cancel_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_ids | number[] | YES | order ids
 
 **Response:**
@@ -421,7 +421,7 @@ POST /user/spot/orders_info
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_ids | number[] | YES | order ids
 
 **Sample code:**
@@ -482,7 +482,7 @@ GET /user/spot/active_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 count | number | NO | take limit
 from_id | number | NO | take from order id
 end_id | number | NO | take until order id
@@ -493,7 +493,7 @@ end | number | NO | end unix timestamp
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
 type | string | `limit` or `market`
 start_amount | string | order qty when placed
@@ -564,7 +564,7 @@ GET /user/spot/trade_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 count | number | NO | take limit (up to 1000)
 order_id | number | NO | order id
 since | number | NO | since unix timestamp
@@ -576,7 +576,7 @@ order | string | NO | histories in order(order enum: `asc` or `desc`, default to
 Name | Type | Description
 ------------ | ------------ | ------------
 trade_id | number | trade id
-pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_id | number | order id
 side | string | `buy` or `sell`
 type | string | `limit` or `market`
@@ -643,7 +643,7 @@ GET /user/withdrawal_account
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | asset enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`
+asset | string | YES | asset enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`, `omg`
 
 **Response:**
 
@@ -699,7 +699,7 @@ POST /user/request_withdrawal
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`
+asset | string | YES | enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`, `omg`
 uuid | string | YES | withdrawal account's uuid
 amount | string | YES | withdrawal amount
 otp_token | string | NO | provide if MFA is set up
@@ -710,7 +710,7 @@ sms_token | string | NO | provide if MFA is set up
 Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | withdrawal account uuid
-asset | string | enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`
+asset | string | enum: `btc`, `xrp`, `ltc`, `eth`, `mona`, `bcc`, `xlm`, `qtum`, `bat`, `omg`
 account_uuid | string | account uuid
 amount | number | withdrawal amount
 fee | number | withdrawal fee
