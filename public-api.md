@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2021-07-01)](#public-rest-api-for-bitbank-2021-07-01)
+- [Public REST API for Bitbank (2021-07-13)](#public-rest-api-for-bitbank-2021-07-01)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2021-07-01)
+# Public REST API for Bitbank (2021-07-13)
 
 ## General API Information
 
@@ -77,6 +77,96 @@ response format:
     "vol": "string",
     "timestamp": 0
   }
+}
+```
+
+### Tickers
+
+Get All Tickers information
+
+```txt
+GET /tickers
+```
+
+**Parameters:**
+
+nothing
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
+sell | string | the lowest price of sell orders
+buy | string | the highest price of buy orders
+high | string | the highest price in last 24 hours
+low | string | the lowest price in last 24 hours
+open | string | the open price at 24 hours ago
+last | string | the latest price executed
+vol | string | trading volume in last 24 hours
+timestamp | number | ticked at unix timestamp (milliseconds)
+
+response format:
+
+```json
+{
+  "success": 0,
+  "data": [{
+    "pair": "string",
+    "sell": "string",
+    "buy": "string",
+    "high": "string",
+    "low": "string",
+    "open": "string",
+    "last": "string",
+    "vol": "string",
+    "timestamp": 0
+  }]
+}
+```
+
+### JPYTickers
+
+Get All JPY Pair Tickers information
+
+```txt
+GET /tickers_jpy
+```
+
+**Parameters:**
+
+nothing
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | JPY pair enum: `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`
+sell | string | the lowest price of sell orders
+buy | string | the highest price of buy orders
+high | string | the highest price in last 24 hours
+low | string | the lowest price in last 24 hours
+open | string | the open price at 24 hours ago
+last | string | the latest price executed
+vol | string | trading volume in last 24 hours
+timestamp | number | ticked at unix timestamp (milliseconds)
+
+response format:
+
+```json
+{
+  "success": 0,
+  "data": [{
+    "pair": "string",
+    "sell": "string",
+    "buy": "string",
+    "high": "string",
+    "low": "string",
+    "open": "string",
+    "last": "string",
+    "vol": "string",
+    "timestamp": 0
+  }]
 }
 ```
 

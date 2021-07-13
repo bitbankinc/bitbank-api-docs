@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2021-07-01)](#public-api%E4%B8%80%E8%A6%A7-2021-07-01)
+- [Public API一覧 (2021-07-13)](#public-api%E4%B8%80%E8%A6%A7-2021-07-01)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2021-07-01)
+# Public API一覧 (2021-07-13)
 
 ## API 概要
 
@@ -77,6 +77,96 @@ timestamp | number | 日時（UnixTimeのミリ秒）
     "vol": "string",
     "timestamp": 0
   }
+}
+```
+
+### Tickers
+
+[Public API] 全ペアのティッカー情報を取得。
+
+```txt
+GET /tickers
+```
+
+**Parameters:**
+
+なし
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
+sell | string | 現在の売り注文の最安値
+buy | string | 現在の買い注文の最高値
+high | string | 過去24時間の最高値取引価格
+low | string | 過去24時間の最安値取引価格
+open | string | 24時間前の始値
+last | string | 最新取引価格
+vol | string | 過去24時間の出来高
+timestamp | number | 日時（UnixTimeのミリ秒）
+
+レスポンスのフォーマット:
+
+```json
+{
+  "success": 0,
+  "data": [{
+    "pair": "string",
+    "sell": "string",
+    "buy": "string",
+    "high": "string",
+    "low": "string",
+    "open": "string",
+    "last": "string",
+    "vol": "string",
+    "timestamp": 0
+  }]
+}
+```
+
+### TickersJPY
+
+[Public API] JPYペアのティッカー情報を取得。
+
+```txt
+GET /tickers_jpy
+```
+
+**Parameters:**
+
+なし
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | 通貨ペア(JPYペアのみ): `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`
+sell | string | 現在の売り注文の最安値
+buy | string | 現在の買い注文の最高値
+high | string | 過去24時間の最高値取引価格
+low | string | 過去24時間の最安値取引価格
+open | string | 24時間前の始値
+last | string | 最新取引価格
+vol | string | 過去24時間の出来高
+timestamp | number | 日時（UnixTimeのミリ秒）
+
+レスポンスのフォーマット:
+
+```json
+{
+  "success": 0,
+  "data": [{
+    "pair": "string",
+    "sell": "string",
+    "buy": "string",
+    "high": "string",
+    "low": "string",
+    "open": "string",
+    "last": "string",
+    "vol": "string",
+    "timestamp": 0
+  }]
 }
 ```
 
