@@ -1,0 +1,31 @@
+{
+  "name": "bitbank-api-docs",
+  "version": "1.0.0",
+  "description": "Official Documentation for the bitbank.cc APIs and Streams",
+  "main": "README.md",
+  "scripts": {
+    "toc": "doctoc rest-api.md rest-api_JP.md public-stream.md public-stream_JP.md public-api.md public-api_JP.md errors.md errors_JP.md",
+    "changelog": "standard-version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitbankinc/bitbank-api-docs.git"
+  },
+  "keywords": [
+    "bitbank",
+    "api",
+    "docs"
+  ],
+  "author": "bitbank.cc",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/bitbankinc/bitbank-api-docs/issues"
+  },
+  "homepage": "https://github.com/bitbankinc/bitbank-api-docs#readme",
+  "devDependencies": {
+    "doctoc": "^2.0.0",
+    "standard-version": "^9.3.0",
+    "textlint": "^11.9.1"
+  }
+}
