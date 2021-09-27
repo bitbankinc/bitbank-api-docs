@@ -1,4 +1,11 @@
-# CHANGELOG for Bitbank's API (2021-07-13)
+# CHANGELOG for Bitbank's API (2021-09-27)
+---
+## 2021-09-27
+* Added parameters and fields about Stop order to
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+* Added some Stop order error codes to `errors.md` and `errors_JP.md`
+
 ---
 ## 2021-07-13
 * Added new pairs to

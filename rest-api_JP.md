@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2021-07-01)](#private-rest-api%E4%B8%80%E8%A6%A7-2021-07-01)
+- [Private REST API一覧 (2021-09-27)](#private-rest-api%E4%B8%80%E8%A6%A7-2021-09-27)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
@@ -29,7 +29,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2021-07-01)
+# Private REST API一覧 (2021-09-27)
 
 ## API 概要
 
@@ -167,7 +167,7 @@ Name | Type | Description
 order_id | number | 取引ID
 pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` または `sell`
-type | string | `limit` または `market`
+type | string | `limit` または `market` または `stop` または `stop_limit`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -176,7 +176,9 @@ post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number or null | 有効期限(UnixTimeのミリ秒)
-status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
+trigger_price | string | トリガー価格
+status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 
 **レスポンスのフォーマット:**
@@ -197,6 +199,8 @@ status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
+    "triggered_at": 0,
+    "triger_price": "string",
     "status": "string"
   }
 }
@@ -216,8 +220,9 @@ pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, 
 amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
-type | string | YES | `limit` または `market`
+type | string | YES | `limit` または `market` または `stop` または `stop_imit`
 post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ指定可能。デフォルト `false`）
+trigger_price | string | NO | トリガー価格
 
 **Response:**
 
@@ -226,7 +231,7 @@ Name | Type | Description
 order_id | number | 取引ID
 pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` または `sell`
-type | string | `limit` または `market`
+type | string | `limit` または `market` または `stop` または `stop_limit`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -235,7 +240,8 @@ post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+trigger_price | string | トリガー価格
+status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
 
@@ -275,6 +281,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -300,7 +307,7 @@ Name | Type | Description
 order_id | number | 注文ID
 pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` または `sell`
-type | string | `limit` または `market`
+type | string | `limit` または `market` または `stop` または `stop_limit`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -310,7 +317,9 @@ average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
 canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
-status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
+trigger_price | string | トリガー価格
+status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
 
@@ -351,6 +360,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "ordered_at": 0,
     "expire_at": 0,
     "canceled_at": 0,
+    "triggered_at": 0,
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -390,6 +401,8 @@ order_ids | number[] | YES | 注文ID
         "ordered_at": 0,
         "expire_at": 0,
         "canceled_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -452,6 +465,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -482,7 +497,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` または `sell`
-type | string | `limit` または `market`
+type | string | `limit` または `market` または `stop` または `stop_limit`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -491,7 +506,9 @@ post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-status | string | 注文ステータス: `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
+trigger_price | string | トリガー価格
+status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
 
@@ -532,6 +549,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -566,7 +585,7 @@ trade_id | number | trade id
 pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_id | number | 注文ID
 side | string | `buy` または `sell`
-type | string | `limit` または `market`
+type | string | `limit` または `market` または `stop` または `stop_limit`
 amount | string | 注文量
 price | string | 価格
 maker_taker | string | `maker` または `taker`

@@ -4,10 +4,12 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2021-07-13)](#public-api%E4%B8%80%E8%A6%A7-2021-07-01)
+- [Public API一覧 (2021-07-13)](#public-api%E4%B8%80%E8%A6%A7-2021-07-13)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
+    - [Tickers](#tickers)
+    - [TickersJPY](#tickersjpy)
     - [Depth](#depth)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)
