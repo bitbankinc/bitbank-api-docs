@@ -4,10 +4,12 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2021-07-13)](#public-rest-api-for-bitbank-2021-07-01)
+- [Public REST API for Bitbank (2021-07-13)](#public-rest-api-for-bitbank-2021-07-13)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
+    - [Tickers](#tickers)
+    - [JPYTickers](#jpytickers)
     - [Depth](#depth)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)

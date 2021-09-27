@@ -64,6 +64,7 @@ The following is the list of Bitbank's error codes.
 - `30016` Missing asset.
 - `30019` Missing uuid.
 - `30039` Missing withdraw amount.
+- `30101` Missing trigger price.
 
 ## INVALID_PARAMETER_ERROR
 
@@ -83,6 +84,7 @@ The following is the list of Bitbank's error codes.
 - `40025` Invalid asset.
 - `40028` Invalid uuid.
 - `40048` Invalid withdraw amount.
+- `40112` Invalid trigger price.
 - `40113` Invalid post_only.
 - `40114` post_only can not be specified with such order type.
 
@@ -102,12 +104,13 @@ The following is the list of Bitbank's error codes.
 ## VALUE_ERROR
 
 - `60001` Insufficient amount.
-- `60002` Market buy ​​order quantity has exceeded the upper limit.
+- `60002` Market buy order quantity has exceeded the upper limit.
 - `60003` Order quantity has exceeded the limit.
 - `60004` Order quantity has exceeded the lower threshold.
-- `60005` Order quantity has exceeded the upper limit.
+- `60005` Order price has exceeded the upper limit.
 - `60006` Order price has exceeded the lower limit.
 - `60011` Too many Simultaneous orders, current limit is 30.
+- `60016` Trigger price has exceeded the upper limit.
 
 ## STOP_UPDATE_REQUEST_SYSTEM_STATUS
 
@@ -130,3 +133,5 @@ The following is the list of Bitbank's error codes.
 - `70019` Order cancel request is in process.
 - `70020` Market order has been temporarily restricted.
 - `70021` Limit order price is over the threshold.
+- `70022` Stop limit order has been temporarily restricted.
+- `70022` Stop order has been temporarily restricted.

@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2021-07-01)](#private-rest-api-for-bitbank-2021-07-01)
+- [Private REST API for Bitbank (2021-09-27)](#private-rest-api-for-bitbank-2021-09-27)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [General endpoints](#general-endpoints)
@@ -28,7 +28,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2021-07-01)
+# Private REST API for Bitbank (2021-09-27)
 
 ## General API Information
 
@@ -161,7 +161,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
-type | string | `limit` or `market`
+type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
@@ -170,7 +170,9 @@ post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number or null | expiration time in unix timestamp (milliseconds)
-status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+triggered_at | number or null | triggered at unix timestamp (milliseconds)
+trigger_price | string | trigger price
+status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
 
@@ -209,6 +211,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
+    "triggered_at": 0,
+    "triger_price": "string",
     "status": "string"
   }
 }
@@ -228,8 +232,9 @@ pair | string | YES | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `lt
 amount | string | YES | amount
 price | string | NO | price
 side | string | YES | `buy` or `sell`
-type | string | YES | `limit` or `market`
+type | string | YES | `limit` or `market` or `stop` or `stop_limit`
 post_only | boolean | NO | Post Only (`true` can be specified only if type = `limit`. default `false`)
+trigger_price | string | NO | trigger price
 
 **Response:**
 
@@ -247,7 +252,8 @@ post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number or null | expiration time in unix timestamp (milliseconds)
-status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+trigger_price | string | trigger price
+status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
 
@@ -287,6 +293,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -312,7 +319,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
-type | string | `limit` or `market`
+type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
@@ -322,7 +329,9 @@ average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number or null | expiration time in unix timestamp (milliseconds)
 canceled_at | number | canceled at unix timestamp (milliseconds)
-status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+triggered_at | number or null | triggered at unix timestamp (milliseconds)
+trigger_price | string | trigger price
+status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
 
@@ -363,6 +372,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "ordered_at": 0,
     "expire_at": 0,
     "canceled_at": 0,
+    "triggered_at": 0,
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -402,6 +413,8 @@ order_ids | number[] | YES | order ids
         "ordered_at": 0,
         "expire_at": 0,
         "canceled_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -465,6 +478,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "ordered_at": 0,
         "expire_at": 0,
         "canceled_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -495,7 +510,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 side | string | `buy` or `sell`
-type | string | `limit` or `market`
+type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
@@ -504,7 +519,9 @@ post_only | boolean | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number or null | expiration time in unix timestamp (milliseconds)
-status | string | status enum: `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+triggered_at | number or null | triggered at unix timestamp (milliseconds)
+trigger_price | string | trigger price
+status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
 
@@ -545,6 +562,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
+        "triggered_at": 0,
+        "trigger_price": "string",
         "status": "string"
       }
     ]
@@ -579,7 +598,7 @@ trade_id | number | trade id
 pair | string | pair enum: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`
 order_id | number | order id
 side | string | `buy` or `sell`
-type | string | `limit` or `market`
+type | string | `limit` or `market` or `stop` or `stop_limit`
 amount | string | amount
 price | string | order price
 maker_taker | string | maker or taker
