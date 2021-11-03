@@ -143,7 +143,7 @@ GET /tickers_jpy
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | 通貨ペア(JPYペアのみ): `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`, `xym_jpy`, `xym_btc`
+pair | string | 通貨ペア(JPYペアのみ): `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`, `xym_jpy`
 sell | string | 現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格

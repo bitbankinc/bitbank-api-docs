@@ -143,7 +143,7 @@ nothing
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | JPY pair enum: `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`, `xym_jpy`, `xym_btc`
+pair | string | JPY pair enum: `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`, `xym_jpy`
 sell | string | the lowest price of sell orders
 buy | string | the highest price of buy orders
 high | string | the highest price in last 24 hours
