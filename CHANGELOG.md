@@ -1,7 +1,13 @@
-# CHANGELOG for Bitbank's API (2021-01-07)
+# CHANGELOG for Bitbank's API (2022-01-25)
 ---
-## 2021-01-07
-* Added maintenance error code 10007 to `errors.md` and `errors_JP.md`
+## 2022-01-25
+* Added new pairs to
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
 
 ---
 ## 2021-12-03

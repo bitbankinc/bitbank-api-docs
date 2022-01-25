@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2021-12-03)](#web-socket-streams-for-bitbank-2021-12-03)
+- [Web Socket Streams for Bitbank (2022-01-25)](#web-socket-streams-for-bitbank-2022-01-25)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2021-12-03)
+# Web Socket Streams for Bitbank (2022-01-25)
 
 ## General WSS information
 
@@ -24,7 +24,7 @@
 
 ### Ticker
 
-Ticker channel name is `ticker_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`.
+Ticker channel name is `ticker_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`.
 
 **Response:**
 
@@ -88,7 +88,7 @@ connected (press CTRL+C to quit)
 
 ### Transactions
 
-Transactions channel name is `transactions_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`.
+Transactions channel name is `transactions_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`.
 
 **Response:**
 
@@ -148,7 +148,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Diff
 
-Depth Diff channel name is `depth_diff_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`.
+Depth Diff channel name is `depth_diff_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`.
 
 **Response:**
 
@@ -218,7 +218,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Whole
 
-Whole depth channel name is `depth_whole_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`.
+Whole depth channel name is `depth_whole_{pair}`, available pairs are `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`.
 
 **Response:**
 
