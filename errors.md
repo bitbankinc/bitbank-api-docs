@@ -38,6 +38,8 @@ The following is the list of Bitbank's error codes.
 - `10003` System error.
 - `10005` Timeout waiting for response.
 - `10007` System maintenance.
+- `10008` Server is busy. Retry later.
+- `10009` You sent requests too frequently. Retry later with decreased requests.
 
 ## AUTHENTICATION_ERROR
 
