@@ -220,7 +220,7 @@ pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, 
 amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
-type | string | YES | `limit` または `market` または `stop` または `stop_imit`
+type | string | YES | `limit` または `market` または `stop` または `stop_limit`
 post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ指定可能。デフォルト `false`）
 trigger_price | string | NO | トリガー価格
 

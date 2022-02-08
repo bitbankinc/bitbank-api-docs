@@ -38,6 +38,8 @@ The following is the list of Bitbank's error codes.
 - `10003` System error.
 - `10005` Timeout waiting for response.
 - `10007` System maintenance.
+- `10008` Server is busy. Retry later.
+- `10009` You sent requests too frequently. Retry later with decreased requests.
 
 ## AUTHENTICATION_ERROR
 
@@ -48,6 +50,7 @@ The following is the list of Bitbank's error codes.
 - `20005` Invalid api signature.
 - `20011` MFA failed.
 - `20014` SMS verification failed.
+- `20018` Please login. (This happens when you request API without `/v1/`.)
 - `20023` Missing OTP code.
 - `20024` Missing SMS code.
 - `20025` Missing OTP and SMS code.

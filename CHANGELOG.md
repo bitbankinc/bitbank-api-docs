@@ -1,4 +1,10 @@
-# CHANGELOG for Bitbank's API (2022-01-25)
+# CHANGELOG for Bitbank's API (2022-02-07)
+
+---
+## 2022-02-07
+* Added some error codes to `errors.md` and `errors_JP.md`.
+* Fixed a typo in `rest-api_JP.md`.
+
 ---
 ## 2022-01-25
 * Added new pairs to
