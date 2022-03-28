@@ -1,4 +1,10 @@
-# CHANGELOG for Bitbank's API (2022-03-14)
+# CHANGELOG for Bitbank's API (2022-03-29)
+---
+## 2022-03-29
+* Added new pairs to
+  * `errors.md`.
+  * `errors_JP.md`.
+
 ---
 ## 2022-03-14
 * Added new pairs to

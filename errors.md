@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2019-10-18)](#error-codes-for-bitbank-2019-10-18)
+- [Error codes for Bitbank (2022-03-29)](#error-codes-for-bitbank-2022-03-29)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2019-10-18)
+# Error codes for Bitbank (2022-03-29)
 
 Here is the format of error JSON payload:
 
@@ -69,6 +69,18 @@ The following is the list of Bitbank's error codes.
 - `30019` Missing uuid.
 - `30039` Missing withdraw amount.
 - `30101` Missing trigger price.
+- `30103` Missing withdrawal type.
+- `30104` Missing withdrawal name.
+- `30105` Missing VASP.
+- `30106` Missing beneficiary type.
+- `30107` Missing beneficiary last name.
+- `30108` Missing beneficiary first name.
+- `30109` Missing beneficiary last kana.
+- `30110` Missing beneficiary first kana.
+- `30111` Missing beneficiary company name.
+- `30112` Missing beneficiary company kana.
+- `30113` Missing beneficiary company type.
+- `30114` Missing beneficiary company type position.
 
 ## INVALID_PARAMETER_ERROR
 
@@ -91,6 +103,18 @@ The following is the list of Bitbank's error codes.
 - `40112` Invalid trigger price.
 - `40113` Invalid post_only.
 - `40114` post_only can not be specified with such order type.
+- `40116` Invalid withdrawal type.
+- `40117` Invalid withdrawal name.
+- `40118` Invalid VASP.
+- `40119` Invalid beneficiary type.
+- `40120` Invalid beneficiary last name.
+- `40121` Invalid beneficiary first name.
+- `40122` Invalid beneficiary last kana.
+- `40123` Invalid beneficiary first kana.
+- `40124` Invalid beneficiary company name.
+- `40125` Invalid beneficiary company kana.
+- `40126` Invalid beneficiary company type.
+- `40127` Invalid beneficiary company type position.
 
 ## DATA_ERROR
 
@@ -104,6 +128,9 @@ The following is the list of Bitbank's error codes.
 - `50011` Api not found.
 - `50026` Order has already been canceled.
 - `50027` Order has already been executed.
+- `50033` Withdrawals to this address require additional entries.
+- `50034` VASP not found.
+- `50035` Company information is not registerd.
 
 ## VALUE_ERROR
 
