@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2022-03-14)](#public-api%E4%B8%80%E8%A6%A7-2022-03-14)
+- [Public API一覧 (2022-04-26)](#public-api%E4%B8%80%E8%A6%A7-2022-04-26)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -16,7 +16,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2022-03-14)
+# Public API一覧 (2022-04-26)
 
 ## API 概要
 
@@ -49,7 +49,7 @@ GET /{pair}/ticker
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`, `boba_jpy`, `boba_btc`
+pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 
 **Response:**
 
@@ -98,7 +98,7 @@ GET /tickers
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`, `boba_jpy`, `boba_btc`
+pair | string | 通貨ペア: [ペア一覧](pairs.md)
 sell | string | 現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格
@@ -143,7 +143,7 @@ GET /tickers_jpy
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | 通貨ペア(JPYペアのみ): `btc_jpy`, `xrp_jpy`, `ltc_jpy`, `eth_jpy`, `mona_jpy`, `bcc_jpy`, `xlm_jpy`, `qtum_jpy`, `bat_jpy`, `omg_jpy`, `xym_jpy`, `link_jpy`, `mkr_jpy`, `boba_jpy`
+pair | string | 通貨ペア(JPYペアのみ): [ペア一覧](pairs.md)
 sell | string | 現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格
@@ -184,7 +184,7 @@ GET /{pair}/depth
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`, `boba_jpy`, `boba_btc`
+pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 
 **Response:**
 
@@ -215,7 +215,7 @@ bids | [string, string][] | 買い板 [価格, 数量]
 
 ### Transactions
 
-[Public API] 指定された日付の全約定履歴を取得。
+[Public API] 指定された日付の全約定履歴を取得。YYYYMMDDを省略した場合、最新60件が取得可能。
 
 ```txt
 GET /{pair}/transactions/{YYYYMMDD}
@@ -225,7 +225,7 @@ GET /{pair}/transactions/{YYYYMMDD}
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`, `boba_jpy`, `boba_btc`
+pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 YYYYMMDD | string | NO | date formatted as `YYYYMMDD`
 
 **Response:**
@@ -269,7 +269,7 @@ GET /{pair}/candlestick/{candle-type}/{YYYY}
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: `btc_jpy`, `xrp_jpy`, `xrp_btc`, `ltc_jpy`, `ltc_btc`, `eth_jpy`, `eth_btc`, `mona_jpy`, `mona_btc`, `bcc_jpy`, `bcc_btc`, `xlm_jpy`, `xlm_btc`, `qtum_jpy`, `qtum_btc`, `bat_jpy`, `bat_btc`, `omg_jpy`, `omg_btc`, `xym_jpy`, `xym_btc`, `link_jpy`, `link_btc`, `mkr_jpy`, `mkr_btc`, `boba_jpy`, `boba_btc`
+pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 candle-type | string | YES | 以下の期間から指定: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 YYYY | string | YES | 日付 `YYYYMMDD` 形式または `YYYY` を指定
 
