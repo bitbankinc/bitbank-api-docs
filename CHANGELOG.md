@@ -1,4 +1,27 @@
-# CHANGELOG for Bitbank's API (2022-03-29)
+# CHANGELOG for Bitbank's API (2022-04-26)
+---
+## 2022-04-26
+* Added new docs
+  * `pairs.md`
+  * `assets.md`
+* Fixed docs according to the above
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+
+---
+## 2022-04-26
+* Added new pairs to
+  * `public-api.md`.
+  * `public-api_JP.md`.
+  * `public-stream.md`.
+  * `public-stream_JP.md`.
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
+
 ---
 ## 2022-03-29
 * Added new pairs to
