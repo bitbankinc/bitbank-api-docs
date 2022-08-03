@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2022-06-21)](#pairs-2022-06-21)
+- [pairs (2022-08-03)](#pairs-2022-08-03)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2022-06-21)
+# pairs (2022-08-03)
 
 The following is the list of pair.
 
@@ -43,3 +43,5 @@ enj_jpy | enj | jpy
 enj_btc | enj | btc
 matic_jpy | matic | jpy
 matic_btc | matic | btc
+dot_jpy | dot | jpy
+doge_jpy | doge | jpy
