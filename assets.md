@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2022-06-21)](#assets-2022-06-21)
+- [assets (2022-08-03)](#assets-2022-08-03)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2022-06-21)
+# assets (2022-08-03)
 
 The following is the list of asset.
 
@@ -29,3 +29,5 @@ mkr | maker
 boba | boba network
 enj | enjin coin
 matic | polygon
+dot | polkadot
+doge | dogecoin
