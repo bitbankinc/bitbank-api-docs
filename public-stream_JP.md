@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [リアルタイムデータ配信API (2022-04-26)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2022-04-26)
+- [リアルタイムデータ配信API (2022-08-08)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2022-08-08)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [WSチャンネル一覧](#ws%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E4%B8%80%E8%A6%A7)
     - [ティッカー](#%E3%83%86%E3%82%A3%E3%83%83%E3%82%AB%E3%83%BC)
@@ -14,11 +14,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2022-04-26)
+# リアルタイムデータ配信API (2022-08-08)
 
 ## API 概要
 
-- エンドポイント URL: **wss://stream.bitbank.cc**. ([socket.io](https://socket.io/)によって実装されています。下記のサンプルコードでは[github.com/websockets/wscat](https://github.com/websockets/wscat) を利用しています。)
+- エンドポイント URL: **wss://stream.bitbank.cc**.
+- [socket.io 4.x](https://socket.io/docs/v4/)（Engine.io protocol v4）によって実装されています。下記のサンプルコードでは[github.com/websockets/wscat](https://github.com/websockets/wscat) を利用しています。
+- 2022-07-26 より [socket.io](https://socket.io/) が [2.x](https://socket.io/docs/v2/) -> [4.x](https://socket.io/docs/v4/) にバージョンアップされました。
+- stream.bitbank.ccへの接続は6時間の間有効となっています。もし6時間以上接続する必要がある場合は、disconnectイベントから手動再接続処理を行なってください。
 
 ## WSチャンネル一覧
 
@@ -48,7 +51,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 
 connected (press CTRL+C to quit)
 < 0{"sid":"bDAf6vgk5xPau87WAA1u","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
@@ -111,7 +114,7 @@ executed_at | number | 約定日時（UnixTimeのミリ秒）
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 
 connected (press CTRL+C to quit)
 < 0{"sid":"PG3FbI0WrKIP7hKMABH_","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
@@ -170,7 +173,7 @@ t | number | 日時（UnixTimeのミリ秒）
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 connected (press CTRL+C to quit)
 < 0{"sid":"9-zd3P1G-BNu_w37ABMX","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
@@ -242,7 +245,7 @@ timestamp | number | timestamp
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 connected (press CTRL+C to quit)
 < 0{"sid":"PR6GLrwlEFjzHIPrABBM","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40

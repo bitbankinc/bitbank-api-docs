@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2022-04-26)](#web-socket-streams-for-bitbank-2022-04-26)
+- [Web Socket Streams for Bitbank (2022-08-08)](#web-socket-streams-for-bitbank-2022-08-08)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,11 +14,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2022-04-26)
+# Web Socket Streams for Bitbank (2022-08-08)
 
 ## General WSS information
 
-- The base endpoint is: **wss://stream.bitbank.cc**. ([socket.io](https://socket.io/) is used under the hood, and the following code examples are demonstrated with [github.com/websockets/wscat](https://github.com/websockets/wscat))
+- The base endpoint is: **wss://stream.bitbank.cc**.
+- [socket.io 4.x](https://socket.io/docs/v4/) (Engine.io protocol v4) is used under the hood, and the following code examples are demonstrated with [github.com/websockets/wscat](https://github.com/websockets/wscat)
+- From 2022-07-26, [socket.io](https://socket.io/) is upgraded from [2.x](https://socket.io/docs/v2/) to [4.x](https://socket.io/docs/v4/)
+- A connection to stream.bitbank.cc is only valid for 6 hours. Please manualy reconnect by disconnect event hook if you needs connect 6 hours or more continuously
 
 ## General endpoints
 
@@ -46,7 +49,7 @@ timestamp | number | ticked at unix timestamp (milliseconds)
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 
 connected (press CTRL+C to quit)
 < 0{"sid":"bDAf6vgk5xPau87WAA1u","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
@@ -107,7 +110,7 @@ executed_at | number | executed at unix timestamp (milliseconds)
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 
 connected (press CTRL+C to quit)
 < 0{"sid":"PG3FbI0WrKIP7hKMABH_","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
@@ -166,7 +169,7 @@ t | number | published at unix timestamp (milliseconds)
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 connected (press CTRL+C to quit)
 < 0{"sid":"9-zd3P1G-BNu_w37ABMX","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
@@ -236,7 +239,7 @@ timestamp | number | published at timestamp
 <p>
 
 ```sh
-$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=3&transport=websocket'
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
 connected (press CTRL+C to quit)
 < 0{"sid":"PR6GLrwlEFjzHIPrABBM","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
