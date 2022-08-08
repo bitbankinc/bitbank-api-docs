@@ -21,7 +21,7 @@
 - The base endpoint is: **wss://stream.bitbank.cc**.
 - [socket.io 4.x](https://socket.io/docs/v4/) (Engine.io protocol v4) is used under the hood, and the following code examples are demonstrated with [github.com/websockets/wscat](https://github.com/websockets/wscat)
 - From 2022-07-26, [socket.io](https://socket.io/) is upgraded from [2.x](https://socket.io/docs/v2/) to [4.x](https://socket.io/docs/v4/)
-- A connection to stream.bitbank.cc is only valid for 6 hours. Please manualy reconnect by disconnect event hook if you needs connect 6 hours or more continuously
+- A connection to stream.bitbank.cc is only valid for 6 hours. Please manually reconnect by disconnect event hook if you need connect 6 hours or more continuously
 
 ## General endpoints
 
