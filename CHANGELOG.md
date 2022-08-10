@@ -1,5 +1,9 @@
-# CHANGELOG for Bitbank's API (2022-08-03)
+# CHANGELOG for Bitbank's API (2022-08-08)
 
+## 2022-08-08
+* Socket.io version up from v2 to v4
+
+---
 ## 2022-08-03
 * Added new pairs to
   * `pairs.md`
