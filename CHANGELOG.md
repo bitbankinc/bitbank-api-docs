@@ -4,6 +4,12 @@
 * Socket.io version up from v2 to v4
 
 ---
+## 2022-08-03
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2022-06-21
 * Added new pairs to
   * `pairs.md`
