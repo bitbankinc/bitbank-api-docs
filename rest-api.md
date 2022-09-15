@@ -797,7 +797,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | pair
+pair | string | pair enum: [pair list](pairs.md)
 status | string | enum: `NORMAL`, `BUSY`, `VERY_BUSY`, `HALT`
 min_amount| string | minimum order amount (The busier the exchange is, the higher the min_amount will be)
 
@@ -849,7 +849,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-name | string | pair name
+name | string | pair enum: [pair list](pairs.md)
 base_asset | string | base asset
 quote_asset | string | quote asset
 maker_fee_rate_base | string | maker fee (base asset)

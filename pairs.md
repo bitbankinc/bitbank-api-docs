@@ -2,46 +2,46 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2022-08-03)](#pairs-2022-08-03)
+- [pairs (2022-09-15)](#pairs-2022-09-15)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2022-08-03)
+# pairs (2022-09-15)
 
 The following is the list of pair.
 
-Symbol | Quote asset | Base asset
------------- | ------------ | ------------
-btc_jpy | btc | jpy
-xrp_jpy | xrp | jpy
-xrp_btc | xrp | btc
-ltc_jpy | ltc | jpy
-ltc_btc | ltc | btc
-eth_jpy | eth | jpy
-eth_btc | eth | btc
-mona_jpy | mona | jpy
-mona_btc | mona | btc
-bcc_jpy | bcc | jpy
-bcc_btc | bcc | btc
-xlm_jpy | xlm | jpy
-xlm_btc | xlm | btc
-qtum_jpy | qtum | jpy
-qtum_btc | qtum | btc
-bat_jpy | bat | jpy
-bat_btc | bat | btc
-omg_jpy | omg | jpy
-omg_btc | omg | btc
-xym_jpy | xym | jpy
-xym_btc | xym | btc
-link_jpy | link | jpy
-link_btc | link | btc
-mkr_jpy | mkr | jpy
-mkr_btc | mkr | btc
-boba_jpy | boba | jpy
-boba_btc | boba | btc
-enj_jpy | enj | jpy
-enj_btc | enj | btc
-matic_jpy | matic | jpy
-matic_btc | matic | btc
-dot_jpy | dot | jpy
-doge_jpy | doge | jpy
+Symbol | Quote asset | Base asset | Order suspended flag (delisted)
+------------ | ------------ | ------------ | ------------
+btc_jpy | btc | jpy | false
+xrp_jpy | xrp | jpy | false
+xrp_btc | xrp | btc | true
+ltc_jpy | ltc | jpy  | false
+ltc_btc | ltc | btc | true
+eth_jpy | eth | jpy | false
+eth_btc | eth | btc | true
+mona_jpy | mona | jpy | false
+mona_btc | mona | btc | true
+bcc_jpy | bcc | jpy | false
+bcc_btc | bcc | btc | true
+xlm_jpy | xlm | jpy | false
+xlm_btc | xlm | btc | true
+qtum_jpy | qtum | jpy | false
+qtum_btc | qtum | btc | true
+bat_jpy | bat | jpy | false
+bat_btc | bat | btc | true
+omg_jpy | omg | jpy | false
+omg_btc | omg | btc | true
+xym_jpy | xym | jpy | false
+xym_btc | xym | btc | true
+link_jpy | link | jpy | false
+link_btc | link | btc | true
+mkr_jpy | mkr | jpy | false
+mkr_btc | mkr | btc | true
+boba_jpy | boba | jpy | false
+boba_btc | boba | btc | true
+enj_jpy | enj | jpy | false
+enj_btc | enj | btc | true
+matic_jpy | matic | jpy | false
+matic_btc | matic | btc | true
+dot_jpy | dot | jpy | false
+doge_jpy | doge | jpy | false

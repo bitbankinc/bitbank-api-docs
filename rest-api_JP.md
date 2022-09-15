@@ -785,7 +785,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-pair | string | 通貨ペア
+pair | string | 通貨ペア: [ペア一覧](pairs.md)
 status | string | 取引所ステータス: `NORMAL`, `BUSY`, `VERY_BUSY`, `HALT`
 min_amount| string | 取引所ステータスに応じた最小注文数量（負荷が高いほど大きくなります）
 
@@ -838,7 +838,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-name | string | 銘柄名
+name | string | 通貨ペア: [ペア一覧](pairs.md)
 base_asset | string | 原資産
 quote_asset | string | クオート資産
 maker_fee_rate_base | string | メイカー手数料率(原資産)
