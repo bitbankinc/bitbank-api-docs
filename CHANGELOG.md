@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2022-09-15)
+# CHANGELOG for Bitbank's API (2022-09-26)
 
+## 2022-09-26
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2022-09-15
 * Termination of Crypto Pairs with BTC, excluding BTC/JPY
 
