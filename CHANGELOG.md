@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2022-09-26)
+# CHANGELOG for Bitbank's API (2022-09-29)
 
+## 2022-09-29
+* Added new pairs to
+  * `errors.md`.
+  * `errors_JP.md`.
+
+---
 ## 2022-09-26
 * Added new pairs to
   * `pairs.md`
@@ -9,6 +15,7 @@
 ## 2022-09-15
 * Termination of Crypto Pairs with BTC, excluding BTC/JPY
 
+---
 ## 2022-08-08
 * Socket.io version up from v2 to v4
 
