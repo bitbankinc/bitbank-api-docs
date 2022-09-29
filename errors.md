@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2022-03-29)](#error-codes-for-bitbank-2022-03-29)
+- [Error codes for Bitbank (2022-09-29)](#error-codes-for-bitbank-2022-09-29)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2022-03-29)
+# Error codes for Bitbank (2022-09-29)
 
 Here is the format of error JSON payload:
 
@@ -81,6 +81,13 @@ The following is the list of Bitbank's error codes.
 - `30112` Missing beneficiary company kana.
 - `30113` Missing beneficiary company type.
 - `30114` Missing beneficiary company type position.
+- `30115` Missing uploaded documents.
+- `30116` Missing beneficiary zip code.
+- `30117` Missing beneficiary prefecture.
+- `30118` Missing beneficiary city.
+- `30119` Missing beneficiary address.
+- `30120` Missing beneficiary building.
+- `30121` Missing withdrawal purpose.
 
 ## INVALID_PARAMETER_ERROR
 
