@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2022-10-03)](#assets-2022-10-03)
+- [assets (2022-11-09)](#assets-2022-11-09)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2022-10-03)
+# assets (2022-11-09)
 
 The following is the list of asset.
 
@@ -33,3 +33,4 @@ dot | polkadot
 doge | dogecoin
 astr | astar network
 ada | cardano
+avax | avalanche
