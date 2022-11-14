@@ -1,5 +1,9 @@
-# CHANGELOG for Bitbank's API (2022-11-09)
+# CHANGELOG for Bitbank's API (2022-11-10)
 
+## 2022-11-10
+* Auto disconnection is abolished
+
+---
 ## 2022-11-09
 * Added new pairs to
   * `pairs.md`

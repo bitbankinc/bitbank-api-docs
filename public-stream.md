@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2022-08-08)](#web-socket-streams-for-bitbank-2022-08-08)
+- [Web Socket Streams for Bitbank (2022-11-10)](#web-socket-streams-for-bitbank-2022-11-10)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -14,14 +14,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2022-08-08)
+# Web Socket Streams for Bitbank (2022-11-10)
 
 ## General WSS information
 
 - The base endpoint is: **wss://stream.bitbank.cc**.
 - [socket.io 4.x](https://socket.io/docs/v4/) (Engine.io protocol v4) is used under the hood, and the following code examples are demonstrated with [github.com/websockets/wscat](https://github.com/websockets/wscat)
 - From 2022-07-26, [socket.io](https://socket.io/) is upgraded from [2.x](https://socket.io/docs/v2/) to [4.x](https://socket.io/docs/v4/)
-- A connection to stream.bitbank.cc is only valid for 6 hours. Please manually reconnect by disconnect event hook if you need connect 6 hours or more continuously
+- The specification of disconnection after 6 hours is abolished. Continuously, if an error occurs the connection will be closed. Please check the error messages.
 
 ## General endpoints
 
