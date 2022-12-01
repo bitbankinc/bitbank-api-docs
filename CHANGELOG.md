@@ -1,5 +1,9 @@
-# CHANGELOG for Bitbank's API (2022-11-10)
+# CHANGELOG for Bitbank's API (2022-12-01)
 
+## 2022-12-01
+* Added an error code 50037 to `errors.md` and `errors_JP.md`
+
+---
 ## 2022-11-10
 * Auto disconnection is abolished
 
