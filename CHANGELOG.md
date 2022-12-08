@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2022-12-01)
+# CHANGELOG for Bitbank's API (2022-12-07)
 
+## 2022-12-07
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2022-12-01
 * Added an error code 50037 to `errors.md` and `errors_JP.md`
 
