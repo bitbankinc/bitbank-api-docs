@@ -7,6 +7,7 @@
 - [Private REST API for Bitbank (2022-04-26)](#private-rest-api-for-bitbank-2022-04-26)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
+  - [Rate limit](#rate-limit)
   - [General endpoints](#general-endpoints)
     - [Assets](#assets)
     - [Order](#order)
@@ -57,6 +58,18 @@
   - ACCESS-SIGNATURE : Hash the following string with `HMAC-SHA256`, using your API secret as hash key.
     - GET: [ACCESS-NONCE, full request path with query parameters] concatenated (include `/v1` in request path).
     - POST: [ACCESS-NONCE, JSON string of request body] concatenated (include query parameters in request body).
+
+## Rate limit
+
+- We limits REST API calls per user, per UPDATE or QUERY, per second.
+  - UPDATE is order, cancel and withdrawal request.
+  - QUERY is others.
+- We also limits REST API calls system wide, to avoid overload of our matching engine.
+  - This limit is high enough for usual case.
+- We return HTTP 429 when you reached a limit. Please reduce API calls when you get 429 often.
+- We usually limits QUERY requests to 10 calls per second and UPDATE requests to 6 calls per second.
+  - We can raise your rate limits depending on your usage.
+  - Please contact `onboarding@bitcoinbank.co.jp` from your bitbank account's email address to raise limits.
 
 ## General endpoints
 

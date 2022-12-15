@@ -11,6 +11,7 @@
     - [Transactions](#transactions)
     - [Depth Diff](#depth-diff)
     - [Depth Whole](#depth-whole)
+  - [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -27,7 +28,7 @@
 
 ### Ticker
 
-Ticker channel name is `ticker_{pair}`, available pairs are [pair list](pairs.md).
+Ticker channel name is `ticker_{pair}`, available pairs are written in [pair list](pairs.md).
 
 **Response:**
 
@@ -91,7 +92,7 @@ connected (press CTRL+C to quit)
 
 ### Transactions
 
-Transactions channel name is `transactions_{pair}`, available pairs are [pair list](pairs.md).
+Transactions channel name is `transactions_{pair}`, available pairs are written in [pair list](pairs.md).
 
 **Response:**
 
@@ -151,7 +152,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Diff
 
-Depth Diff channel name is `depth_diff_{pair}`, available pairs are [pair list](pairs.md).
+Depth Diff channel name is `depth_diff_{pair}`, available pairs are written in [pair list](pairs.md).
 
 **Response:**
 
@@ -160,9 +161,16 @@ Name | Type | Description
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
 t | number | published at unix timestamp (milliseconds)
+s | string | sequence id, increased monotonically but not always consecutive
+
+The amount of `a` (asks) and `b` (bids) is absolute, and its 0 means its price level has gone.
+
+The `s` (sequence id) is common with the `sequenceId` of `depth_whole_{pair}`.
+
+For usage, see [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly) section.
 
 
-**Sample code:**
+<a name="depth-diff-sample-code"></a>**Sample code:**
 
 <details>
 <summary>wscat</summary>
@@ -174,8 +182,8 @@ connected (press CTRL+C to quit)
 < 0{"sid":"9-zd3P1G-BNu_w37ABMX","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
 > 42["join-room","depth_diff_xrp_jpy"]
-< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.758","20000.0000"],["26.212","0"]],"t":1570080269609}}}]
-< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.212","1000.0000"],["26.815","0"]],"t":1570080270100}}}]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.758","20000.0000"],["26.212","0"]],"t":1570080269609,"s":"1234567890"}}}]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.212","1000.0000"],["26.815","0"]],"t":1570080270100,"s":"1234567893"}}}]
 ...
 
 ```
@@ -212,7 +220,8 @@ connected (press CTRL+C to quit)
                         "0"
                     ]
                 ],
-                "t": 1568344204624
+                "t": 1568344204624,
+                "s": "1234567890"
             }
         }
     }
@@ -221,7 +230,7 @@ connected (press CTRL+C to quit)
 
 ### Depth Whole
 
-Whole depth channel name is `depth_whole_{pair}`, available pairs are [pair list](pairs.md).
+Whole depth channel name is `depth_whole_{pair}`, available pairs are written in [pair list](pairs.md).
 
 **Response:**
 
@@ -230,9 +239,14 @@ Name | Type | Description
 asks | [string, string][] | [ask, amount][]
 bids | [string, string][] | [bid, amount][]
 timestamp | number | published at timestamp
+sequenceId | string | sequence id, increased monotonically but not always consecutive
+
+The `sequenceId` is common with the `s` of `depth_diff_{pair}`.
+
+For usage, see [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly) section.
 
 
-**Sample code:**
+<a name="depth-whole-sample-code"></a>**Sample code:**
 
 <details>
 <summary>wscat</summary>
@@ -280,9 +294,43 @@ connected (press CTRL+C to quit)
                         "19.4551"
                     ],
                 ],
-                "timestamp": 1568344476514
+                "timestamp": 1568344476514,
+                "sequenceId": "1234567890"
             }
         }
     }
 ]
 ```
+
+## How to manage a local order book correctly
+
+You can manage a local (typically on-memory) order book of a pair, by using room `depth_whole_{pair}` and `depth_diff_{pair}` as follows:
+
+1. Subscribe both `depth_whole_{pair}` and `depth_diff_{pair}`. See [the sample code of Depth Whole](#depth-whole-sample-code) and [Depth Diff](#depth-diff-sample-code) for usage.
+1. Buffer the `depth_diff_{pair}` messages you receive continuously.
+1. When you receive a `depth_diff_{pair}` message,
+    * If its amount is NOT zero, add or overwrite the amount of that price level to your local order book.
+    * If its amount IS zero, remove that price level from your local order book.
+1. When you receive a `depth_whole_{pair}` message,
+    * replace your local order book by its `data`,
+    * and apply buffered `depth_diff_{pair}`s,
+        * that in ascending `s` order,
+        * only for `s` is greater than the `sequenceId` of `depth_whole_{pair}`.
+
+Here is an example of processing `depth_whole_{pair}`.
+If you receive following messages in this order:
+
+> diff{s=3}, diff{s=5}, diff{s=6}, diff{s=8}, whole{sequenceId=5}
+
+you should replace the local order book by `whole{sequenceId=5}`, then apply `diff{s=6}` then `diff{s=8}` and ignore about `diff{s=3}` and `diff{s=5}`.
+
+The sequence id never rewinds (at least on each room),
+so you can forget `depth_diff_{pair}` messages that its `s` is less or equal than latest `depth_whole_{pair}`'s `sequenceId,` to reduce resource usage.
+
+**Caveats:**
+
+* `depth_diff_{pair}` messages are sent for only ~200 price levels from best bid/ask at that time.
+  For that reason, you must refresh your local order book with each `depth_whole_{pair}` message to get the correct order book.
+  (or you'll miss some price levels on price change.)
+* A `depth_whole_{pair}` message sometimes be sent delayed from `depth_diff_{pair}` messages.
+  For that reason, you must buffer `depth_diff_{pair}` messages and apply them on receiving a `depth_whole_{pair}` message.
