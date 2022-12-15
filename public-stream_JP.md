@@ -11,6 +11,7 @@
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
     - [板情報の差分配信](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%B7%AE%E5%88%86%E9%85%8D%E4%BF%A1)
     - [板情報](#%E6%9D%BF%E6%83%85%E5%A0%B1)
+  - [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -165,8 +166,16 @@ Name | Type | Description
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
 t | number | 日時（UnixTimeのミリ秒）
+s | string | シーケンスID、単調増加しますが連続しているとは限りません
 
-**サンプルコード:**
+`a` (asks)と `b` (bids)のamountは絶対数量です。またamountが0なものはその気配値が無くなったことを示します。
+
+`s` は `depth_whole_{pair}` の `sequenceId` と共通のシーケンスIDです。
+
+使い方については [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95) の節をご覧ください。
+
+
+<a name="depth-diff-sample-code"></a>**サンプルコード:**
 
 <details>
 <summary>wscat</summary>
@@ -178,8 +187,8 @@ connected (press CTRL+C to quit)
 < 0{"sid":"9-zd3P1G-BNu_w37ABMX","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
 < 40
 > 42["join-room","depth_diff_xrp_jpy"]
-< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.758","20000.0000"],["26.212","0"]],"t":1570080269609}}}]
-< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.212","1000.0000"],["26.815","0"]],"t":1570080270100}}}]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.758","20000.0000"],["26.212","0"]],"t":1570080269609,"s":"1234567890"}}}]
+< 42["message",{"room_name":"depth_diff_xrp_jpy","message":{"data":{"a":[],"b":[["26.212","1000.0000"],["26.815","0"]],"t":1570080270100,"s":"1234567893"}}}]
 ...
 
 ```
@@ -217,7 +226,8 @@ connected (press CTRL+C to quit)
                         "0"
                     ]
                 ],
-                "t": 1568344204624
+                "t": 1568344204624,
+                "s": "1234567890"
             }
         }
     }
@@ -236,9 +246,14 @@ Name | Type | Description
 asks | [string, string][] | [ask, amount][]
 bids | [string, string][] | [bid, amount][]
 timestamp | number | timestamp
+sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
+
+`sequenceId` は `depth_diff_{pair}` の `s` と共通のシーケンスIDです。
+
+使い方については [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95) の節をご覧ください。
 
 
-**サンプルコード:**
+<a name="depth-whole-sample-code"></a>**サンプルコード:**
 
 <details>
 <summary>wscat</summary>
@@ -286,9 +301,44 @@ connected (press CTRL+C to quit)
                         "19.4551"
                     ],
                 ],
-                "timestamp": 1568344476514
+                "timestamp": 1568344476514,
+                "sequenceId": "1234567890"
             }
         }
     }
 ]
 ```
+
+## 板情報の処理方法
+
+あるペアのリアルタイムな板情報は以下のように `depth_whole_{pair}` および `depth_diff_{pair}` roomのメッセージを処理することで得られます:
+
+1. `depth_whole_{pair}` および `depth_diff_{pair}` について受信を開始します。方法については[板情報](#depth-whole-sample-code)および[板情報の差分配信のサンプルコード](#depth-diff-sample-code)をご覧ください。
+1. `depth_diff_{pair}` メッセージたちを継続的にバッファ（記憶）します。
+1. `depth_diff_{pair}` メッセージを受信したら、
+    * その数量が「非0」なら、板のその気配値について追加または上書きします。
+    * その数量が「0」なら、板からその気配値を取り除きます。
+1.  `depth_whole_{pair}` メッセージを受信したら、
+    * 板をその `data` で置き換え、
+    * バッファしておいた `depth_diff_{pair}` たちを、
+        * その `s` の昇順で、
+        * その `s` が `depth_whole_{pair}` の `sequenceId` より大きいものについてのみ、
+    * 適用します。
+
+`depth_whole_{pair}` の処理方法について例示します。
+例えば以下の順でメッセージを受信した場合:
+
+> diff{s=3}, diff{s=5}, diff{s=6}, diff{s=8}, whole{sequenceId=5}
+
+`whole{sequenceId=5}` で板を置き換えた後、 `diff{s=6}` と `diff{s=8}` をこの順で適用しなおします。 `diff{s=3}` と `diff{s=5}` は無視します。
+
+シーケンスIDは（少なくともroomごとには）巻き戻ることはありませんので、
+バッファした `depth_diff_{pair}` メッセージたちのうち、その `s` が最後の `depth_whole_{pair}` メッセージの `sequenceId` より小さいか等しいものについて破棄することでリソース使用量を削減できます。
+
+**注意事項:**
+
+* `depth_diff_{pair}` メッセージはその時々のbest bid/askより200エントリに対するものしか配信されません。
+  このため、正確な板情報を得るには `depth_whole_{pair}` メッセージで定期的に置き換えし続ける必要があります。
+  （さもなくば価格変動時に変動方向の価格を見過すことになります。）
+* `depth_whole_{pair}` メッセージは `depth_diff_{pair}` メッセージより遅延することがあります。
+  このため、 `depth_diff_{pair}` メッセージをバッファし `depth_whole_{pair}` メッセージ受信時に再適用する必要があります。

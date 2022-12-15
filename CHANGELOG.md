@@ -1,5 +1,10 @@
-# CHANGELOG for Bitbank's API (2022-12-07)
+# CHANGELOG for Bitbank's API (2022-12-15)
 
+## 2022-12-15
+* Added description about REST API rate limit
+* Added sequenceId, applying instruction and caveats about depth to Public Stream
+
+---
 ## 2022-12-07
 * Added new pairs to
   * `pairs.md`
