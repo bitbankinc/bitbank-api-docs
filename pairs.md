@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2023-01-11)](#pairs-2023-01-11)
+- [pairs (2023-01-25)](#pairs-2023-01-25)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2023-01-11)
+# pairs (2023-01-25)
 
 The following is the list of pair.
 
@@ -50,3 +50,4 @@ ada_jpy | ada | jpy | false
 avax_jpy | avax | jpy | false
 axs_jpy | axs | jpy | false
 flr_jpy | flr | jpy | false
+sand_jpy | sand | jpy | false
