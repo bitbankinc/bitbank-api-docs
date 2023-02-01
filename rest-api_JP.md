@@ -20,9 +20,12 @@
       - [アクティブな注文を取得する](#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%81%AA%E6%B3%A8%E6%96%87%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+    - [入金](#%E5%85%A5%E9%87%91)
+      - [入金履歴を取得する](#%E5%85%A5%E9%87%91%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [出金](#%E5%87%BA%E9%87%91)
       - [出金アカウントを取得する](#%E5%87%BA%E9%87%91%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
-    - [出金リクエストを行う](#%E5%87%BA%E9%87%91%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86)
+      - [出金リクエストを行う](#%E5%87%BA%E9%87%91%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86)
+      - [出金履歴を取得する](#%E5%87%BA%E9%87%91%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [取引所ステータス](#%E5%8F%96%E5%BC%95%E6%89%80%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9)
       - [取引所ステータスを取得する](#%E5%8F%96%E5%BC%95%E6%89%80%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [銘柄詳細](#%E9%8A%98%E6%9F%84%E8%A9%B3%E7%B4%B0)
@@ -100,7 +103,7 @@ free_amount | string | 利用可能な量
 amount_precision | number | 精度
 onhand_amount | string | 保有量
 locked_amount | string | ロックされている量
-withdrawal_fee | string or { under: string, over: string, threshold:string } for `jpy` | 引き出し手数料
+withdrawal_fee | string or { under: string, over: string, threshold:string } for `jpy` | 出金手数料
 stop_deposit | boolean | 入金ステータス
 stop_withdrawal | boolean | 出金ステータス
 
@@ -651,6 +654,80 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
+### 入金
+
+#### 入金履歴を取得する
+
+```txt
+GET /user/deposit_history
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+asset | string | YES | アセット名: [アセット一覧](assets.md)
+count | number | NO | 取得する履歴数(最大100)
+since | number | NO | 開始UNIXタイムスタンプ(ミリ秒)
+end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | 入金識別uuid
+asset | string | アセット名: [アセット一覧](assets.md)
+amount | number | 入金数量
+txid | string | 入金トランザクションID(暗号資産の時のみ)
+status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
+found_at | number| 検知UNIXタイムスタンプ(ミリ秒)
+confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(ミリ秒、承認後のみ存在)
+
+
+**注意事項:**
+
+* 現時点では入金履歴レスポンスにはアドレス、宛先タグ、メモおよび銀行口座情報が含まれていません。他システムの送金・送信との突合にはtxidをお使いください。
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_history?asset=btc
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "deposits": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "amount": "string",
+        "txid": "string",
+        "status": "string",
+        "found_at": 0,
+        "confirmed_at": 0
+      }
+    ]
+  }
+}
+```
+
 ### 出金
 
 #### 出金アカウントを取得する
@@ -709,7 +786,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-### 出金リクエストを行う
+#### 出金リクエストを行う
 
 ```txt
 POST /user/request_withdrawal
@@ -721,7 +798,7 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | string | YES | アセット名: [アセット一覧](assets.md)
 uuid | string | YES | 出金アカウントのuuid
-amount | string | YES | 引き出し量
+amount | string | YES | 出金数量
 otp_token | string | NO | 二段階認証トークン(設定している場合、otp_tokenかsms_tokenのどちらか一方を指定)
 sms_token | string | NO | SMS認証トークン
 
@@ -729,14 +806,14 @@ sms_token | string | NO | SMS認証トークン
 
 Name | Type | Description
 ------------ | ------------ | ------------
-uuid | string | 出金アカウントのID
+uuid | string | 出金識別ID
 asset | string | アセット名: [アセット一覧](assets.md)
-account_uuid | string | アカウントのID
-amount | number | 引き出し量
-fee | number | 引き出し手数料
+account_uuid | string | 出金アカウントのID
+amount | number | 出金数量
+fee | number | 出金手数料
 label | string | ラベル
-address | string | 引き出し先アドレス
-txid | string | 引き出し送金トランザクションID
+address | string | 出金先アドレス
+txid | string | 出金トランザクションID
 status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | リクエスト日時(UnixTimeのミリ秒)
 
@@ -778,6 +855,95 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "txid": "string",
     "address": "string",
     "requested_at": 0
+  }
+}
+```
+
+#### 出金履歴を取得する
+
+```txt
+GET /user/withdrawal_history
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+asset | string | YES | アセット名: [アセット一覧](assets.md)
+count | number | NO | 取得する履歴数(最大100)
+since | number | NO | 開始UNIXタイムスタンプ(ミリ秒)
+end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | 出金識別uuid
+asset | string | アセット名: [アセット一覧](assets.md)
+account_uuid | string | 出金アカウントのID
+amount | number | 出金数量
+fee | number | 出金手数料
+label | string | 出金先アドレスにつけたラベル(暗号資産の時のみ)
+address | string | 出金先アドレス(暗号資産の時のみ)
+destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
+txid | string or null | 出金トランザクションID(暗号資産の時のみ)
+bank_name | string | 出金先銀行(法定通貨の時のみ)
+branch_name | string | 出金先銀行支店(法定通貨の時のみ)
+account_type | string | 出金先口座種別(法定通貨の時のみ)
+account_number | string | 出金先口座番号(法定通貨の時のみ)
+account_owner | string | 出金先口座名義(法定通貨の時のみ)
+status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
+requested_at | number| リクエスト日時UNIXタイムスタンプ(ミリ秒)
+
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_history?asset=btc
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "withdrawals": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "account_uuid": "string",
+        "amount": "string",
+        "fee": "string",
+
+        "label": "string",
+        "address": "string",
+        "txid": "string",
+        "destination_tag": 0,
+
+        "bank_name": "string",
+        "branch_name": "string",
+        "account_type": "string",
+        "account_number": "string",
+        "account_owner": "string",
+
+        "status": "string",
+        "requested_at": 0
+      }
+    ]
   }
 }
 ```

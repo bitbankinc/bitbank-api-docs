@@ -19,9 +19,12 @@
       - [Fetch active orders](#fetch-active-orders)
     - [Trade](#trade)
       - [Fetch trade history](#fetch-trade-history)
+    - [Deposit](#deposit)
+      - [Fetch deposit history](#fetch-deposit-history)
     - [Withdrawal](#withdrawal)
       - [Get withdrawal accounts](#get-withdrawal-accounts)
-    - [New withdrawal request](#new-withdrawal-request)
+      - [New withdrawal request](#new-withdrawal-request)
+      - [Fetch withdrawal history](#fetch-withdrawal-history)
     - [Status](#status)
       - [Get exchange status](#get-exchange-status)
     - [Settings](#settings)
@@ -600,7 +603,7 @@ pair | string | YES | pair enum: [pair list](pairs.md)
 count | number | NO | take limit (up to 1000)
 order_id | number | NO | order id
 since | number | NO | since unix timestamp
-end | number | NO | emd unix timestamp
+end | number | NO | end unix timestamp
 order | string | NO | histories in order(order enum: `asc` or `desc`, default to `desc`)
 
 **Response:**
@@ -657,6 +660,80 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "fee_amount_base": "string",
         "fee_amount_quote": "string",
         "executed_at": 0
+      }
+    ]
+  }
+}
+```
+
+### Deposit
+
+#### Fetch deposit history
+
+```txt
+GET /user/deposit_history
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+asset | string | YES | enum: [asset list](assets.md)
+count | number | NO | take limit (up to 100)
+since | number | NO | since unix timestamp
+end | number | NO | end unix timestamp
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | uuid for each deposit
+asset | string | enum: [asset list](assets.md)
+amount | number | deposit amount
+txid | string | deposit transaction id (only for crypto assets)
+status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
+found_at | number| found at unix timestamp (milliseconds)
+confirmed_at | number | confirmed (about to be added to your balance) at unix timestamp (milliseconds, exists only for confirmed one)
+
+
+**Caveat:**
+
+* The deposit history response currently does not contains address, destination tag, memo nor bank account. Use txid for matching asset flows with other systems.
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_history?asset=btc
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "deposits": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "amount": "string",
+        "txid": "string",
+        "status": "string",
+        "found_at": 0,
+        "confirmed_at": 0
       }
     ]
   }
@@ -721,7 +798,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-### New withdrawal request
+#### New withdrawal request
 
 ```txt
 POST /user/request_withdrawal
@@ -741,7 +818,7 @@ sms_token | string | NO | provide if MFA is set up
 
 Name | Type | Description
 ------------ | ------------ | ------------
-uuid | string | withdrawal account uuid
+uuid | string | uuid for each withdrawal
 asset | string | enum: [asset list](assets.md)
 account_uuid | string | account uuid
 amount | number | withdrawal amount
@@ -789,6 +866,95 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "txid": "string",
     "address": "string",
     "requested_at": 0
+  }
+}
+```
+
+#### Fetch withdrawal history
+
+```txt
+GET /user/withdrawal_history
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+asset | string | YES | enum: [asset list](assets.md)
+count | number | NO | take limit (up to 100)
+since | number | NO | since unix timestamp
+end | number | NO | end unix timestamp
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | uuid for each withdrawal
+asset | string | enum: [asset list](assets.md)
+account_uuid | string | account uuid
+amount | number | withdrawal amount
+fee | number | withdrawal fee
+label | string | withdrawal account label (only for crypto assets)
+address | string | withdrawal destination address (only for crypto assets)
+destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
+txid | string or null | withdrawal transaction id (only for crypto assets)
+bank_name | string | bank of withdrawal account (only for fiat assets)
+branch_name | string | bank branch of withdrawal account (only for fiat assets)
+account_type | string | type of withdrawal account (only for fiat assets)
+account_number | string | withdrawal account number (only for fiat assets)
+account_owner | string | owner of withdrawal account (only for fiat assets)
+status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
+requested_at | number| requested at unix timestamp (milliseconds)
+
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_history?asset=btc
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "withdrawals": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "account_uuid": "string",
+        "amount": "string",
+        "fee": "string",
+
+        "label": "string",
+        "address": "string",
+        "txid": "string",
+        "destination_tag": 0,
+
+        "bank_name": "string",
+        "branch_name": "string",
+        "account_type": "string",
+        "account_number": "string",
+        "account_owner": "string",
+
+        "status": "string",
+        "requested_at": 0
+      }
+    ]
   }
 }
 ```
