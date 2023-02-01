@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-01-25)
+# CHANGELOG for Bitbank's API (2023-02-01)
 
+## 2023-02-01
+* Some modifications to `rest-api.md` and `rest-api_JP.md`:
+  * Added deposit and withdrawal history API
+  * Fixed a typo, a wrong description, and aligned toc level.
+
+---
 ## 2023-01-25
 * Added new pairs to
   * `pairs.md`
