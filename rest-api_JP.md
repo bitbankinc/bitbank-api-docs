@@ -809,13 +809,19 @@ Name | Type | Description
 uuid | string | 出金識別ID
 asset | string | アセット名: [アセット一覧](assets.md)
 account_uuid | string | 出金アカウントのID
-amount | number | 出金数量
-fee | number | 出金手数料
-label | string | ラベル
-address | string | 出金先アドレス
-txid | string | 出金トランザクションID
+amount | string | 出金数量
+fee | string | 出金手数料
+label | string | 出金先アドレスにつけたラベル(暗号資産の時のみ)
+address | string | 出金先アドレス(暗号資産の時のみ)
+destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
+txid | string or null | 出金トランザクションID(暗号資産の時のみ)
+bank_name | string | 出金先銀行(法定通貨の時のみ)
+branch_name | string | 出金先銀行支店(法定通貨の時のみ)
+account_type | string | 出金先口座種別(法定通貨の時のみ)
+account_number | string | 出金先口座番号(法定通貨の時のみ)
+account_owner | string | 出金先口座名義(法定通貨の時のみ)
 status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
-requested_at | number | リクエスト日時(UnixTimeのミリ秒)
+requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒)
 
 
 **サンプルコード:**
@@ -847,13 +853,22 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   "data": {
     "uuid": "string",
     "asset": "string",
-    "amount": 0,
     "account_uuid": "string",
-    "fee": 0,
-    "status": "string",
+    "amount": "string",
+    "fee": "string",
+
     "label": "string",
-    "txid": "string",
     "address": "string",
+    "txid": "string",
+    "destination_tag": 0,
+
+    "bank_name": "string",
+    "branch_name": "string",
+    "account_type": "string",
+    "account_number": "string",
+    "account_owner": "string",
+
+    "status": "string",
     "requested_at": 0
   }
 }
@@ -893,7 +908,7 @@ account_type | string | 出金先口座種別(法定通貨の時のみ)
 account_number | string | 出金先口座番号(法定通貨の時のみ)
 account_owner | string | 出金先口座名義(法定通貨の時のみ)
 status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
-requested_at | number| リクエスト日時UNIXタイムスタンプ(ミリ秒)
+requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒)
 
 
 **サンプルコード:**

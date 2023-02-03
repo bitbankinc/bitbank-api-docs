@@ -821,13 +821,19 @@ Name | Type | Description
 uuid | string | uuid for each withdrawal
 asset | string | enum: [asset list](assets.md)
 account_uuid | string | account uuid
-amount | number | withdrawal amount
-fee | number | withdrawal fee
-label | string | withdrawal account label
-address | string | withdrawal address
-txid | string | withdrawal transaction id
+amount | string | withdrawal amount
+fee | string | withdrawal fee
+label | string | withdrawal account label (only for crypto assets)
+address | string | withdrawal destination address (only for crypto assets)
+destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
+txid | string or null | withdrawal transaction id (only for crypto assets)
+bank_name | string | bank of withdrawal account (only for fiat assets)
+branch_name | string | bank branch of withdrawal account (only for fiat assets)
+account_type | string | type of withdrawal account (only for fiat assets)
+account_number | string | withdrawal account number (only for fiat assets)
+account_owner | string | owner of withdrawal account (only for fiat assets)
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
-requested_at | number| requested at unix timestamp (milliseconds)
+requested_at | number | requested at unix timestamp (milliseconds)
 
 
 **Sample code:**
@@ -858,13 +864,22 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   "data": {
     "uuid": "string",
     "asset": "string",
-    "amount": 0,
     "account_uuid": "string",
-    "fee": 0,
-    "status": "string",
+    "amount": "string",
+    "fee": "string",
+
     "label": "string",
-    "txid": "string",
     "address": "string",
+    "txid": "string",
+    "destination_tag": 0,
+
+    "bank_name": "string",
+    "branch_name": "string",
+    "account_type": "string",
+    "account_number": "string",
+    "account_owner": "string",
+
+    "status": "string",
     "requested_at": 0
   }
 }
@@ -904,7 +919,7 @@ account_type | string | type of withdrawal account (only for fiat assets)
 account_number | string | withdrawal account number (only for fiat assets)
 account_owner | string | owner of withdrawal account (only for fiat assets)
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
-requested_at | number| requested at unix timestamp (milliseconds)
+requested_at | number | requested at unix timestamp (milliseconds)
 
 
 **Sample code:**

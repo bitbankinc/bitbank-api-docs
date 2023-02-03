@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-02-01)
+# CHANGELOG for Bitbank's API (2023-02-03)
 
+## 2023-02-03
+* Some modifications to `rest-api.md` and `rest-api_JP.md`:
+  * BREAKING: the type of `amount` and `fee` property in the response of withdrawal request has changed from `number` to `string`.
+  * Fixed withdrawal request response.
+
+---
 ## 2023-02-01
 * Some modifications to `rest-api.md` and `rest-api_JP.md`:
   * Added deposit and withdrawal history API
