@@ -678,7 +678,7 @@ Name | Type | Description
 uuid | string | 入金識別uuid
 asset | string | アセット名: [アセット一覧](assets.md)
 amount | number | 入金数量
-txid | string | 入金トランザクションID(暗号資産の時のみ)
+txid | string or null | 入金トランザクションID(暗号資産の時のみ)
 status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
 found_at | number| 検知UNIXタイムスタンプ(ミリ秒)
 confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(ミリ秒、承認後のみ存在)
