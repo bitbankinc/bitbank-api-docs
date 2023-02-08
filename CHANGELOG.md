@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-02-03)
+# CHANGELOG for Bitbank's API (2023-02-08)
 
+## 2023-02-08
+* Fixed type of tx_id in deposit history response
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2023-02-03
 * Some modifications to `rest-api.md` and `rest-api_JP.md`:
   * BREAKING: the type of `amount` and `fee` property in the response of withdrawal request has changed from `number` to `string`.

@@ -690,7 +690,7 @@ Name | Type | Description
 uuid | string | uuid for each deposit
 asset | string | enum: [asset list](assets.md)
 amount | number | deposit amount
-txid | string | deposit transaction id (only for crypto assets)
+txid | string or null | deposit transaction id (only for crypto assets)
 status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
 found_at | number| found at unix timestamp (milliseconds)
 confirmed_at | number | confirmed (about to be added to your balance) at unix timestamp (milliseconds, exists only for confirmed one)
