@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-02-08)
+# CHANGELOG for Bitbank's API (2023-03-08)
 
+## 2023-03-08
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2023-02-08
 * Fixed type of tx_id in deposit history response
   * `rest-api.md`
