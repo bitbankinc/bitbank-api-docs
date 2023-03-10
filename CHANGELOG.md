@@ -1,5 +1,9 @@
-# CHANGELOG for Bitbank's API (2023-03-08)
+# CHANGELOG for Bitbank's API (2023-03-13)
 
+## 2023-03-13
+- Added an error code 60017 to `errors.md` and `errors_JP.md`
+
+---
 ## 2023-03-08
 * Added new pairs to
   * `pairs.md`

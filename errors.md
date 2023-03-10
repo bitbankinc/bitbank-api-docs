@@ -150,6 +150,7 @@ The following is the list of Bitbank's error codes.
 - `60006` Order price has exceeded the lower limit.
 - `60011` Too many Simultaneous orders, current limit is 30.
 - `60016` Trigger price has exceeded the upper limit.
+- `60017` Withdrawal amount has exceeded the upper limit.
 
 ## STOP_UPDATE_REQUEST_SYSTEM_STATUS
 
