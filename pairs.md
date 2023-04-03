@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2023-03-08)](#pairs-2023-03-08)
+- [pairs (2023-04-03)](#pairs-2023-04-03)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2023-03-08)
+# pairs (2023-04-03)
 
 The following is the list of pair.
 
@@ -54,3 +54,4 @@ sand_jpy | sand | jpy | false
 gala_jpy | gala | jpy | false
 ape_jpy | ape | jpy | false
 chz_jpy | chz | jpy | false
+oas_jpy | oas | jpy | false
