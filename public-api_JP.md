@@ -33,8 +33,6 @@
 }
 ```
 
-- `GET`エンドポイントの場合、パラメータをクエリーストリングとして送信してください。
-
 ## エンドポイント一覧
 
 ### Ticker
@@ -68,7 +66,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": {
     "sell": "string",
     "buy": "string",
@@ -112,7 +110,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": [{
     "pair": "string",
     "sell": "string",
@@ -157,7 +155,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": [{
     "pair": "string",
     "sell": "string",
@@ -197,7 +195,7 @@ bids | [string, string][] | 買い板 [価格, 数量]
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": {
     "asks": [
       [
@@ -242,7 +240,7 @@ executed_at | number | 約定日時（UnixTimeのミリ秒）
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": {
     "transactions": [
       {
@@ -287,7 +285,7 @@ ohlcv | string[] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミ�
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": {
     "candlestick": [
       {
