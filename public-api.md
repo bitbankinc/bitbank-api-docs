@@ -33,8 +33,6 @@
 }
 ```
 
-- For `GET` endpoints, parameters must be sent as a `query string`.
-
 ## General endpoints
 
 ### Ticker
@@ -68,7 +66,7 @@ response format:
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": {
     "sell": "string",
     "buy": "string",
@@ -112,7 +110,7 @@ response format:
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": [{
     "pair": "string",
     "sell": "string",
@@ -157,7 +155,7 @@ response format:
 
 ```json
 {
-  "success": 0,
+  "success": 1,
   "data": [{
     "pair": "string",
     "sell": "string",
