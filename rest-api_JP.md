@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2022-04-26)](#private-rest-api%E4%B8%80%E8%A6%A7-2022-04-26)
+- [Private REST API一覧 (2023-04-10)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-04-10)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2022-04-26)
+# Private REST API一覧 (2023-04-10)
 
 ## API 概要
 
@@ -1049,7 +1049,11 @@ amount_digits | number | 数量切り捨て対象桁数(0起点)
 is_enabled | boolean | 通貨ペアステータス(有効/無効)
 stop_order | boolean | 注文停止ステータス
 stop_order_and_cancel | boolean | 注文および注文キャンセル停止ステータス
-
+stop_market_order | boolean | 成行注文停止ステータス
+stop_stop_order | boolean | 逆指値(成行)注文停止ステータス
+stop_stop_limit_order | boolean | 逆指値(指値)注文停止ステータス
+stop_buy_order | boolean | 買い注文停止ステータス
+stop_sell_order | boolean | 売り注文停止ステータス
 
 **サンプルコード:**
 
@@ -1088,7 +1092,12 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "amount_digits": 0,
         "is_enabled": true,
         "stop_order": false,
-        "stop_order_and_cancel": false
+        "stop_order_and_cancel": false,
+        "stop_market_order": false,
+        "stop_stop_order": false,
+        "stop_stop_limit_order": false,
+        "stop_buy_order": false,
+        "stop_sell_order": false
       }
     ]
   }

@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2022-04-26)](#private-rest-api-for-bitbank-2022-04-26)
+- [Private REST API for Bitbank (2023-04-10)](#private-rest-api-for-bitbank-2023-04-10)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -32,7 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2022-04-26)
+# Private REST API for Bitbank (2023-04-10)
 
 ## General API Information
 
@@ -1059,6 +1059,11 @@ amount_digits | number | amount digits count
 is_enabled | boolean | pair enable flag
 stop_order | boolean | order suspended flag
 stop_order_and_cancel | boolean | order and cancel suspended flag
+stop_market_order | boolean | "market order" suspended flag
+stop_stop_order | boolean | "stop (market) order" suspended flag
+stop_stop_limit_order | boolean | "stop limit order" suspended flag
+stop_buy_order | boolean | "buy order" suspended flag
+stop_sell_order | boolean | "sell order" suspended flag
 
 **Sample code:**
 
@@ -1096,7 +1101,12 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "amount_digits": 0,
         "is_enabled": true,
         "stop_order": false,
-        "stop_order_and_cancel": false
+        "stop_order_and_cancel": false,
+        "stop_market_order": false,
+        "stop_stop_order": false,
+        "stop_stop_limit_order": false,
+        "stop_buy_order": false,
+        "stop_sell_order": false
       }
     ]
   }

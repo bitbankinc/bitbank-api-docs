@@ -1,14 +1,22 @@
-# CHANGELOG for Bitbank's API (2023-04-03)
+# CHANGELOG for Bitbank's API (2023-04-10)
 
+## 2023-04-10
+* New Pair statuses: GET /spot/pairs in `rest-api.md` and `rest-api_JP.md`
+  * stop_market_order
+  * stop_stop_order
+  * stop_stop_limit_order
+  * stop_buy_order 
+  * stop_sell_order
+
+---
 ## 2023-04-03
 * Added new pairs to
   * `pairs.md`
   * `assets.md`
 
 ---
-
 ## 2023-03-13
-- Added an error code 60017 to `errors.md` and `errors_JP.md`
+* Added an error code 60017 to `errors.md` and `errors_JP.md`
 
 ---
 ## 2023-03-08
