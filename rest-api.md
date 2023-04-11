@@ -259,7 +259,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-type | string | `limit` or `market`
+type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
