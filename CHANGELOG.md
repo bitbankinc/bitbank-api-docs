@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-04-10)
+# CHANGELOG for Bitbank's API (2023-04-20)
 
+## 2023-04-20
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2023-04-10
 * New Pair statuses: GET /spot/pairs in `rest-api.md` and `rest-api_JP.md`
   * stop_market_order
