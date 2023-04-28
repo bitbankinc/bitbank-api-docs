@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2023-04-10)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-04-10)
+- [Private REST API一覧 (2023-04-27)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-04-27)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2023-04-10)
+# Private REST API一覧 (2023-04-27)
 
 ## API 概要
 
@@ -188,14 +188,32 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string |注文価格
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
+price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number or null | 有効期限(UnixTimeのミリ秒)
-triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
-trigger_price | string | トリガー価格
+triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/order?pair=btc_jpy&order_id=1" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/order?pair=btc_jpy\&order_id=1
+```
+
+</p>
+</details>
 
 
 **レスポンスのフォーマット:**
@@ -238,7 +256,7 @@ amount | string | YES | 注文量
 price | string | NO | 価格
 side | string | YES  | `buy` または `sell`
 type | string | YES | `limit` または `market` または `stop` または `stop_limit`
-post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ指定可能。デフォルト `false`）
+post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ `true` を指定可能。デフォルト `false`）
 trigger_price | string | NO | トリガー価格
 
 **Response:**
@@ -252,12 +270,12 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string | 注文価格
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
+price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-trigger_price | string | トリガー価格
+trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -328,14 +346,14 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string | 注文価格
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
+price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
 canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
-triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
-trigger_price | string | トリガー価格
+triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -512,19 +530,22 @@ end | number | NO | 終了UNIXタイムスタンプ
 
 Name | Type | Description
 ------------ | ------------ | ------------
+order_id | number | 注文ID
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
 type | string | `limit` または `market` または `stop` または `stop_limit`
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string | 注文価格
-post_only | boolean | Post Onlyかどうか（type = `limit`時のみ）
+price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-triggered_at | number or null | トリガー日時(UnixTimeのミリ秒)
-trigger_price | string | トリガー価格
+executed_at | number or undefined | 約定日時(UnixTimeのミリ秒)
+canceled_at | number or undefined | キャンセル日時(UnixTimeのミリ秒)
+triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string or undefined | トリガー価格（type = `sopt` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**

@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2022-04-26)](#public-api%E4%B8%80%E8%A6%A7-2022-04-26)
+- [Public API一覧 (2023-04-27)](#public-api%E4%B8%80%E8%A6%A7-2023-04-27)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -16,7 +16,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2022-04-26)
+# Public API一覧 (2023-04-27)
 
 ## API 概要
 
@@ -279,7 +279,8 @@ YYYY | string | YES | 日付 `YYYYMMDD` 形式または `YYYY` を指定
 
 Name | Type | Description
 ------------ | ------------ | ------------
-ohlcv | string[] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミリ秒**]
+type | string | 以下の期間から指定: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
+ohlcv | [string, string, string, string, string, number][] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミリ秒**]
 
 レスポンスのフォーマット:
 
@@ -292,7 +293,12 @@ ohlcv | string[] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミ�
         "type": "string",
         "ohlcv": [
           [
-            "string"
+            "string",
+            "string",
+            "string",
+            "string",
+            "string",
+            0
           ]
         ]
       }
