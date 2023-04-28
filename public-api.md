@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2022-04-26)](#public-rest-api-for-bitbank-2022-04-26)
+- [Public REST API for Bitbank (2023-04-27)](#public-rest-api-for-bitbank-2023-04-27)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -16,7 +16,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2022-04-26)
+# Public REST API for Bitbank (2023-04-27)
 
 ## General API Information
 
@@ -279,7 +279,8 @@ YYYY | string | YES | date formatted as `YYYY` or  `YYYYMMDD`
 
 Name | Type | Description
 ------------ | ------------ | ------------
-ohlcv | string[] | [open, high, low, close, volume, **unix timestamp (milliseconds)**]
+type | string | candle type enum: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
+ohlcv | [string, string, string, string, string, number][] | [open, high, low, close, volume, **unix timestamp (milliseconds)**]
 
 response format:
 
@@ -292,7 +293,12 @@ response format:
         "type": "string",
         "ohlcv": [
           [
-            "string"
+            "string",
+            "string",
+            "string",
+            "string",
+            "string",
+            0
           ]
         ]
       }

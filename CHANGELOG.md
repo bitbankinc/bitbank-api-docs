@@ -1,5 +1,13 @@
-# CHANGELOG for Bitbank's API (2023-04-20)
+# CHANGELOG for Bitbank's API (2023-04-27)
 
+## 2023-04-27
+* Fixed discrepancies between docs and reality
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2023-04-20
 * Added new pairs to
   * `pairs.md`

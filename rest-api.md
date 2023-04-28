@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2023-04-10)](#private-rest-api-for-bitbank-2023-04-10)
+- [Private REST API for Bitbank (2023-04-27)](#private-rest-api-for-bitbank-2023-04-27)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -32,7 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2023-04-10)
+# Private REST API for Bitbank (2023-04-27)
 
 ## General API Information
 
@@ -181,13 +181,13 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string | order price
-post_only | boolean | whether Post Only or not (present only if type = `limit`)
+price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number or null | expiration time in unix timestamp (milliseconds)
-triggered_at | number or null | triggered at unix timestamp (milliseconds)
-trigger_price | string | trigger price
+triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -263,12 +263,12 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string | order price
-post_only | boolean | whether Post Only or not (present only if type = `limit`)
+price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number or null | expiration time in unix timestamp (milliseconds)
-trigger_price | string | trigger price
+expire_at | number | expiration time in unix timestamp (milliseconds)
+trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -339,14 +339,14 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string | order price
-post_only | boolean | whether Post Only or not (present only if type = `limit`)
+price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number or null | expiration time in unix timestamp (milliseconds)
+expire_at | number | expiration time in unix timestamp (milliseconds)
 canceled_at | number | canceled at unix timestamp (milliseconds)
-triggered_at | number or null | triggered at unix timestamp (milliseconds)
-trigger_price | string | trigger price
+triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -524,19 +524,22 @@ end | number | NO | end unix timestamp
 
 Name | Type | Description
 ------------ | ------------ | ------------
+order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
 type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string | order price
-post_only | boolean | whether Post Only or not (present only if type = `limit`)
+price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number or null | expiration time in unix timestamp (milliseconds)
-triggered_at | number or null | triggered at unix timestamp (milliseconds)
-trigger_price | string | trigger price
+expire_at | number | expiration time in unix timestamp (milliseconds)
+executed_at | number or undefined | executed at unix timestamp (milliseconds)
+canceled_at | number or undefined | canceled at unix timestamp (milliseconds)
+triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
