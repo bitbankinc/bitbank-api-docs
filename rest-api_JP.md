@@ -197,6 +197,11 @@ triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（
 trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
+**注意事項:**
+
+* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（50009が返ります。）  
+  3ヶ月以上前の注文情報の取得にはお手数ですが[注文履歴の抽出ページ](https://app.bitbank.cc/account/data/orders/download)をご利用ください。
+
 **サンプルコード:**
 
 <details>
@@ -459,6 +464,11 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 order_ids | number[] | YES | 注文ID
+
+**注意事項:**
+
+* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（エラーとならず、結果に含まれません。）  
+  3ヶ月以上前の注文情報の取得にはお手数ですが[注文履歴の抽出ページ](https://app.bitbank.cc/account/data/orders/download)をご利用ください。
 
 **サンプルコード:**
 
