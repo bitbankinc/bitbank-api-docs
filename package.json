@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/bitbankinc/bitbank-api-docs#readme",
   "devDependencies": {
-    "doctoc": "^2.0.0",
-    "standard-version": "^9.3.0",
-    "textlint": "^11.9.1"
+    "doctoc": "^2.2.1",
+    "standard-version": "^9.5.0",
+    "textlint": "^13.3.2"
   }
 }

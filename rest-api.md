@@ -190,6 +190,11 @@ triggered_at | number or undefined | triggered at unix timestamp (milliseconds) 
 trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
+**Caveat:**
+
+* This API cannot fetch informations of an order that is executed or canceled more than 3 months ago. (it returns a 50009 error code.)  
+  Please use [the page of download order history](https://app.bitbank.cc/account/data/orders/download) instead for fetching those orders.
+
 **Sample code:**
 
 <details>
@@ -452,6 +457,11 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: [pair list](pairs.md)
 order_ids | number[] | YES | order ids
+
+**Caveat:**
+
+* This API cannot fetch informations of orders that is executed or canceled more than 3 months ago. (it don't return any error nor those orders.)  
+  Please use [the page of download order history](https://app.bitbank.cc/account/data/orders/download) instead for fetching those orders.
 
 **Sample code:**
 

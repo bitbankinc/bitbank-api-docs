@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-04-27)
+# CHANGELOG for Bitbank's API (2023-05-09)
 
+## 2023-05-09
+* Add a new caveat about getting order's info to
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2023-04-27
 * Fixed discrepancies between docs and reality
   * `public-api.md`
