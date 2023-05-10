@@ -1,4 +1,10 @@
-# CHANGELOG for Bitbank's API (2023-05-09)
+# CHANGELOG for Bitbank's API (2023-05-10)
+
+---
+## 2023-05-10
+* Added an error code 50038 to `errors.md` and `errors_JP.md`
+
+---
 
 ## 2023-05-09
 * Add a new caveat about getting order's info to
