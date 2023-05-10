@@ -2,7 +2,7 @@
 
 ---
 ## 2023-05-10
-* Added an error code 50038 to `errors.md` and `errors_JP.md`
+* Added error code 50038 to `errors.md` and `errors_JP.md`
 
 ---
 
