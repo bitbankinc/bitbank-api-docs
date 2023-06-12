@@ -1,7 +1,7 @@
-# CHANGELOG for Bitbank's API (2023-05-10)
+# CHANGELOG for Bitbank's API (2023-06-12)
 
 ---
-## 2023-05-10
+## 2023-06-12
 * Added error code 50038 to `errors.md` and `errors_JP.md`
 
 ---
