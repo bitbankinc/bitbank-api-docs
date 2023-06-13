@@ -139,6 +139,7 @@ The following is the list of Bitbank's error codes.
 - `50034` VASP not found.
 - `50035` Company information is not registerd.
 - `50037` We are temporarily restricting withdrawals while we verify your last deposit. Please try again in a few minutes.
+- `50038` Cannot withdraw to chosen VASP service.
 
 ## VALUE_ERROR
 
