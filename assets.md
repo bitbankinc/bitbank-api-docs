@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2023-04-20)](#assets-2023-04-20)
+- [assets (2023-06-15)](#assets-2023-06-15)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2023-04-20)
+# assets (2023-06-15)
 
 The following is the list of asset.
 
@@ -42,3 +42,4 @@ ape | ape coin
 chz | chiliz
 oas | oasys
 mana | decentraland
+grt | the graph
