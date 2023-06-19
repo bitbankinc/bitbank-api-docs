@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-06-15)
+# CHANGELOG for Bitbank's API (2023-06-20)
 
+## 2023-06-20
+* Clarified about the count limitation of order_ids of cancel_orders.
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2023-06-15
 * Added new pairs to
   * `pairs.md`
