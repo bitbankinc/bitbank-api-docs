@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2023-04-27)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-04-27)
+- [Private REST API一覧 (2023-06-20)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-06-20)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2023-04-27)
+# Private REST API一覧 (2023-06-20)
 
 ## API 概要
 
@@ -418,7 +418,7 @@ POST /user/spot/cancel_orders
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
-order_ids | number[] | YES | 注文ID
+order_ids | number[] | YES | 注文ID。最大30個まで指定可能
 
 **Response:**
 

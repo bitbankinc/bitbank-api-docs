@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2023-04-27)](#private-rest-api-for-bitbank-2023-04-27)
+- [Private REST API for Bitbank (2023-06-20)](#private-rest-api-for-bitbank-2023-06-20)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -32,7 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2023-04-27)
+# Private REST API for Bitbank (2023-06-20)
 
 ## General API Information
 
@@ -411,7 +411,7 @@ POST /user/spot/cancel_orders
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: [pair list](pairs.md)
-order_ids | number[] | YES | order ids
+order_ids | number[] | YES | order ids. Up to 30 ids can be specified
 
 **Response:**
 
