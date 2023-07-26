@@ -1,5 +1,12 @@
-# CHANGELOG for Bitbank's API (2023-06-20)
+# CHANGELOG for Bitbank's API (2023-07-14)
 
+
+## 2023-07-14
+* Updated error codes.
+  * `errors.md`.
+  * `errors_JP.md`.
+
+---
 ## 2023-06-20
 * Clarified about the count limitation of order_ids of cancel_orders.
   * `rest-api.md`
@@ -42,7 +49,7 @@
   * stop_market_order
   * stop_stop_order
   * stop_stop_limit_order
-  * stop_buy_order 
+  * stop_buy_order
   * stop_sell_order
 
 ---
