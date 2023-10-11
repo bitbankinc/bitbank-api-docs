@@ -701,6 +701,7 @@ end | number | NO | end unix timestamp
 Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | uuid for each deposit
+address | string | deposit address
 asset | string | enum: [asset list](assets.md)
 amount | number | deposit amount
 txid | string or null | deposit transaction id (only for crypto assets)
@@ -711,7 +712,7 @@ confirmed_at | number | confirmed (about to be added to your balance) at unix ti
 
 **Caveat:**
 
-* The deposit history response currently does not contains address, destination tag, memo nor bank account. Use txid for matching asset flows with other systems.
+* The deposit history response currently does not contain destination tag, memo and bank account. Use txid for matching asset flows with other systems.
 
 **Sample code:**
 

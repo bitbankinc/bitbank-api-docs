@@ -707,6 +707,7 @@ end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
 Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | 入金識別uuid
+address | string | 入金address
 asset | string | アセット名: [アセット一覧](assets.md)
 amount | number | 入金数量
 txid | string or null | 入金トランザクションID(暗号資産の時のみ)
@@ -717,7 +718,7 @@ confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(�
 
 **注意事項:**
 
-* 現時点では入金履歴レスポンスにはアドレス、宛先タグ、メモおよび銀行口座情報が含まれていません。他システムの送金・送信との突合にはtxidをお使いください。
+* 現時点では入金履歴レスポンスには宛先タグ、メモおよび銀行口座情報が含まれていません。他システムの送金・送信との突合にはtxidをお使いください。
 
 **サンプルコード:**
 
