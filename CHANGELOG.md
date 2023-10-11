@@ -1,6 +1,13 @@
 # CHANGELOG for Bitbank's API (2023-09-07)
 
 
+## 2023-10-03
+* Added address to GET /user/deposit_history response
+  * `rest-api.md`  
+  * `rest-api_JP.md`  
+
+---
+
 ## 2023-09-07
 * Added new pairs to
   * `pairs.md`
