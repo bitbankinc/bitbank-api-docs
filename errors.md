@@ -177,4 +177,4 @@ The following is the list of Bitbank's error codes.
 - `70020` Market order has been temporarily restricted.
 - `70021` Limit order price is over the threshold.
 - `70022` Stop limit order has been temporarily restricted.
-- `70022` Stop order has been temporarily restricted.
+- `70023` Stop order has been temporarily restricted.

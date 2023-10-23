@@ -866,7 +866,7 @@ requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)"
-export REQUEST_BODY='{"asset": "xrp", "uuid": "___your uuid___", amount: "1"}'
+export REQUEST_BODY='{"asset": "xrp", "uuid": "___your uuid___", "amount": "1"}'
 export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/request_withdrawal
