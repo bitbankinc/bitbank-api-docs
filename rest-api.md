@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2023-06-20)](#private-rest-api-for-bitbank-2023-06-20)
+- [Private REST API for Bitbank (2023-11-08)](#private-rest-api-for-bitbank-2023-11-08)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -32,7 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2023-06-20)
+# Private REST API for Bitbank (2023-11-08)
 
 ## General API Information
 
@@ -96,9 +96,10 @@ free_amount | string | free amount
 amount_precision | number | amount precision
 onhand_amount | string | onhand amount
 locked_amount | string | locked amount
-withdrawal_fee | string | withdrawal fee
-stop_deposit | boolean | deposit status
-stop_withdrawal | boolean | withdrawal status
+withdrawal_fee | { min: string, max: string } or { under: string, over: string, threshold:string } for `jpy` | withdrawal fee
+stop_deposit | boolean | deposit status（All networks: stop_deposit = `true`）
+stop_withdrawal | boolean | withdrawal status（All networks: stop_withdrawal = `true`）
+network_list | { asset: string, network: string, stop_deposit: boolean, stop_withdrawal: boolean, withdrawal_fee: string } or undefined for `jpy` | network list
 
 **Sample code:**
 
@@ -132,9 +133,21 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
-        "withdrawal_fee": "string",
+        "withdrawal_fee": {
+            "min": "string",
+            "max": "string"
+        },
         "stop_deposit": false,
         "stop_withdrawal": false,
+        "network_list": [
+            {
+                "asset": "string",
+                "network": "string",
+                "stop_deposit": false,
+                "stop_withdrawal": false,
+                "withdrawal_fee": "string"
+            }
+        ]
       },
       {
         "asset": "jpy",
@@ -233,7 +246,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "ordered_at": 0,
     "expire_at": 0,
     "triggered_at": 0,
-    "triger_price": "string",
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -703,6 +716,7 @@ Name | Type | Description
 uuid | string | uuid for each deposit
 address | string | deposit address
 asset | string | enum: [asset list](assets.md)
+network | string | enum: [network list](networks.md)
 amount | number | deposit amount
 txid | string or null | deposit transaction id (only for crypto assets)
 status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
@@ -743,6 +757,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       {
         "uuid": "string",
         "asset": "string",
+        "network": "string",
         "amount": "string",
         "txid": "string",
         "status": "string",
@@ -839,6 +854,7 @@ amount | string | withdrawal amount
 fee | string | withdrawal fee
 label | string | withdrawal account label (only for crypto assets)
 address | string | withdrawal destination address (only for crypto assets)
+network | string | enum (only for crypto assets): [network list](networks.md)
 destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
 txid | string or null | withdrawal transaction id (only for crypto assets)
 bank_name | string | bank of withdrawal account (only for fiat assets)
@@ -884,6 +900,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
     "label": "string",
     "address": "string",
+    "network": "string",
     "txid": "string",
     "destination_tag": 0,
 
@@ -925,6 +942,7 @@ amount | number | withdrawal amount
 fee | number | withdrawal fee
 label | string | withdrawal account label (only for crypto assets)
 address | string | withdrawal destination address (only for crypto assets)
+network | string | enum (only for crypto assets): [network list](networks.md)
 destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
 txid | string or null | withdrawal transaction id (only for crypto assets)
 bank_name | string | bank of withdrawal account (only for fiat assets)
@@ -971,6 +989,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
         "label": "string",
         "address": "string",
+        "network": "string",
         "txid": "string",
         "destination_tag": 0,
 
