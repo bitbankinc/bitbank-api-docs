@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2023-06-20)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-06-20)
+- [Private REST API一覧 (2023-11-08)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-11-08)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2023-06-20)
+# Private REST API一覧 (2023-11-08)
 
 ## API 概要
 
@@ -103,9 +103,10 @@ free_amount | string | 利用可能な量
 amount_precision | number | 精度
 onhand_amount | string | 保有量
 locked_amount | string | ロックされている量
-withdrawal_fee | string or { under: string, over: string, threshold:string } for `jpy` | 出金手数料
-stop_deposit | boolean | 入金ステータス
-stop_withdrawal | boolean | 出金ステータス
+withdrawal_fee | { min: string, max: string } or { under: string, over: string, threshold:string } for `jpy` | 出金手数料
+stop_deposit | boolean | 入金ステータス（全ネットワークが入金停止 = `true`）
+stop_withdrawal | boolean | 出金ステータス（全ネットワークが出金停止 = `true`）
+network_list | { asset: string, network: string, stop_deposit: boolean, stop_withdrawal: boolean, withdrawal_fee: string } or undefined for `jpy` | ネットワーク一覧
 
 **サンプルコード:**
 
@@ -139,9 +140,21 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
-        "withdrawal_fee": "string",
+        "withdrawal_fee": {
+            "min": "string",
+            "max": "string"
+        },
         "stop_deposit": false,
         "stop_withdrawal": false,
+        "network_list": [
+            {
+                "asset": "string",
+                "network": "string",
+                "stop_deposit": false,
+                "stop_withdrawal": false,
+                "withdrawal_fee": "string"
+            }
+        ]
       },
       {
         "asset": "jpy",
@@ -240,7 +253,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "ordered_at": 0,
     "expire_at": 0,
     "triggered_at": 0,
-    "triger_price": "string",
+    "trigger_price": "string",
     "status": "string"
   }
 }
@@ -709,6 +722,7 @@ Name | Type | Description
 uuid | string | 入金識別uuid
 address | string | 入金address
 asset | string | アセット名: [アセット一覧](assets.md)
+network | string | ネットワーク名: [ネットワーク一覧](networks.md)
 amount | number | 入金数量
 txid | string or null | 入金トランザクションID(暗号資産の時のみ)
 status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
@@ -749,6 +763,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       {
         "uuid": "string",
         "asset": "string",
+        "network": "string",
         "amount": "string",
         "txid": "string",
         "status": "string",
@@ -780,6 +795,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | 出金アカウントのID
 label | string | ラベル
+network | string | ネットワーク名: [ネットワーク一覧](networks.md)
 address | string | 出金先アドレス
 
 **サンプルコード:**
@@ -811,6 +827,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       {
         "uuid": "string",
         "label": "string",
+        "network": "string",
         "address": "string"
       }
     ]
@@ -845,6 +862,7 @@ amount | string | 出金数量
 fee | string | 出金手数料
 label | string | 出金先アドレスにつけたラベル(暗号資産の時のみ)
 address | string | 出金先アドレス(暗号資産の時のみ)
+network | string | ネットワーク名(暗号資産の時のみ): [ネットワーク一覧](networks.md)
 destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
 txid | string or null | 出金トランザクションID(暗号資産の時のみ)
 bank_name | string | 出金先銀行(法定通貨の時のみ)
@@ -891,6 +909,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
     "label": "string",
     "address": "string",
+    "network": "string",
     "txid": "string",
     "destination_tag": 0,
 
@@ -932,6 +951,7 @@ amount | number | 出金数量
 fee | number | 出金手数料
 label | string | 出金先アドレスにつけたラベル(暗号資産の時のみ)
 address | string | 出金先アドレス(暗号資産の時のみ)
+network | string | ネットワーク名(暗号資産の時のみ): [ネットワーク一覧](networks.md)
 destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
 txid | string or null | 出金トランザクションID(暗号資産の時のみ)
 bank_name | string | 出金先銀行(法定通貨の時のみ)
@@ -978,6 +998,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
         "label": "string",
         "address": "string",
+        "network": "string",
         "txid": "string",
         "destination_tag": 0,
 

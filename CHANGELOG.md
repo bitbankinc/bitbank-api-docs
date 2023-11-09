@@ -1,4 +1,11 @@
-# CHANGELOG for Bitbank's API (2023-10-23)
+# CHANGELOG for Bitbank's API (2023-11-08)
+
+## 2023-11-08
+* Added new docs
+  * `networks.md`
+* Added network fields to
+  * `rest-api.md`.
+  * `rest-api_JP.md`.
 
 ## 2023-10-23
 * Added new pairs to
