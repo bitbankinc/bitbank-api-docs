@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2023-11-08)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-11-08)
+- [Private REST API一覧 (2023-11-17)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-11-17)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -33,7 +33,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2023-11-08)
+# Private REST API一覧 (2023-11-17)
 
 ## API 概要
 
@@ -201,18 +201,18 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
-post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
+price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
-expire_at | number or null | 有効期限(UnixTimeのミリ秒)
-triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
+triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **注意事項:**
 
-* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（50009が返ります。）  
+* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（50009が返ります。）
   3ヶ月以上前の注文情報の取得にはお手数ですが[注文履歴の抽出ページ](https://app.bitbank.cc/account/data/orders/download)をご利用ください。
 
 **サンプルコード:**
@@ -288,13 +288,17 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
-post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
+price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+
+**注意事項:**
+- circuit_break_info.mode が `NONE` 以外の場合は成行注文を行うことができず、`70020`エラーが返ります。
+- circuit_break_info.mode が `NONE` 以外の場合は `post_only` オプションは `false` として扱われます。
 
 **サンプルコード:**
 
@@ -364,14 +368,14 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
-post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
+price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
 canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
-triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string or undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -480,7 +484,7 @@ order_ids | number[] | YES | 注文ID
 
 **注意事項:**
 
-* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（エラーとならず、結果に含まれません。）  
+* このAPIでは3ヶ月以上前の約定済またはキャンセル済注文を取得できません。（エラーとならず、結果に含まれません。）
   3ヶ月以上前の注文情報の取得にはお手数ですが[注文履歴の抽出ページ](https://app.bitbank.cc/account/data/orders/download)をご利用ください。
 
 **サンプルコード:**
@@ -560,15 +564,15 @@ type | string | `limit` または `market` または `stop` または `stop_limi
 start_amount | string | 注文時の数量
 remaining_amount | string | 未約定の数量
 executed_amount| string | 約定済み数量
-price | string or undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
-post_only | boolean or undefined | Post Onlyかどうか（type = `limit`時のみ）
+price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
+post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number | 有効期限(UnixTimeのミリ秒)
-executed_at | number or undefined | 約定日時(UnixTimeのミリ秒)
-canceled_at | number or undefined | キャンセル日時(UnixTimeのミリ秒)
-triggered_at | number or undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string or undefined | トリガー価格（type = `sopt` または `stop_limit` 時のみ）
+executed_at | number \| undefined | 約定日時(UnixTimeのミリ秒)
+canceled_at | number \| undefined | キャンセル日時(UnixTimeのミリ秒)
+triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `sopt` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -724,7 +728,7 @@ address | string | 入金address
 asset | string | アセット名: [アセット一覧](assets.md)
 network | string | ネットワーク名: [ネットワーク一覧](networks.md)
 amount | number | 入金数量
-txid | string or null | 入金トランザクションID(暗号資産の時のみ)
+txid | string \| null | 入金トランザクションID(暗号資産の時のみ)
 status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
 found_at | number| 検知UNIXタイムスタンプ(ミリ秒)
 confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(ミリ秒、承認後のみ存在)
@@ -864,7 +868,7 @@ label | string | 出金先アドレスにつけたラベル(暗号資産の時�
 address | string | 出金先アドレス(暗号資産の時のみ)
 network | string | ネットワーク名(暗号資産の時のみ): [ネットワーク一覧](networks.md)
 destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
-txid | string or null | 出金トランザクションID(暗号資産の時のみ)
+txid | string \| null | 出金トランザクションID(暗号資産の時のみ)
 bank_name | string | 出金先銀行(法定通貨の時のみ)
 branch_name | string | 出金先銀行支店(法定通貨の時のみ)
 account_type | string | 出金先口座種別(法定通貨の時のみ)
@@ -953,7 +957,7 @@ label | string | 出金先アドレスにつけたラベル(暗号資産の時�
 address | string | 出金先アドレス(暗号資産の時のみ)
 network | string | ネットワーク名(暗号資産の時のみ): [ネットワーク一覧](networks.md)
 destination_tag | number or string | 出金先宛先タグまたはメモ(タグまたはメモを指定した暗号資産の出金時のみ)
-txid | string or null | 出金トランザクションID(暗号資産の時のみ)
+txid | string \| null | 出金トランザクションID(暗号資産の時のみ)
 bank_name | string | 出金先銀行(法定通貨の時のみ)
 branch_name | string | 出金先銀行支店(法定通貨の時のみ)
 account_type | string | 出金先口座種別(法定通貨の時のみ)

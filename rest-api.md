@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2023-11-08)](#private-rest-api-for-bitbank-2023-11-08)
+- [Private REST API for Bitbank (2023-11-17)](#private-rest-api-for-bitbank-2023-11-17)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -32,7 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2023-11-08)
+# Private REST API for Bitbank (2023-11-17)
 
 ## General API Information
 
@@ -194,18 +194,18 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
-post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
+price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number or null | expiration time in unix timestamp (milliseconds)
-triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
+expire_at | number \| null | expiration time in unix timestamp (milliseconds)
+triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Caveat:**
 
-* This API cannot fetch informations of an order that is executed or canceled more than 3 months ago. (it returns a 50009 error code.)  
+* This API cannot fetch informations of an order that is executed or canceled more than 3 months ago. (it returns a 50009 error code.)
   Please use [the page of download order history](https://app.bitbank.cc/account/data/orders/download) instead for fetching those orders.
 
 **Sample code:**
@@ -281,13 +281,17 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
-post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
+price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number | expiration time in unix timestamp (milliseconds)
-trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+
+**Caveat:**
+- Except for circuit_break_info.mode is `NONE`, market order are restricted. If restricted, it returns 70020 error code.
+- `post_only` option is treated as `false` except, circuit_break_info.mode is `NONE`.
 
 **Sample code:**
 
@@ -357,14 +361,14 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
-post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
+price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number | expiration time in unix timestamp (milliseconds)
 canceled_at | number | canceled at unix timestamp (milliseconds)
-triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
+triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -473,7 +477,7 @@ order_ids | number[] | YES | order ids
 
 **Caveat:**
 
-* This API cannot fetch informations of orders that is executed or canceled more than 3 months ago. (it don't return any error nor those orders.)  
+* This API cannot fetch informations of orders that is executed or canceled more than 3 months ago. (it don't return any error nor those orders.)
   Please use [the page of download order history](https://app.bitbank.cc/account/data/orders/download) instead for fetching those orders.
 
 **Sample code:**
@@ -554,15 +558,15 @@ type | string | `limit` or `market` or `stop` or `stop_limit`
 start_amount | string | order qty when placed
 remaining_amount | string | qty not executed
 executed_amount| string | qty executed
-price | string or undefined | order price (present only if type = `limit` or `stop_limit`)
-post_only | boolean or undefined | whether Post Only or not (present only if type = `limit`)
+price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
+post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number | expiration time in unix timestamp (milliseconds)
-executed_at | number or undefined | executed at unix timestamp (milliseconds)
-canceled_at | number or undefined | canceled at unix timestamp (milliseconds)
-triggered_at | number or undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string or undefined | trigger price (present only if type = `stop` or `stop_limit`)
+executed_at | number \| undefined | executed at unix timestamp (milliseconds)
+canceled_at | number \| undefined | canceled at unix timestamp (milliseconds)
+triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -718,7 +722,7 @@ address | string | deposit address
 asset | string | enum: [asset list](assets.md)
 network | string | enum: [network list](networks.md)
 amount | number | deposit amount
-txid | string or null | deposit transaction id (only for crypto assets)
+txid | string \| null | deposit transaction id (only for crypto assets)
 status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
 found_at | number| found at unix timestamp (milliseconds)
 confirmed_at | number | confirmed (about to be added to your balance) at unix timestamp (milliseconds, exists only for confirmed one)
@@ -856,7 +860,7 @@ label | string | withdrawal account label (only for crypto assets)
 address | string | withdrawal destination address (only for crypto assets)
 network | string | enum (only for crypto assets): [network list](networks.md)
 destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
-txid | string or null | withdrawal transaction id (only for crypto assets)
+txid | string \| null | withdrawal transaction id (only for crypto assets)
 bank_name | string | bank of withdrawal account (only for fiat assets)
 branch_name | string | bank branch of withdrawal account (only for fiat assets)
 account_type | string | type of withdrawal account (only for fiat assets)
@@ -944,7 +948,7 @@ label | string | withdrawal account label (only for crypto assets)
 address | string | withdrawal destination address (only for crypto assets)
 network | string | enum (only for crypto assets): [network list](networks.md)
 destination_tag | number or string | withdrawal destination tag or memo (only for crypto that have it)
-txid | string or null | withdrawal transaction id (only for crypto assets)
+txid | string \| null | withdrawal transaction id (only for crypto assets)
 bank_name | string | bank of withdrawal account (only for fiat assets)
 branch_name | string | bank branch of withdrawal account (only for fiat assets)
 account_type | string | type of withdrawal account (only for fiat assets)

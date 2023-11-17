@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2022-11-10)](#web-socket-streams-for-bitbank-2022-11-10)
+- [Web Socket Streams for Bitbank (2023-11-17)](#web-socket-streams-for-bitbank-2023-11-17)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -12,10 +12,11 @@
     - [Depth Diff](#depth-diff)
     - [Depth Whole](#depth-whole)
   - [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly)
+  - [Circuit Break Info](#circuit-break-info)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2022-11-10)
+# Web Socket Streams for Bitbank (2023-11-17)
 
 ## General WSS information
 
@@ -29,6 +30,8 @@
 ### Ticker
 
 Ticker channel name is `ticker_{pair}`, available pairs are written in [pair list](pairs.md).
+
+Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
 **Response:**
 
@@ -154,12 +157,18 @@ connected (press CTRL+C to quit)
 
 Depth Diff channel name is `depth_diff_{pair}`, available pairs are written in [pair list](pairs.md).
 
+Except for circuit_break_info.mode is `NONE`, a and b price possibly cross.
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
+ao | string \| undefined | optional. The quantity of asks over the highest price of asks orders. If there is no change in quantity, it will not be included in the message.
+bu | string \| undefined | optional. The quantity of bids under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
+au | string \| undefined | optional. The quantity of asks under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
+bo | string \| undefined | optional. The quantity of bids over the highest price of asks orders. If there is no change in quantity, it will not be included in the message.
 t | number | published at unix timestamp (milliseconds)
 s | string | sequence id, increased monotonically but not always consecutive
 
@@ -220,6 +229,8 @@ connected (press CTRL+C to quit)
                         "0"
                     ]
                 ],
+                "ao": "1",
+                "bu": "1",
                 "t": 1568344204624,
                 "s": "1234567890"
             }
@@ -232,12 +243,18 @@ connected (press CTRL+C to quit)
 
 Whole depth channel name is `depth_whole_{pair}`, available pairs are written in [pair list](pairs.md).
 
+Except for circuit_break_info.mode is `NONE`, asks and bids price possibly cross.
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
 asks | [string, string][] | [ask, amount][]
 bids | [string, string][] | [bid, amount][]
+asks_over | string | the quantity of asks over the highest price of asks orders.
+bids_under | string | the quantity of bids under the lowest price of bids orders.
+asks_under | string | the quantity of asks under the lowest price of asks orders. Usually "0" in `NORMAL` mode.
+bids_over | string | the quantity of bids over the highest price of bids orders. Usually "0" in `NORMAL` mode.
 timestamp | number | published at timestamp
 sequenceId | string | sequence id, increased monotonically but not always consecutive
 
@@ -294,8 +311,80 @@ connected (press CTRL+C to quit)
                         "19.4551"
                     ],
                 ],
+                "asks_over": "0.123",
+                "bids_under": "0.123",
+                "asks_under": "0",
+                "bids_over": "0",
                 "timestamp": 1568344476514,
                 "sequenceId": "1234567890"
+            }
+        }
+    }
+]
+```
+
+### Circuit Break Info
+
+Get circuit break informations.
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+mode | string | enum: `NONE`, `CIRCUIT_BREAK`, `FULL_RANGE_CIRCUIT_BREAK`, `RESUMPTION`, `LISTING`
+estimated_itayose_price | string \| null | estimated price. Null if mode is `NONE` or when there is no estimated price.
+estimated_itayose_amount | string \| null | estimated amount. Null if mode is `NONE`.
+itayose_upper_price | string \| null | itayose price range upper limit. Null if mode is in `NONE`, `FULL_RANGE_CIRCUIT_BREAK` or `LISTING`.
+itayose_lower_price | string \| null | itayose price range lower limit. Null if mode is in `NONE`, `FULL_RANGE_CIRCUIT_BREAK` or `LISTING`.
+upper_trigger_price | string \| null | upper trigger price. Null if mode is not `NONE`.
+lower_trigger_price | string \| null | lower trigger price. Null if mode is not `NONE`.
+fee_type | string | enum: `NORMAL`, `SELL_MAKER`, `BUY_MAKER`, `DYNAMIC`
+reopen_timestamp | number \| null | reopen timestamp(milliseconds). Null if mode is `NONE`, or reopen timestamp is undetermined yet.
+timestamp | number | ticked at unix timestamp (milliseconds)
+
+For details on `mode` and `fee_type`, please check the [Circuit breaker system](https://bitbank.cc/docs/circuit-breaker-mode/) page.
+
+**Sample code:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
+
+connected (press CTRL+C to quit)
+< 0{"sid":"PG3FbI0WrKIP7hKMABH_","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","circuit_break_info_xrp_jpy"]
+< 42["message",{"room_name":"circuit_break_info_xrp_jpy","message":{"data":{"mode":"NONE","estimated_itayose_price":null,"estimated_itayose_amount":null,"itayose_upper_price":null,"itayose_lower_price":null,"upper_trigger_price":"1200000","lower_trigger_price":"800000","fee_type":"NORMAL","reopen_timestamp":null,"timestamp":1570080162855}}}]
+< 42["message",{"room_name":"circuit_break_info_xrp_jpy","message":{"data":{"mode":"CIRCUIT_BREAK","estimated_itayose_price":"1000000","estimated_itayose_amount":null,"itayose_upper_price":"1300000","itayose_lower_price":"800000","upper_trigger_price":null,"lower_trigger_price":null,"fee_type":"SELL_MAKER","reopen_timestamp":1234573890000,"timestamp":1570080162856}}}]
+...
+
+```
+
+</p>
+</details>
+
+**Response format:**
+
+```json
+[
+    "message",
+    {
+        "room_name": "circuit_break_info_btc_jpy",
+        "message": {
+            "data": {
+              "mode": "string",
+              "estimated_itayose_price": "string",
+              "estimated_itayose_amount": "string",
+              "itayose_upper_price": "string",
+              "itayose_lower_price": "string",
+              "upper_trigger_price": "string",
+              "lower_trigger_price": "string",
+              "fee_type": "string",
+              "reopen_timestamp": 0,
+              "timestamp": 0
             }
         }
     }

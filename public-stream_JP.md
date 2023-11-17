@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [リアルタイムデータ配信API (2022-11-10)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2022-11-10)
+- [リアルタイムデータ配信API (2023-11-17)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2023-11-17)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [WSチャンネル一覧](#ws%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E4%B8%80%E8%A6%A7)
     - [ティッカー](#%E3%83%86%E3%82%A3%E3%83%83%E3%82%AB%E3%83%BC)
@@ -12,10 +12,11 @@
     - [板情報の差分配信](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%B7%AE%E5%88%86%E9%85%8D%E4%BF%A1)
     - [板情報](#%E6%9D%BF%E6%83%85%E5%A0%B1)
   - [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95)
+  - [サーキットブレイク情報](#%E3%82%B5%E3%83%BC%E3%82%AD%E3%83%83%E3%83%88%E3%83%96%E3%83%AC%E3%82%A4%E3%82%AF%E6%83%85%E5%A0%B1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2022-11-10)
+# リアルタイムデータ配信API (2023-11-17)
 
 ## API 概要
 
@@ -30,6 +31,8 @@
 
 ティッカーのwsチャンネルの名前： `ticker_{pair}`。
 通貨ペアの一覧: [ペア一覧](pairs.md)。
+
+circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
 **Response:**
 
@@ -159,12 +162,18 @@ connected (press CTRL+C to quit)
 板情報の差分配信のwsチャンネルの名前： `depth_diff_{pair}`。
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
+circuit_break_info.mode が `NONE` 以外の場合、aとbが反転する場合があります。
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
+ao | string \| undefined | asksの最高値よりも高いasksの数量。数量の変動がない場合はメッセージに含まれません。
+bu | string \| undefined | bidsの最安値よりも安いbidsの数量。数量の変動がない場合はメッセージに含まれません。
+au | string \| undefined | bidsの最安値よりも安いasksの数量。数量の変動がない場合はメッセージに含まれません。
+bo | string \| undefined | asksの最高値よりも高いbidsの数量。数量の変動がない場合はメッセージに含まれません。
 t | number | 日時（UnixTimeのミリ秒）
 s | string | シーケンスID、単調増加しますが連続しているとは限りません
 
@@ -226,6 +235,8 @@ connected (press CTRL+C to quit)
                         "0"
                     ]
                 ],
+                "ao": "1",
+                "bu": "1",
                 "t": 1568344204624,
                 "s": "1234567890"
             }
@@ -239,12 +250,18 @@ connected (press CTRL+C to quit)
 板情報のwsチャンネルの名前： `depth_whole_{pair}`
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
+circuit_break_info.mode が `NONE` 以外の場合、asksとbidsが反転する場合があります。
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
 asks | [string, string][] | [ask, amount][]
 bids | [string, string][] | [bid, amount][]
+asks_over | string | asksの最高値よりも高いasksの数量
+bids_under | string | bidsの最安値よりも安いbidsの数量
+asks_under | string | asksの最安値よりも安いasksの数量。通常モードの場合は `0`
+bids_over | string | bidsの最高値よりも高いbidsの数量。通常モードの場合は `0`
 timestamp | number | timestamp
 sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
 
@@ -301,8 +318,80 @@ connected (press CTRL+C to quit)
                         "19.4551"
                     ],
                 ],
+                "asks_over": "0.123",
+                "bids_under": "0.123",
+                "asks_under": "0",
+                "bids_over": "0",
                 "timestamp": 1568344476514,
                 "sequenceId": "1234567890"
+            }
+        }
+    }
+]
+```
+
+### サーキットブレイク情報
+
+[Public API] サーキットブレイク情報を取得。
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+mode | string | `NONE` または `CIRCUIT_BREAK` または `FULL_RANGE_CIRCUIT_BREAK` または `RESUMPTION` または `LISTING`
+upper_trigger_price | string \| null | CB突入判定価格上限。上場中で基準価格が無い場合、CB中はnull
+lower_trigger_price | string \| null | CB突入判定価格下限。上場中で基準価格が無い場合、CB中はnull
+fee_type | string | `NORMAL` または `SELL_MAKER` または `BUY_MAKER` または `DYNAMIC`
+estimated_itayose_price | string \| null | 見積価格。ザラ場または見積価格が無い場合はnull
+estimated_itayose_amount | string \| null | 見積数量。ザラ場であればnull
+itayose_upper_price | string \| null | 参照価格レンジ上限。ザラ場、無期限、上場準備時はnull
+itayose_lower_price | string \| null | 参照価格レンジ下限。ザラ場、無期限、上場準備時はnull
+reopen_timestamp | number \| null | サーキットブレーク終了予定時刻（UnixTimeのミリ秒）。ザラ場、無期限、再開準備でCB終了予定時刻がない場合はnull
+timestamp | number | 日時（UnixTimeのミリ秒）
+
+`mode` および `fee_type` の詳細は[サーキットブレーカー制度](https://bitbank.cc/docs/circuit-breaker-mode/)のページをご確認ください。
+
+**サンプルコード:**
+
+<details>
+<summary>wscat</summary>
+<p>
+
+```sh
+$ wscat -c 'wss://stream.bitbank.cc/socket.io/?EIO=4&transport=websocket'
+
+connected (press CTRL+C to quit)
+< 0{"sid":"PG3FbI0WrKIP7hKMABH_","upgrades":[],"pingInterval":25000,"pingTimeout":60000}
+< 40
+> 42["join-room","circuit_break_info_xrp_jpy"]
+< 42["message",{"room_name":"circuit_break_info_xrp_jpy","message":{"data":{"mode":"NONE","estimated_itayose_price":null,"estimated_itayose_amount":null,"itayose_upper_price":null,"itayose_lower_price":null,"upper_trigger_price":"1200000","lower_trigger_price":"800000","fee_type":"NORMAL","reopen_timestamp":null,"timestamp":1570080162855}}}]
+< 42["message",{"room_name":"circuit_break_info_xrp_jpy","message":{"data":{"mode":"CIRCUIT_BREAK","estimated_itayose_price":"1000000","estimated_itayose_amount":null,"itayose_upper_price":"1300000","itayose_lower_price":"800000","upper_trigger_price":null,"lower_trigger_price":null,"fee_type":"SELL_MAKER","reopen_timestamp":1234573890000,"timestamp":1570080162856}}}]
+...
+
+```
+
+</p>
+</details>
+
+**レスポンスのフォーマット:**
+
+```json
+[
+    "message",
+    {
+        "room_name": "circuit_break_info_btc_jpy",
+        "message": {
+            "data": {
+              "mode": "string",
+              "estimated_itayose_price": "string",
+              "estimated_itayose_amount": "string",
+              "itayose_upper_price": "string",
+              "itayose_lower_price": "string",
+              "upper_trigger_price": "string",
+              "lower_trigger_price": "string",
+              "fee_type": "string",
+              "reopen_timestamp": 0,
+              "timestamp": 0
             }
         }
     }
