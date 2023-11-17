@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2023-04-27)](#public-rest-api-for-bitbank-2023-04-27)
+- [Public REST API for Bitbank (2023-11-17)](#public-rest-api-for-bitbank-2023-11-17)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -13,10 +13,11 @@
     - [Depth](#depth)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)
+    - [Circuit Break Info](#circuit-break-info)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2023-04-27)
+# Public REST API for Bitbank (2023-11-17)
 
 ## General API Information
 
@@ -38,6 +39,8 @@
 ### Ticker
 
 Get Ticker information
+
+Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
 ```txt
 GET /{pair}/ticker
@@ -84,6 +87,8 @@ response format:
 
 Get All Tickers information
 
+Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+
 ```txt
 GET /tickers
 ```
@@ -128,6 +133,8 @@ response format:
 ### TickersJPY
 
 Get All JPY Pair Tickers information
+
+Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
 ```txt
 GET /tickers_jpy
@@ -174,6 +181,17 @@ response format:
 
 Get Depth information.
 
+#### In circuit_break_info.mode is `NONE` or estimated price is null
+
+- Asks and bids data is restricted to 200 entries each from best bid offer.
+- Asks and bids price never cross.
+
+#### In circuit_break_info.mode is not `NONE` and estimated price is not null
+
+- Asks and bids data is restricted to 200 entries each around the estimated price. (Max 400 entries)
+- Asks and bids price possibly cross.
+- asks_under, bids_over possibly includes the quantity of orders which price is out of range.
+
 ```txt
 GET /{pair}/depth
 ```
@@ -190,6 +208,12 @@ Name | Type | Description
 ------------ | ------------ | ------------
 asks | [string, string][] | array of [price, amount]
 bids | [string, string][] | array of [price, amount]
+asks_over | string | the quantity of asks over the highest price of asks orders.
+bids_under | string | the quantity of bids under the lowest price of bids orders.
+asks_under | string | the quantity of asks under the lowest price of asks orders.
+bids_over | string | the quantity of bids over the highest price of bids orders.
+timestamp | number | published at timestamp
+sequenceId | number | sequence id, increased monotonically but not always consecutive
 
 response format:
 
@@ -206,7 +230,13 @@ response format:
       [
         "string",  "string"
       ]
-    ]
+    ],
+    "asks_over": "string",
+    "bids_under": "string",
+    "asks_under": "string",
+    "bids_over": "string",
+    "timestamp": 0,
+    "sequenceId": "string"
   }
 }
 ```
@@ -303,6 +333,57 @@ response format:
         ]
       }
     ]
+  }
+}
+```
+
+### Circuit Break Info
+
+Get circuit break informations.
+
+```txt
+GET /{pair}/circuit_break_info
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+pair | string | YES | pair enum: [pair list](pairs.md)
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+mode | string | enum: `NONE`, `CIRCUIT_BREAK`, `FULL_RANGE_CIRCUIT_BREAK`, `RESUMPTION`, `LISTING`
+estimated_itayose_price | string \| null | estimated price. Null if mode is `NONE` or when there is no estimated price.
+estimated_itayose_amount | string \| null | estimated amount. Null if mode is `NONE`.
+itayose_upper_price | string \| null | itayose price range upper limit. Null if mode is in `NONE`, `FULL_RANGE_CIRCUIT_BREAK` or `LISTING`.
+itayose_lower_price | string \| null | itayose price range lower limit. Null if mode is in `NONE`, `FULL_RANGE_CIRCUIT_BREAK` or `LISTING`.
+upper_trigger_price | string \| null | upper trigger price. Null if mode is not `NONE`.
+lower_trigger_price | string \| null | lower trigger price. Null if mode is not `NONE`.
+fee_type | string | enum: `NORMAL`, `SELL_MAKER`, `BUY_MAKER`, `DYNAMIC`
+reopen_timestamp | number \| null | reopen timestamp(milliseconds). Null if mode is `NONE`, or reopen timestamp is undetermined yet.
+timestamp | number | ticked at unix timestamp (milliseconds)
+
+For details on `mode` and `fee_type`, please check the [Circuit breaker system](https://bitbank.cc/docs/circuit-breaker-mode/) page.
+
+response format:
+
+```json
+{
+  "success": 1,
+  "data": {
+    "mode": "string",
+    "estimated_itayose_price": "string",
+    "estimated_itayose_amount": "string",
+    "itayose_upper_price": "string",
+    "itayose_lower_price": "string",
+    "upper_trigger_price": "string",
+    "lower_trigger_price": "string",
+    "fee_type": "string",
+    "reopen_timestamp": 0,
+    "timestamp": 0
   }
 }
 ```

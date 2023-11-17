@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2023-04-27)](#public-api%E4%B8%80%E8%A6%A7-2023-04-27)
+- [Public API一覧 (2023-11-17)](#public-api%E4%B8%80%E8%A6%A7-2023-11-17)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -13,10 +13,11 @@
     - [Depth](#depth)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)
+    - [Circuit Break Info](#circuit-break-info)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2023-04-27)
+# Public API一覧 (2023-11-17)
 
 ## API 概要
 
@@ -38,6 +39,8 @@
 ### Ticker
 
 [Public API] ティッカー情報を取得。
+
+circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
 ```txt
 GET /{pair}/ticker
@@ -84,6 +87,8 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 [Public API] 全ペアのティッカー情報を取得。
 
+circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
+
 ```txt
 GET /tickers
 ```
@@ -128,6 +133,8 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 ### TickersJPY
 
 [Public API] JPYペアのティッカー情報を取得。
+
+circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
 ```txt
 GET /tickers_jpy
@@ -174,6 +181,17 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 [Public API] 板情報を取得。
 
+#### circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合
+
+- asks, bidsで配信されるデータは、Best Bid Offerから200件ずつです。
+- したがって、asks, bidsのBBO（Best Bid Offer）は必ず `最も安いAsk > 最も高いBid` となります。
+
+#### circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合
+
+- asks, bidsで配信されるデータは、見積価格から上下200件ずつです。（最大400件）
+- したがって、通常時とは異なり、 `最も安いAsk < 最も高いBid` となる場合があります。
+- また、配信データの価格範囲よりも安い売り注文は `asks_under` に、高い買い注文は `bids_over` に加算されます。
+
 ```txt
 GET /{pair}/depth
 ```
@@ -190,6 +208,12 @@ Name | Type | Description
 ------------ | ------------ | ------------
 asks | [string, string][] | 売り板 [価格, 数量]
 bids | [string, string][] | 買い板 [価格, 数量]
+asks_over | string | asksの最高値よりも高いasksの数量
+bids_under | string | bidsの最安値よりも安いbidsの数量
+asks_under | string | bidsの最安値よりも安いasksの数量。通常モードの場合は `0`
+bids_over | string | asksの最高値よりも高いbidsの数量。通常モードの場合は `0`
+timestamp | number | timestamp
+sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
 
 レスポンスのフォーマット:
 
@@ -206,7 +230,13 @@ bids | [string, string][] | 買い板 [価格, 数量]
       [
         "string",  "string"
       ]
-    ]
+    ],
+    "asks_over": "string",
+    "bids_under": "string",
+    "asks_under": "string",
+    "bids_over": "string",
+    "timestamp": 0,
+    "sequenceId": "string"
   }
 }
 ```
@@ -303,6 +333,57 @@ ohlcv | [string, string, string, string, string, number][] | [始値, 高値, �
         ]
       }
     ]
+  }
+}
+```
+
+### Circuit Break Info
+
+[Public API] サーキットブレイク情報を取得。
+
+```txt
+GET /{pair}/circuit_break_info
+```
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+mode | string | `NONE` または `CIRCUIT_BREAK` または `FULL_RANGE_CIRCUIT_BREAK` または `RESUMPTION` または `LISTING`
+estimated_itayose_price | string \| null | 見積価格。ザラ場または見積価格が無い場合はnull
+estimated_itayose_amount | string \| null | 見積数量。ザラ場であればnull
+itayose_upper_price | string \| null | 参照価格レンジ上限。ザラ場、無期限、上場準備時はnull
+itayose_lower_price | string \| null | 参照価格レンジ下限。ザラ場、無期限、上場準備時はnull
+upper_trigger_price | string \| null | CB突入判定価格上限。CB中はnull
+lower_trigger_price | string \| null | CB突入判定価格下限。CB中はnull
+fee_type | string | `NORMAL` または `SELL_MAKER` または `BUY_MAKER` または `DYNAMIC`
+reopen_timestamp | number \| null | サーキットブレイク終了予定時刻（UnixTimeのミリ秒）。ザラ場、またはCB終了予定時刻がない場合はnull
+timestamp | number | 日時（UnixTimeのミリ秒）
+
+`mode` および `fee_type` の詳細は[サーキットブレーカー制度](https://bitbank.cc/docs/circuit-breaker-mode/)のページをご確認ください。
+
+response format:
+
+```json
+{
+  "success": 1,
+  "data": {
+    "mode": "string",
+    "estimated_itayose_price": "string",
+    "estimated_itayose_amount": "string",
+    "itayose_upper_price": "string",
+    "itayose_lower_price": "string",
+    "upper_trigger_price": "string",
+    "lower_trigger_price": "string",
+    "fee_type": "string",
+    "reopen_timestamp": 0,
+    "timestamp": 0
   }
 }
 ```

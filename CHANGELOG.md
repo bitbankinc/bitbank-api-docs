@@ -1,5 +1,27 @@
-# CHANGELOG for Bitbank's API (2023-11-08)
+# CHANGELOG for Bitbank's API (2023-11-17)
 
+## 2023-11-17
+
+* Add new endpoint, room `circuit_break_info`
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `public-stream.md`
+  * `public-stream_JP.md`
+* Cross buy/sell condition can occur
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `public-stream.md`
+  * `public-stream_JP.md`
+* Market order and post only option are restricted in `CIRCUIT_BREAK` mode
+  * `rest-api.md`
+  * `rest-api_JP.md`
+* Add over/under responses to depth API
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `public-stream.md`
+  * `public-stream_JP.md`
+
+---
 ## 2023-11-08
 * Added new docs
   * `networks.md`
@@ -7,6 +29,7 @@
   * `rest-api.md`.
   * `rest-api_JP.md`.
 
+---
 ## 2023-10-23
 * Added new pairs to
   * `pairs.md`
@@ -24,7 +47,6 @@
   * `rest-api_JP.md`
 
 ---
-
 ## 2023-09-07
 * Added new pairs to
   * `pairs.md`
