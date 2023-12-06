@@ -10,7 +10,7 @@
 
 The following is the list of pair.
 
-Symbol | Quote asset | Base asset | Order suspended flag (delisted)
+Symbol | Base asset | Quote asset | Order suspended flag (delisted)
 ------------ | ------------ | ------------ | ------------
 btc_jpy | btc | jpy | false
 xrp_jpy | xrp | jpy | false
