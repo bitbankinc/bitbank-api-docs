@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2023-10-23)](#assets-2023-10-23)
+- [assets (2023-12-14)](#assets-2023-12-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2023-10-23)
+# assets (2023-12-14)
 
 The following is the list of asset.
 
@@ -45,3 +45,8 @@ mana | decentraland
 grt | the graph
 rndr | render
 bnb | build and build
+dai | multi-collateral dai
+op | optimism
+arb | arbitrum
+klay | klaytn
+imx | immutable x

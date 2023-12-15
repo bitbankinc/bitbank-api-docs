@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2023-10-23)](#pairs-2023-10-23)
+- [pairs (2023-12-14)](#pairs-2023-12-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2023-10-23)
+# pairs (2023-12-14)
 
 The following is the list of pair.
 
@@ -59,3 +59,8 @@ mana_jpy | mana | jpy | false
 grt_jpy | grt | jpy | false
 rndr_jpy | rndr | jpy | false
 bnb_jpy | bnb | jpy | false
+dai_jpy | dai | jpy | false
+op_jpy | op | jpy | false
+arb_jpy | arb | jpy | false
+klay_jpy | klay | jpy | false
+imx_jpy | imx | jpy | false

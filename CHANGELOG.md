@@ -1,7 +1,12 @@
-# CHANGELOG for Bitbank's API (2023-11-17)
+# CHANGELOG for Bitbank's API (2023-12-14)
 
+## 2023-12-14
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2023-11-17
-
 * Add new endpoint, room `circuit_break_info`
   * `public-api.md`
   * `public-api_JP.md`
