@@ -89,6 +89,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
+
 ```txt
 GET /tickers
 ```
@@ -133,8 +134,8 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 ### TickersJPY
 
 [Public API] JPYペアのティッカー情報を取得。
-
 circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
+
 
 ```txt
 GET /tickers_jpy
@@ -212,7 +213,7 @@ asks_over | string | asksの最高値よりも高いasksの数量
 bids_under | string | bidsの最安値よりも安いbidsの数量
 asks_under | string | bidsの最安値よりも安いasksの数量。通常モードの場合は `0`
 bids_over | string | asksの最高値よりも高いbidsの数量。通常モードの場合は `0`
-timestamp | number | timestamp
+timestamp |	number | timestamp
 sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
 
 レスポンスのフォーマット:

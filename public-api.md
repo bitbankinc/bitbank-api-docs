@@ -89,6 +89,7 @@ Get All Tickers information
 
 Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
+
 ```txt
 GET /tickers
 ```
@@ -135,6 +136,7 @@ response format:
 Get All JPY Pair Tickers information
 
 Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+
 
 ```txt
 GET /tickers_jpy
