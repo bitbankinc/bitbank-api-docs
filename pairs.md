@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2023-12-14)](#pairs-2023-12-14)
+- [pairs (2024-02-08)](#pairs-2024-02-08)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2023-12-14)
+# pairs (2024-02-08)
 
 The following is the list of pair.
 
@@ -64,3 +64,4 @@ op_jpy | op | jpy | false
 arb_jpy | arb | jpy | false
 klay_jpy | klay | jpy | false
 imx_jpy | imx | jpy | false
+mask_jpy | mask | jpy | false
