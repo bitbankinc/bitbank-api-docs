@@ -11,6 +11,8 @@
     - [Tickers](#tickers)
     - [TickersJPY](#tickersjpy)
     - [Depth](#depth)
+      - [circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合](#circuit_break_infomode%E3%81%8C-none-%E3%82%82%E3%81%97%E3%81%8F%E3%81%AF-%E8%A6%8B%E7%A9%8D%E4%BE%A1%E6%A0%BC%E3%81%8Cnull-%E3%81%AE%E5%A0%B4%E5%90%88)
+      - [circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合](#circuit_break_infomode%E3%81%8C-none-%E4%BB%A5%E5%A4%96-%E3%81%8B%E3%81%A4-%E8%A6%8B%E7%A9%8D%E4%BE%A1%E6%A0%BC%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%99%E3%82%8B-%E5%A0%B4%E5%90%88)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)
     - [Circuit Break Info](#circuit-break-info)

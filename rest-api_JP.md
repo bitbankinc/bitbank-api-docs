@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2023-11-17)](#private-rest-api%E4%B8%80%E8%A6%A7-2023-11-17)
+- [Private REST API一覧 (2024-04-23)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-04-23)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -22,6 +22,10 @@
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [入金](#%E5%85%A5%E9%87%91)
       - [入金履歴を取得する](#%E5%85%A5%E9%87%91%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [未確認入金を取得する](#%E6%9C%AA%E7%A2%BA%E8%AA%8D%E5%85%A5%E9%87%91%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [入金送付人を取得する](#%E5%85%A5%E9%87%91%E9%80%81%E4%BB%98%E4%BA%BA%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [入金ラベル登録（通常登録）](#%E5%85%A5%E9%87%91%E3%83%A9%E3%83%99%E3%83%AB%E7%99%BB%E9%8C%B2%E9%80%9A%E5%B8%B8%E7%99%BB%E9%8C%B2)
+      - [入金ラベル登録（一括登録）](#%E5%85%A5%E9%87%91%E3%83%A9%E3%83%99%E3%83%AB%E7%99%BB%E9%8C%B2%E4%B8%80%E6%8B%AC%E7%99%BB%E9%8C%B2)
     - [出金](#%E5%87%BA%E9%87%91)
       - [出金アカウントを取得する](#%E5%87%BA%E9%87%91%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
       - [出金リクエストを行う](#%E5%87%BA%E9%87%91%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86)
@@ -33,7 +37,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2023-11-17)
+# Private REST API一覧 (2024-04-23)
 
 ## API 概要
 
@@ -776,6 +780,245 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       }
     ]
   }
+}
+```
+
+#### 未確認入金を取得する
+
+```txt
+GET /user/unconfirmed_deposits
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | 未確認入金 uuid
+asset | string | アセット名: [アセット一覧](assets.md)
+amount | string | 入金数量
+network | string | 入金ネットワーク(暗号資産の時のみ)
+txid | string or null | 入金トランザクションID(暗号資産の時のみ)
+created_at | number| 作成UNIXタイムスタンプ(ミリ秒)
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/unconfirmed_deposits" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/unconfirmed_deposits
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "deposits": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "amount": "string",
+        "network": "string",
+        "txid": "string",
+        "created_at": 0
+      }
+    ]
+  }
+}
+```
+
+#### 入金送付人を取得する
+
+```txt
+GET /user/deposit_originators
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | 送付人のuuid
+label | string | 送付人ラベル
+deposit_type | string | 入金元
+deposit_purpose | string | null | 入金の目的
+originator_status | string | 送付人ステータス
+originator_type | string | 送付人種別
+originator_last_name | string | null | 姓
+originator_first_name | string | null | 名
+originator_country | string | null | originator 国
+originator_prefecture | string | null | 都市・省・県
+originator_city | string | null | 市区町村
+originator_address | string | null | 番地
+originator_building | string | null | 建物名
+originator_company_name | string | null | 法人名称
+originator_company_type | string | null | 法人格
+originator_company_type_position | string | null | 法人格（前後）
+uuid | string | 実質的支配者のuuid
+name | string | 実質的支配者
+country | string | 実質的支配者の居住国
+prefecture | string | null | 省
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_originators" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_originators
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "originators": [
+      {
+        "uuid": "string",
+        "label": "string",
+        "deposit_type": "string",
+        "deposit_purpose": "string",
+        "originator_status": "string",
+        "originator_type": "string",
+        "originator_last_name": null,
+        "originator_first_name": null,
+        "originator_country": "string",
+        "originator_preference": "string",
+        "originator_city": "string",
+        "originator_address": "string",
+        "originator_building": null,
+        "originator_company_name": "string",
+        "originator_company_type": "string",
+        "originator_company_type_position": "string",
+        "originator_substantial_controllers": [
+            {
+                "uuid": "string",
+                "name": "string",
+                "country": "string",
+                "prefecture": null
+            }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### 入金ラベル登録（通常登録）
+
+```txt
+POST /user/confirm_deposits
+```
+
+**Parameters (requestBody):**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+uuid | string | YES | 未確認入金 uuid
+originator_uuid | string | YES | 送付人 uuid
+
+**Response:**
+None
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"deposits": [{ "uuid": "___deposit uuid___", "originator_uuid": "___originator uuid___" }]}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {}
+}
+```
+
+#### 入金ラベル登録（一括登録）
+
+```txt
+POST /user/confirm_deposits_all
+```
+
+**Parameters (requestBody):**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+originator_uuid | string | YES | 送付人uuid
+
+**Response:**
+None
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"originator_uuid": "___originator uuid___"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits_all
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {}
 }
 ```
 

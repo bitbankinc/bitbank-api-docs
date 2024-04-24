@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2023-11-17)](#private-rest-api-for-bitbank-2023-11-17)
+- [Private REST API for Bitbank (2024-04-23)](#private-rest-api-for-bitbank-2024-04-23)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -21,6 +21,10 @@
       - [Fetch trade history](#fetch-trade-history)
     - [Deposit](#deposit)
       - [Fetch deposit history](#fetch-deposit-history)
+      - [Fetch unconfirmed deposits](#fetch-unconfirmed-deposits)
+      - [Fetch deposit originators](#fetch-deposit-originators)
+      - [Confirm deposits](#confirm-deposits)
+      - [Confirm all deposits](#confirm-all-deposits)
     - [Withdrawal](#withdrawal)
       - [Get withdrawal accounts](#get-withdrawal-accounts)
       - [New withdrawal request](#new-withdrawal-request)
@@ -32,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2023-11-17)
+# Private REST API for Bitbank (2024-04-23)
 
 ## General API Information
 
@@ -770,6 +774,245 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       }
     ]
   }
+}
+```
+
+#### Fetch unconfirmed deposits
+
+```txt
+GET /user/unconfirmed_deposits
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | deposit uuid
+asset | string | enum: [asset list](assets.md)
+amount | string | deposit amount
+network | string | deposit network (only for crypto assets)
+txid | string | null | deposit transaction id (only for crypto assets)
+created_at | number| created at unix timestamp (milliseconds)
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/unconfirmed_deposits" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/unconfirmed_deposits
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "deposits": [
+      {
+        "uuid": "string",
+        "asset": "string",
+        "amount": "string",
+        "network": "string",
+        "txid": "string",
+        "created_at": 0
+      }
+    ]
+  }
+}
+```
+
+#### Fetch deposit originators
+
+```txt
+GET /user/deposit_originators
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+uuid | string | originator uuid
+label | string | originator label
+deposit_type | string | deposit type
+deposit_purpose | string | null | deposit purpose
+originator_status | string | originator status
+originator_type | string | originator type
+originator_last_name | string | null | originator last name
+originator_first_name | string | null | originator first name
+originator_country | string | null | originator country
+originator_prefecture | string | null | originator prefecture/state/province/region
+originator_city | string | null | originator city
+originator_address | string | null | originator address
+originator_building | string | null | originator building
+originator_company_name | string | null | originator company name
+originator_company_type | string | null | originator company type
+originator_company_type_position | null | string | originator company type position
+uuid | string | originator substantial controller uuid
+name | string | originator substantial controller name
+country | string | originator substantial controller country
+prefecture | string | null | originator substantial controller prefecture
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_originators" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_originators
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "originators": [
+      {
+        "uuid": "string",
+        "label": "string",
+        "deposit_type": "string",
+        "deposit_purpose": "string",
+        "originator_status": "string",
+        "originator_type": "string",
+        "originator_last_name": null,
+        "originator_first_name": null,
+        "originator_country": "string",
+        "originator_prefecture": "string",
+        "originator_city": "string",
+        "originator_address": "string",
+        "originator_building": null,
+        "originator_company_name": "string",
+        "originator_company_type": "string",
+        "originator_company_type_position": "string",
+        "originator_substantial_controllers": [
+            {
+                "uuid": "string",
+                "name": "string",
+                "country": "string",
+                "prefecture": null
+            }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### Confirm deposits
+
+```txt
+POST /user/confirm_deposits
+```
+
+**Parameters (requestBody):**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+uuid | string | YES | unconfirmed deposit uuid
+originator_uuid | string | YES | originator uuid
+
+**Response:**
+None
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"deposits": [{ "uuid": "___deposit uuid___", "originator_uuid": "___originator uuid___" }]}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {}
+}
+```
+
+#### Confirm all deposits
+
+```txt
+POST /user/confirm_deposits_all
+```
+
+**Parameters (requestBody):**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+originator_uuid | string | YES | originator uuid
+
+**Response:**
+None
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export REQUEST_BODY='{"originator_uuid": "___originator uuid___"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits_all
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {}
 }
 ```
 

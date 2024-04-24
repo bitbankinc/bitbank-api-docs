@@ -1,5 +1,14 @@
-# CHANGELOG for Bitbank's API (2024-02-08)
+# CHANGELOG for Bitbank's API (2024-04-23)
 
+## 2024-04-23
+* Updated error codes
+  * `errors.md`
+  * `errors_JP.md`
+* Updated private REST API docs
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2024-02-08
 * Added new pairs to
   * `pairs.md`
@@ -86,7 +95,6 @@
 * Added error code 50038 to `errors.md` and `errors_JP.md`
 
 ---
-
 ## 2023-05-09
 * Add a new caveat about getting order's info to
   * `rest-api.md`
