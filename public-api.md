@@ -11,6 +11,8 @@
     - [Tickers](#tickers)
     - [TickersJPY](#tickersjpy)
     - [Depth](#depth)
+      - [In circuit_break_info.mode is `NONE` or estimated price is null](#in-circuit_break_infomode-is-none-or-estimated-price-is-null)
+      - [In circuit_break_info.mode is not `NONE` and estimated price is not null](#in-circuit_break_infomode-is-not-none-and-estimated-price-is-not-null)
     - [Transactions](#transactions)
     - [Candlestick](#candlestick)
     - [Circuit Break Info](#circuit-break-info)

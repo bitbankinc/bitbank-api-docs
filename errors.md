@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2023-07-14)](#error-codes-for-bitbank-2023-07-14)
+- [Error codes for Bitbank (2024-04-23)](#error-codes-for-bitbank-2024-04-23)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2023-07-14)
+# Error codes for Bitbank (2024-04-23)
 
 Here is the format of error JSON payload:
 
@@ -124,6 +124,16 @@ The following is the list of Bitbank's error codes.
 - `40125` Invalid beneficiary company kana.
 - `40126` Invalid beneficiary company type.
 - `40127` Invalid beneficiary company type position.
+- `40152` Invalid originator label.
+- `40153` Invalid originator last name.
+- `40154` Invalid originator first name.
+- `40155` Invalid originator company name.
+- `40156` Invalid originator prefecture.
+- `40157` Invalid originator city.
+- `40158` Invalid originator address.
+- `40159` Invalid originator building.
+- `40160` Invalid originator substantial controller name.
+- `40163` Invalid beneficiary substantial controller name.
 
 ## DATA_ERROR
 
@@ -142,6 +152,18 @@ The following is the list of Bitbank's error codes.
 - `50035` Company information is not registerd.
 - `50037` We are temporarily restricting withdrawals while we verify your last deposit. Please try again in a few minutes.
 - `50038` Cannot withdraw to chosen VASP service.
+- `50043` Originator already registered.
+- `50044` Originator not found.
+- `50045` Deposit not found.
+- `50046` Cannot edit beneficiary under review.
+- `50047` Cannot edit disabled beneficiary.
+- `50048` Cannot withdraw to beneficiary under review.
+- `50049` Beneficiary requires additional entries.
+- `50050` Cannot withdraw to chosen beneficiary.
+- `50051` Cannot confirm deposit with originator under review.
+- `50052` Originator requires additional entries.
+- `50053` Cannot edit originator under review.
+- `50054` Cannot withdraw because the information registration for unreflected deposits has not been completed.
 
 ## VALUE_ERROR
 

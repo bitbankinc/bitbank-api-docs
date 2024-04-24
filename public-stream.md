@@ -11,8 +11,8 @@
     - [Transactions](#transactions)
     - [Depth Diff](#depth-diff)
     - [Depth Whole](#depth-whole)
+    - [Circuit Break Info](#circuit-break-info)
   - [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly)
-  - [Circuit Break Info](#circuit-break-info)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
