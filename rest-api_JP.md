@@ -22,10 +22,10 @@
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [入金](#%E5%85%A5%E9%87%91)
       - [入金履歴を取得する](#%E5%85%A5%E9%87%91%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
-      - [未確認入金を取得する](#%E6%9C%AA%E7%A2%BA%E8%AA%8D%E5%85%A5%E9%87%91%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
-      - [入金送付人を取得する](#%E5%85%A5%E9%87%91%E9%80%81%E4%BB%98%E4%BA%BA%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
-      - [入金ラベル登録（通常登録）](#%E5%85%A5%E9%87%91%E3%83%A9%E3%83%99%E3%83%AB%E7%99%BB%E9%8C%B2%E9%80%9A%E5%B8%B8%E7%99%BB%E9%8C%B2)
-      - [入金ラベル登録（一括登録）](#%E5%85%A5%E9%87%91%E3%83%A9%E3%83%99%E3%83%AB%E7%99%BB%E9%8C%B2%E4%B8%80%E6%8B%AC%E7%99%BB%E9%8C%B2)
+      - [未反映入金を取得する](#%E6%9C%AA%E5%8F%8D%E6%98%A0%E5%85%A5%E9%87%91%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [送付人を取得する](#%E9%80%81%E4%BB%98%E4%BA%BA%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [未反映入金に送付人を登録する](#%E6%9C%AA%E5%8F%8D%E6%98%A0%E5%85%A5%E9%87%91%E3%81%AB%E9%80%81%E4%BB%98%E4%BA%BA%E3%82%92%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B)
+      - [未反映入金に送付人を一括登録する](#%E6%9C%AA%E5%8F%8D%E6%98%A0%E5%85%A5%E9%87%91%E3%81%AB%E9%80%81%E4%BB%98%E4%BA%BA%E3%82%92%E4%B8%80%E6%8B%AC%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B)
     - [出金](#%E5%87%BA%E9%87%91)
       - [出金アカウントを取得する](#%E5%87%BA%E9%87%91%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
       - [出金リクエストを行う](#%E5%87%BA%E9%87%91%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86)
@@ -783,7 +783,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-#### 未確認入金を取得する
+#### 未反映入金を取得する
 
 ```txt
 GET /user/unconfirmed_deposits
@@ -796,11 +796,11 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-uuid | string | 未確認入金 uuid
+uuid | string | 未反映入金 uuid
 asset | string | アセット名: [アセット一覧](assets.md)
 amount | string | 入金数量
-network | string | 入金ネットワーク(暗号資産の時のみ)
-txid | string or null | 入金トランザクションID(暗号資産の時のみ)
+network | string | ネットワーク名: [ネットワーク一覧](networks.md)
+txid | string | 入金トランザクションID
 created_at | number| 作成UNIXタイムスタンプ(ミリ秒)
 
 **Sample code:**
@@ -842,7 +842,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-#### 入金送付人を取得する
+#### 送付人を取得する
 
 ```txt
 GET /user/deposit_originators
@@ -857,24 +857,24 @@ Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | 送付人のuuid
 label | string | 送付人ラベル
-deposit_type | string | 入金元
-deposit_purpose | string | null | 入金の目的
-originator_status | string | 送付人ステータス
-originator_type | string | 送付人種別
-originator_last_name | string | null | 姓
-originator_first_name | string | null | 名
-originator_country | string | null | originator 国
-originator_prefecture | string | null | 都市・省・県
-originator_city | string | null | 市区町村
-originator_address | string | null | 番地
-originator_building | string | null | 建物名
-originator_company_name | string | null | 法人名称
-originator_company_type | string | null | 法人格
-originator_company_type_position | string | null | 法人格（前後）
+deposit_type | string | 入金元: `WALLET` プライベートウォレット, `ELSE` その他
+deposit_purpose | string \| null | 入金の目的
+originator_status | string | 送付人ステータス: `SCREENING` 審査中, `CONFIRMED` 審査完了, `REJECTED` 否認, `DEPRECATED` 要修正
+originator_type | string | 送付人種別: `OWN` 本人, `PERSON` 本人でない個人, `COMPANY` 本人でない法人
+originator_last_name | string \| null | 姓
+originator_first_name | string \| null | 名
+originator_country | string \| null | 国
+originator_prefecture | string \| null | 都市・省・県
+originator_city | string \| null | 市区町村
+originator_address | string \| null | 番地
+originator_building | string \| null | 建物名
+originator_company_name | string \| null | 法人名称
+originator_company_type | string \| null | 法人格
+originator_company_type_position | string \| null | 法人格（前後）
 uuid | string | 実質的支配者のuuid
 name | string | 実質的支配者
 country | string | 実質的支配者の居住国
-prefecture | string | null | 省
+prefecture | string \| null | 実質的支配者の居住地域（都市・省・県）
 
 **Sample code:**
 
@@ -933,7 +933,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-#### 入金ラベル登録（通常登録）
+#### 未反映入金に送付人を登録する
 
 ```txt
 POST /user/confirm_deposits
@@ -943,7 +943,7 @@ POST /user/confirm_deposits
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-uuid | string | YES | 未確認入金 uuid
+uuid | string | YES | 未反映入金 uuid
 originator_uuid | string | YES | 送付人 uuid
 
 **Response:**
@@ -978,7 +978,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-#### 入金ラベル登録（一括登録）
+#### 未反映入金に送付人を一括登録する
 
 ```txt
 POST /user/confirm_deposits_all
