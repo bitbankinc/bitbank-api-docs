@@ -793,8 +793,8 @@ Name | Type | Description
 uuid | string | deposit uuid
 asset | string | enum: [asset list](assets.md)
 amount | string | deposit amount
-network | string | deposit network (only for crypto assets)
-txid | string | null | deposit transaction id (only for crypto assets)
+network | string | enum: [network list](networks.md)
+txid | string | deposit transaction id
 created_at | number| created at unix timestamp (milliseconds)
 
 **Sample code:**
@@ -851,24 +851,24 @@ Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | originator uuid
 label | string | originator label
-deposit_type | string | deposit type
-deposit_purpose | string | null | deposit purpose
-originator_status | string | originator status
-originator_type | string | originator type
-originator_last_name | string | null | originator last name
-originator_first_name | string | null | originator first name
-originator_country | string | null | originator country
-originator_prefecture | string | null | originator prefecture/state/province/region
-originator_city | string | null | originator city
-originator_address | string | null | originator address
-originator_building | string | null | originator building
-originator_company_name | string | null | originator company name
-originator_company_type | string | null | originator company type
-originator_company_type_position | null | string | originator company type position
+deposit_type | string | deposit type enum: `WALLET`, `ELSE`
+deposit_purpose | string \| null | deposit purpose
+originator_status | string | originator status enum: `SCREENING`, `CONFIRMED`, `REJECTED`, `DEPRECATED`
+originator_type | string | originator type enum: `OWN`, `PERSON`, `COMPANY`
+originator_last_name | string \| null | originator last name
+originator_first_name | string \| null | originator first name
+originator_country | string \| null | originator country
+originator_prefecture | string \| null | originator prefecture/state/province/region
+originator_city | string \| null | originator city
+originator_address | string \| null | originator address
+originator_building | string \| null | originator building
+originator_company_name | string \| null | originator company name
+originator_company_type | string \| null | originator company type
+originator_company_type_position \| null | string | originator company type position
 uuid | string | originator substantial controller uuid
 name | string | originator substantial controller name
 country | string | originator substantial controller country
-prefecture | string | null | originator substantial controller prefecture
+prefecture | string \| null | originator substantial controller prefecture
 
 **Sample code:**
 
