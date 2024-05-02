@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-04-23)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-04-23)
+- [Private REST API一覧 (2024-05-02)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-05-02)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -37,7 +37,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-04-23)
+# Private REST API一覧 (2024-05-02)
 
 ## API 概要
 
@@ -943,8 +943,34 @@ POST /user/confirm_deposits
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
+deposits | object[] | YES | 未反映入金uuidと送付人uuidオブジェクトの配列。内容の詳細は以下。
+
+**depositsの詳細**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
 uuid | string | YES | 未反映入金 uuid
 originator_uuid | string | YES | 送付人 uuid
+
+**Request format:**
+
+```json
+{
+  "deposits": [
+    {
+      "uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "originator_uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    {
+      "uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "originator_uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    {
+      …
+    }
+  ]
+}
+```
 
 **Response:**
 None

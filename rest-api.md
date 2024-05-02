@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-04-23)](#private-rest-api-for-bitbank-2024-04-23)
+- [Private REST API for Bitbank (2024-05-02)](#private-rest-api-for-bitbank-2024-05-02)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -36,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-04-23)
+# Private REST API for Bitbank (2024-05-02)
 
 ## General API Information
 
@@ -937,8 +937,34 @@ POST /user/confirm_deposits
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
+deposits | object[] | YES | Array of unconfirmed deposit uuid and originator uuid objects. Details of the content are below.
+
+**detail of deposits**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
 uuid | string | YES | unconfirmed deposit uuid
 originator_uuid | string | YES | originator uuid
+
+**Request format:**
+
+```json
+{
+  "deposits": [
+    {
+      "uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "originator_uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    {
+      "uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "originator_uuid": "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    {
+      …
+    }
+  ]
+}
+```
 
 **Response:**
 None

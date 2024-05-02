@@ -1,5 +1,10 @@
 # CHANGELOG for Bitbank's API (2024-04-23)
 
+## 2024-05-02
+* Updated private REST API docs
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
 ## 2024-04-23
 * Updated error codes
   * `errors.md`
