@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-05-02)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-05-02)
+- [Private REST API一覧 (2024-05-08)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-05-08)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -37,7 +37,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-05-02)
+# Private REST API一覧 (2024-05-08)
 
 ## API 概要
 
@@ -550,7 +550,7 @@ GET /user/spot/active_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
+pair | string | NO | 通貨ペア: [ペア一覧](pairs.md)。注文IDを指定する場合pairの指定も必須
 count | number | NO | 取得する注文数
 from_id | number | NO | 取得開始注文ID
 end_id | number | NO | 取得終了注文ID
@@ -639,7 +639,7 @@ GET /user/spot/trade_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
+pair | string | NO | 通貨ペア: [ペア一覧](pairs.md)。注文IDを指定する場合pairの指定も必須
 count | number | NO | 取得する約定数(最大1000)
 order_id | number | NO | 注文ID
 since | number | NO | 開始UNIXタイムスタンプ

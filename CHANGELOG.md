@@ -1,4 +1,9 @@
-# CHANGELOG for Bitbank's API (2024-04-23)
+# CHANGELOG for Bitbank's API (2024-05-08)
+
+## 2024-05-08
+* Updated private REST API docs
+  * `rest-api.md`
+  * `rest-api_JP.md`
 
 ## 2024-05-02
 * Updated private REST API docs

@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-05-02)](#private-rest-api-for-bitbank-2024-05-02)
+- [Private REST API for Bitbank (2024-05-08)](#private-rest-api-for-bitbank-2024-05-08)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -36,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-05-02)
+# Private REST API for Bitbank (2024-05-08)
 
 ## General API Information
 
@@ -544,7 +544,7 @@ GET /user/spot/active_orders
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: [pair list](pairs.md)
+pair | string | NO | pair enum: [pair list](pairs.md). when specifying an order id, pair must also be specified
 count | number | NO | take limit
 from_id | number | NO | take from order id
 end_id | number | NO | take until order id
@@ -633,7 +633,7 @@ GET /user/spot/trade_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-pair | string | YES | pair enum: [pair list](pairs.md)
+pair | string | NO | pair enum: [pair list](pairs.md). when specifying an order id, pair must also be specified
 count | number | NO | take limit (up to 1000)
 order_id | number | NO | order id
 since | number | NO | since unix timestamp
