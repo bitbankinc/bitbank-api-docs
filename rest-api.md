@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-05-08)](#private-rest-api-for-bitbank-2024-05-08)
+- [Private REST API for Bitbank (2024-08-22)](#private-rest-api-for-bitbank-2024-08-22)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -36,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-05-08)
+# Private REST API for Bitbank (2024-08-22)
 
 ## General API Information
 
@@ -60,11 +60,92 @@
 ## Authorization
 
 - Private REST API requires requests contain additional HTTP Authorization headers with the following information.
-  - ACCESS-KEY : ACCESS-KEY and API secret can be generated in your access key page.
-  - ACCESS-NONCE : ACCESS-NONCE should be an integer and increased every time a new request is issued (you can use unix timestamp as ACCESS-NONCE).
-  - ACCESS-SIGNATURE : Hash the following string with `HMAC-SHA256`, using your API secret as hash key.
-    - GET: [ACCESS-NONCE, full request path with query parameters] concatenated (include `/v1` in request path).
-    - POST: [ACCESS-NONCE, JSON string of request body] concatenated (include query parameters in request body).
+- If both ACCESS-NONCE and ACCESS-TIME-WINDOW are specified, the ACCESS-TIME-WINDOW method takes precedence.
+
+### ACCESS-TIME-WINDOW method
+
+- ACCESS-KEY : ACCESS-KEY and API secret can be generated in your access key page.
+- ACCESS-SIGNATURE : Specify the signature described below.
+- ACCESS-REQUEST-TIME : ACCESS-REQUEST-TIME should be an integer and usually use the current UNIX timestamp (in milliseconds). Please note that the time zone is UTC.
+- ACCESS-TIME-WINDOW : ACCESS-TIME-WINDOW should be an integer and allows you to specify the number of milliseconds a request is valid. If not specified, 5000 will be applied by default. We recommend using a small value below 5000. The maximum value cannot exceed 60000. The logic is as follows.
+
+```typescript
+if (ACCESS-REQUEST-TIME < (serverTime + 1000) && (serverTime - ACCESS-REQUEST-TIME) <= ACCESS-TIME-WINDOW) {
+  // process request
+} else {
+  // reject request
+}
+```
+
+### ACCESS-NONCE method
+
+- ACCESS-KEY : ACCESS-KEY and API secret can be generated in your access key page.
+- ACCESS-NONCE : ACCESS-NONCE should be an integer and increased every time a new request is issued (you can use unix timestamp as ACCESS-NONCE).
+- ACCESS-SIGNATURE : Specify the signature described below.
+
+### ACCESS-SIGNATURE
+
+- Hash the following string with `HMAC-SHA256`, using your API secret as hash key.
+  - GET: [ACCESS-NONCE, full request path with query parameters] concatenated (include `/v1` in request path).
+  - POST: [ACCESS-NONCE, JSON string of request body] concatenated (include query parameters in request body).
+
+#### Sample
+
+##### ACCESS-TIME-WINDOW
+
+- e.g. GET: /v1/user/assets
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_REQUEST_TIME="1721121776490"
+export ACCESS_TIME_WINDOW="1000"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+9ec5745960d05573c8fb047cdd9191bd0c6ede26f07700bb40ecf1a3920abae8
+```
+
+- e.g. POST endpoint
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_REQUEST_TIME="1721121776490"
+export ACCESS_TIME_WINDOW="1000"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+7868665738ae3f8a796224e0413c1351ddd7ec2af121db12815c0a5b74b8764c
+```
+
+##### ACCESS-NONCE
+
+- e.g. GET: /v1/user/assets
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_NONCE="1721121776490"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+f957817b95c3af6cf5e2e9dfe1503ea8088f46879d4ab73051467fd7b94f1aba
+```
+
+- e.g. POST endpoint
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_NONCE="1721121776490"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+8ef83c2b991765b18c95aade7678471747c06890a23a453c76238345b5c86fb8
+```
 
 ## Rate limit
 

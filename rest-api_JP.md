@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-05-08)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-05-08)
+- [Private REST API一覧 (2024-08-22)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-08-22)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -37,7 +37,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-05-08)
+# Private REST API一覧 (2024-08-22)
 
 ## API 概要
 
@@ -60,17 +60,100 @@
 ## 認証
 
 - パブリックAPIは認証情報無しでアクセスできます。プライベートAPIでは以下の情報をHTTPリクエストヘッダーに付与してリクエストを行う必要があります。
-  - ACCESS-KEY : APIキーページで取得したAPIキー。
-  - ACCESS-NONCE : 整数値。リクエスト毎に数を増加させる必要があります。通常はUNIXタイムスタンプを使用してください。
-  - ACCESS-SIGNATURE : 以下に記述する署名を指定します。
+- ACCESS-NONCE、ACCESS-TIME-WINDOWどちらも指定した場合はACCESS-TIME-WINDOW方式が優先されます。
+
+### ACCESS-TIME-WINDOW方式
+
+- ACCESS-KEY : APIキーページで取得したAPIキー。
+- ACCESS-SIGNATURE : 以下に記述する署名を指定します。
+- ACCESS-REQUEST-TIME : 整数値。通常は現在時刻のUNIXタイムスタンプ(ミリ秒)を使用してください。タイムゾーンはUTCであることにご注意ください。
+- ACCESS-TIME-WINDOW : 整数値。リクエストが有効になるミリ秒数を指定できます。未指定の場合デフォルトで5000が適用されます。5000以下の小さな値を使用することを推奨します。最大値は60000を超えることはできません。ロジックは以下の通りです。
+
+```typescript
+if (ACCESS-REQUEST-TIME < (serverTime + 1000) && (serverTime - ACCESS-REQUEST-TIME) <= ACCESS-TIME-WINDOW) {
+  // process request
+} else {
+  // reject request
+}
+```
+
+### ACCESS-NONCE方式
+
+- ACCESS-KEY : APIキーページで取得したAPIキー。
+- ACCESS-NONCE : 整数値。リクエスト毎に数を増加させる必要があります。通常はUNIXタイムスタンプを使用してください。
+- ACCESS-SIGNATURE : 以下に記述する署名を指定します。
+
+### 署名
 
 - 署名作成は、以下の文字列を `HMAC-SHA256` 形式でAPIシークレットキーを使って署名した結果となります。
-  - GETの場合: 「ACCESS-NONCE、リクエストのパス、クエリパラメータ」 を連結させたもの
-  - POSTの場合: 「ACCESS-NONCE、リクエストボディのJson文字列」 を連結させたもの
+  - ACCESS-TIME-WINDOW方式の場合
+    - GETの場合: 「ACCESS-REQUEST-TIME、ACCESS-TIME-WINDOW、リクエストのパス、クエリパラメータ」 を連結させたもの
+    - POSTの場合: 「ACCESS-REQUEST-TIME、ACCESS-TIME-WINDOW、リクエストボディのJson文字列」 を連結させたもの
+  - ACCESS-NONCE方式の場合
+    - GETの場合: 「ACCESS-NONCE、リクエストのパス、クエリパラメータ」 を連結させたもの
+    - POSTの場合: 「ACCESS-NONCE、リクエストボディのJson文字列」 を連結させたもの
 
 *※ GETのACCESS-SIGNATUREで使用する「リクエストのパス」には"/v1"も含める必要があります。*
 
 *※ POSTではパラメータをJson文字列にしてリクエストボディに含める必要があります。*
+
+#### サンプル
+
+##### ACCESS-TIME-WINDOW
+
+- GET: /v1/user/assetsのケース
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_REQUEST_TIME="1721121776490"
+export ACCESS_TIME_WINDOW="1000"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+9ec5745960d05573c8fb047cdd9191bd0c6ede26f07700bb40ecf1a3920abae8
+```
+
+- POST系のエンドポイントのケース
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_REQUEST_TIME="1721121776490"
+export ACCESS_TIME_WINDOW="1000"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+7868665738ae3f8a796224e0413c1351ddd7ec2af121db12815c0a5b74b8764c
+```
+
+##### ACCESS-NONCE
+
+- GET: /v1/user/assetsのケース
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_NONCE="1721121776490"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+f957817b95c3af6cf5e2e9dfe1503ea8088f46879d4ab73051467fd7b94f1aba
+```
+
+- POST系のエンドポイントのケース
+
+```bash
+export API_SECRET="hoge"
+export ACCESS_NONCE="1721121776490"
+export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+
+echo $ACCESS_SIGNATURE
+8ef83c2b991765b18c95aade7678471747c06890a23a453c76238345b5c86fb8
+```
 
 ## レートリミット
 
