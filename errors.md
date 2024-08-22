@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2024-04-23)](#error-codes-for-bitbank-2024-04-23)
+- [Error codes for Bitbank (2024-08-22)](#error-codes-for-bitbank-2024-08-22)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2024-04-23)
+# Error codes for Bitbank (2024-08-22)
 
 Here is the format of error JSON payload:
 
@@ -44,10 +44,10 @@ The following is the list of Bitbank's error codes.
 ## AUTHENTICATION_ERROR
 
 - `20001` Authentication failed api authorization.
-- `20002` Invalid api key.
-- `20003` Api key not found.
-- `20004` Invalid api nonce.
-- `20005` Invalid api signature.
+- `20002` Invalid ACCESS-KEY.
+- `20003` ACCESS-KEY not found.
+- `20004` ACCESS-NONCE not found.
+- `20005` Invalid ACCESS-SIGNATURE.
 - `20011` MFA failed.
 - `20014` SMS verification failed.
 - `20018` Please login. (This happens when you request API without `/v1/`.)
@@ -55,6 +55,13 @@ The following is the list of Bitbank's error codes.
 - `20024` Missing SMS code.
 - `20025` Missing OTP and SMS code.
 - `20026` MFA is temporarily locked because too many failures. Please retry after 60 seconds.
+- `20033` ACCESS-REQUEST-TIME not found.
+- `20034` Invalid time of ACCESS-REQUEST-TIME.
+- `20035` No request was sent within ACCESS-TIME-WINDOW.
+- `20036` ACCESS-REQUEST-TIME and ACCESS-NONCE not found.
+- `20037` Invalid ACCESS-REQUEST-TIME.
+- `20038` Invalid ACCESS-TIME-WINDOW.
+- `20039` Invalid ACCESS-NONCE.
 
 ## REQUIRED_PARAMETER_ERROR
 
