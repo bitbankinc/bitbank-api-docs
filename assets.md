@@ -50,4 +50,4 @@ op | optimism
 arb | arbitrum
 klay | klaytn
 imx | immutable x
-mask | mask network 
+mask | mask network
