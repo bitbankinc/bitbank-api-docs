@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-08-22)](#private-rest-api-for-bitbank-2024-08-22)
+- [Private REST API for Bitbank (2024-08-28)](#private-rest-api-for-bitbank-2024-08-28)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -36,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-08-22)
+# Private REST API for Bitbank (2024-08-28)
 
 ## General API Information
 
@@ -163,11 +163,11 @@ echo $ACCESS_SIGNATURE
 
 ### Assets
 
+#### return user's asset list
+
 ```txt
 GET /user/assets
 ```
-
-return user's asset list
 
 **Parameters:**
 None
@@ -181,10 +181,12 @@ free_amount | string | free amount
 amount_precision | number | amount precision
 onhand_amount | string | onhand amount
 locked_amount | string | locked amount
+withdrawing_amount | string | amount of locked amount being withdrawn
 withdrawal_fee | { min: string, max: string } or { under: string, over: string, threshold:string } for `jpy` | withdrawal fee
 stop_deposit | boolean | deposit status（All networks: stop_deposit = `true`）
 stop_withdrawal | boolean | withdrawal status（All networks: stop_withdrawal = `true`）
 network_list | { asset: string, network: string, stop_deposit: boolean, stop_withdrawal: boolean, withdrawal_fee: string } or undefined for `jpy` | network list
+collateral_ratio | string | collateral ratio
 
 **Sample code:**
 
@@ -218,6 +220,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawing_amount": "string",
         "withdrawal_fee": {
             "min": "string",
             "max": "string"
@@ -232,7 +235,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
                 "stop_withdrawal": false,
                 "withdrawal_fee": "string"
             }
-        ]
+        ],
+        "collateral_ratio": "string"
       },
       {
         "asset": "jpy",
@@ -240,6 +244,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawing_amount": "string",
         "withdrawal_fee": {
             "under": "string",
             "over": "string",
@@ -247,11 +252,13 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         },
         "stop_deposit": false,
         "stop_withdrawal": false,
-    },
+        "collateral_ratio": "string"
+      },
     ]
   }
 }
 ```
+
 
 ### Order
 
@@ -275,12 +282,14 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-type | string | `limit` or `market` or `stop` or `stop_limit`
-start_amount | string | order qty when placed
-remaining_amount | string | qty not executed
+position_side | string \| null | `long` or `short`
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+start_amount | string \| null | order qty when placed
+remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
 price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
 post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
+user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
@@ -321,12 +330,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "order_id": 0,
     "pair": "string",
     "side": "string",
+    "position_side": "string",
     "type": "string",
     "start_amount": "string",
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -362,15 +373,17 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-type | string | `limit` or `market` or `stop` or `stop_limit`
-start_amount | string | order qty when placed
-remaining_amount | string | qty not executed
+position_side | string \| null | `long` or `short`
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+start_amount | string \| null | order qty when placed
+remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
 price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
 post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
+user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number | expiration time in unix timestamp (milliseconds)
+expire_at | number \| null | expiration time in unix timestamp (milliseconds)
 trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
@@ -407,12 +420,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "order_id": 0,
     "pair": "string",
     "side": "string",
+    "position_side": "string",
     "type": "string",
     "start_amount": "string",
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -442,16 +457,18 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-type | string | `limit` or `market` or `stop` or `stop_limit`
-start_amount | string | order qty when placed
-remaining_amount | string | qty not executed
+position_side | string \| null | `long` or `short`
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+start_amount | string \| null | order qty when placed
+remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
 price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
 post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
+user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number | expiration time in unix timestamp (milliseconds)
-canceled_at | number | canceled at unix timestamp (milliseconds)
+expire_at | number \| null | expiration time in unix timestamp (milliseconds)
+canceled_at | number \| undefined | canceled at unix timestamp (milliseconds)
 triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
 trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
@@ -491,6 +508,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -532,6 +550,7 @@ order_ids | number[] | YES | order ids. Up to 30 ids can be specified
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
@@ -596,12 +615,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "order_id": 0,
         "pair": "string",
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "start_amount": "string",
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
@@ -614,7 +635,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
-
 #### Fetch active orders
 
 ```txt
@@ -639,15 +659,17 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-type | string | `limit` or `market` or `stop` or `stop_limit`
-start_amount | string | order qty when placed
-remaining_amount | string | qty not executed
+position_side | string \| null | `long` or `short`
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+start_amount | string \| null | order qty when placed
+remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
 price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
 post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
+user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number | expiration time in unix timestamp (milliseconds)
+expire_at | number \| null | expiration time in unix timestamp (milliseconds)
 executed_at | number \| undefined | executed at unix timestamp (milliseconds)
 canceled_at | number \| undefined | canceled at unix timestamp (milliseconds)
 triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
@@ -684,12 +706,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "order_id": 0,
         "pair": "string",
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "start_amount": "string",
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
@@ -729,12 +753,15 @@ trade_id | number | trade id
 pair | string | pair enum: [pair list](pairs.md)
 order_id | number | order id
 side | string | `buy` or `sell`
-type | string | `limit` or `market` or `stop` or `stop_limit`
+position_side | string \| null | `long` or `short`
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 amount | string | amount
 price | string | order price
 maker_taker | string | maker or taker
 fee_amount_base | string | base asset fee amount
 fee_amount_quote | string | quote asset fee amount
+profit_loss | string \| undefined | realized profit and loss
+interest | string \| undefined | interest
 executed_at | number | order executed at unix timestamp (milliseconds)
 
 **Sample code:**
@@ -768,12 +795,15 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "pair": "string",
         "order_id": 0,
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "amount": "string",
         "price": "string",
         "maker_taker": "string",
         "fee_amount_base": "string",
         "fee_amount_quote": "string",
+        "profit_loss": "string",
+        "interest": "string",
         "executed_at": 0
       }
     ]
@@ -809,9 +839,8 @@ network | string | enum: [network list](networks.md)
 amount | number | deposit amount
 txid | string \| null | deposit transaction id (only for crypto assets)
 status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
-found_at | number| found at unix timestamp (milliseconds)
+found_at | number | found at unix timestamp (milliseconds)
 confirmed_at | number | confirmed (about to be added to your balance) at unix timestamp (milliseconds, exists only for confirmed one)
-
 
 **Caveat:**
 
@@ -1143,6 +1172,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | withdrawal account uuid
 label | string | withdrawal account label
+network | string | network: [networks](networks.md)
 address | string | withdrawal address
 
 **Sample code:**
@@ -1174,13 +1204,13 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
       {
         "uuid": "string",
         "label": "string",
+        "network": "string",
         "address": "string"
       }
     ]
   }
 }
 ```
-
 #### New withdrawal request
 
 ```txt
@@ -1218,7 +1248,6 @@ account_number | string | withdrawal account number (only for fiat assets)
 account_owner | string | owner of withdrawal account (only for fiat assets)
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | requested at unix timestamp (milliseconds)
-
 
 **Sample code:**
 
@@ -1269,7 +1298,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
-
 #### Fetch withdrawal history
 
 ```txt
@@ -1292,8 +1320,8 @@ Name | Type | Description
 uuid | string | uuid for each withdrawal
 asset | string | enum: [asset list](assets.md)
 account_uuid | string | account uuid
-amount | number | withdrawal amount
-fee | number | withdrawal fee
+amount | string | withdrawal amount
+fee | string | withdrawal fee
 label | string | withdrawal account label (only for crypto assets)
 address | string | withdrawal destination address (only for crypto assets)
 network | string | enum (only for crypto assets): [network list](networks.md)
@@ -1306,7 +1334,6 @@ account_number | string | withdrawal account number (only for fiat assets)
 account_owner | string | owner of withdrawal account (only for fiat assets)
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | requested at unix timestamp (milliseconds)
-
 
 **Sample code:**
 
@@ -1437,6 +1464,20 @@ maker_fee_rate_base | string | maker fee (base asset)
 taker_fee_rate_base | string | taker fee (base asset)
 maker_fee_rate_quote | string | maker fee (quote asset)
 taker_fee_rate_quote | string | taker fee (quote asset)
+margin_open_maker_fee_rate_quote | string \| null | open maker fee (quote asset)
+margin_open_taker_fee_rate_quote | string \| null | open taker fee (quote asset)
+margin_close_maker_fee_rate_quote | string \| null | close maker fee (quote asset)
+margin_close_taker_fee_rate_quote | string \| null | close taker fee (quote asset)
+margin_long_interest | string \| null | long position interest/day
+margin_short_interest | string \| null | short position interest/day
+margin_current_individual_ratio | string \| null | current individual risk assumption ratio
+margin_current_individual_until | number \| null | current application end date and time of individual risk assumption ratio(unix timestamp milliseconds)
+margin_current_company_ratio | string \| null | current company risk assumption ratio
+margin_current_company_until | number \| null | current application end date and time of company risk assumption ratio(unix timestamp milliseconds)
+margin_next_individual_ratio | string \| null | next individual risk assumption ratio
+margin_next_individual_until | number \| null | next application end date and time of individual risk assumption ratio(unix timestamp milliseconds)
+margin_next_company_ratio | string \| null | next company risk assumption ratio
+margin_next_company_until | number \| null | curnextrent application end date and time of company risk assumption ratio(unix timestamp milliseconds)
 unit_amount | string | minimum order amount
 limit_max_amount | string | max order amount
 market_max_amount | string | market order max amount
@@ -1449,6 +1490,8 @@ stop_order_and_cancel | boolean | order and cancel suspended flag
 stop_market_order | boolean | "market order" suspended flag
 stop_stop_order | boolean | "stop (market) order" suspended flag
 stop_stop_limit_order | boolean | "stop limit order" suspended flag
+stop_margin_long_order | boolean | open long positions suspended flag
+stop_margin_short_order | boolean | open short positions suspended flag
 stop_buy_order | boolean | "buy order" suspended flag
 stop_sell_order | boolean | "sell order" suspended flag
 
@@ -1480,6 +1523,20 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "taker_fee_rate_base": "string",
         "maker_fee_rate_quote": "string",
         "taker_fee_rate_quote": "string",
+        "margin_open_maker_fee_rate_quote": "string",
+        "margin_open_taker_fee_rate_quote": "string",
+        "margin_close_maker_fee_rate_quote": "string",
+        "margin_close_taker_fee_rate_quote": "string",
+        "margin_long_interest": "string",
+        "margin_short_interest": "string",
+        "margin_current_individual_ratio": "string",
+        "margin_current_individual_until": 0,
+        "margin_current_company_ratio": "string",
+        "margin_current_company_until": 0,
+        "margin_next_individual_ratio": "string",
+        "margin_next_individual_until": 0,
+        "margin_next_company_ratio": "string",
+        "margin_next_company_until": 0,
         "unit_amount": "string",
         "limit_max_amount": "string",
         "market_max_amount": "string",
@@ -1492,6 +1549,8 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "stop_market_order": false,
         "stop_stop_order": false,
         "stop_stop_limit_order": false,
+        "stop_margin_long_order": false,
+        "stop_margin_short_order": false,
         "stop_buy_order": false,
         "stop_sell_order": false
       }

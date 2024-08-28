@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2023-11-17)](#public-rest-api-for-bitbank-2023-11-17)
+- [Public REST API for Bitbank (2024-08-28)](#public-rest-api-for-bitbank-2024-08-28)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -19,7 +19,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2023-11-17)
+# Public REST API for Bitbank (2024-08-28)
 
 ## General API Information
 
@@ -67,7 +67,7 @@ last | string | the latest price executed
 vol | string | trading volume in last 24 hours
 timestamp | number | ticked at unix timestamp (milliseconds)
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -91,7 +91,6 @@ Get All Tickers information
 
 Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
-
 ```txt
 GET /tickers
 ```
@@ -114,7 +113,7 @@ last | string | the latest price executed
 vol | string | trading volume in last 24 hours
 timestamp | number | ticked at unix timestamp (milliseconds)
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -139,7 +138,6 @@ Get All JPY Pair Tickers information
 
 Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
-
 ```txt
 GET /tickers_jpy
 ```
@@ -162,7 +160,7 @@ last | string | the latest price executed
 vol | string | trading volume in last 24 hours
 timestamp | number | ticked at unix timestamp (milliseconds)
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -214,12 +212,14 @@ asks | [string, string][] | array of [price, amount]
 bids | [string, string][] | array of [price, amount]
 asks_over | string | the quantity of asks over the highest price of asks orders.
 bids_under | string | the quantity of bids under the lowest price of bids orders.
-asks_under | string | the quantity of asks under the lowest price of asks orders.
-bids_over | string | the quantity of bids over the highest price of bids orders.
+asks_under | string | the quantity of asks under the lowest price of asks orders. Usually "0" in `NORMAL` mode.
+bids_over | string | the quantity of bids over the highest price of bids orders. Usually "0" in `NORMAL` mode.
+ask_market | string | the quantity of market sell orders. Usually "0" in `NORMAL` mode.
+bid_market | string | the quantity of market buy orders. Usually "0" in `NORMAL` mode.
 timestamp | number | published at timestamp
 sequenceId | number | sequence id, increased monotonically but not always consecutive
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -239,6 +239,8 @@ response format:
     "bids_under": "string",
     "asks_under": "string",
     "bids_over": "string",
+    "ask_market": "string",
+    "bid_market": "string",
     "timestamp": 0,
     "sequenceId": "string"
   }
@@ -264,13 +266,13 @@ YYYYMMDD | string | NO | date formatted as `YYYYMMDD`
 
 Name | Type | Description
 ------------ | ------------ | ------------
-transaction_id | string | transaction id
+transaction_id | number | transaction id
 side | string | enum: `buy`, `sell`
 price | string | price
-amount | string |amount
+amount | string | amount
 executed_at | number | executed at unix timestamp (milliseconds)
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -316,7 +318,7 @@ Name | Type | Description
 type | string | candle type enum: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 ohlcv | [string, string, string, string, string, number][] | [open, high, low, close, volume, **unix timestamp (milliseconds)**]
 
-response format:
+**Response format:**
 
 ```json
 {
@@ -372,7 +374,7 @@ timestamp | number | ticked at unix timestamp (milliseconds)
 
 For details on `mode` and `fee_type`, please check the [Circuit breaker system](https://bitbank.cc/docs/circuit-breaker-mode/) page.
 
-response format:
+**Response format:**
 
 ```json
 {

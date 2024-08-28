@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public API一覧 (2023-11-17)](#public-api%E4%B8%80%E8%A6%A7-2023-11-17)
+- [Public API一覧 (2024-08-28)](#public-api%E4%B8%80%E8%A6%A7-2024-08-28)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [Ticker](#ticker)
@@ -19,7 +19,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public API一覧 (2023-11-17)
+# Public API一覧 (2024-08-28)
 
 ## API 概要
 
@@ -38,7 +38,7 @@
 
 ## エンドポイント一覧
 
-### Ticker
+### ティッカー
 
 [Public API] ティッカー情報を取得。
 
@@ -67,7 +67,7 @@ last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -91,7 +91,6 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
-
 ```txt
 GET /tickers
 ```
@@ -114,7 +113,7 @@ last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -138,7 +137,6 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 [Public API] JPYペアのティッカー情報を取得。
 circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
 
-
 ```txt
 GET /tickers_jpy
 ```
@@ -161,7 +159,7 @@ last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -215,10 +213,12 @@ asks_over | string | asksの最高値よりも高いasksの数量
 bids_under | string | bidsの最安値よりも安いbidsの数量
 asks_under | string | bidsの最安値よりも安いasksの数量。通常モードの場合は `0`
 bids_over | string | asksの最高値よりも高いbidsの数量。通常モードの場合は `0`
-timestamp |	number | timestamp
-sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
+ask_market | string | 成行売り数量。通常モードの場合は `0`
+bid_market | string | 成行買い数量。通常モードの場合は `0`
+timestamp | number | timestamp
+sequenceId | number | シーケンスID、単調増加しますが連続しているとは限りません
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -238,13 +238,15 @@ sequenceId | string | シーケンスID、単調増加しますが連続して�
     "bids_under": "string",
     "asks_under": "string",
     "bids_over": "string",
+    "ask_market": "string",
+    "bid_market": "string",
     "timestamp": 0,
     "sequenceId": "string"
   }
 }
 ```
 
-### Transactions
+### 約定履歴
 
 [Public API] 指定された日付の全約定履歴を取得。YYYYMMDDを省略した場合、最新60件が取得可能。
 
@@ -269,7 +271,7 @@ price | string | 価格
 amount | string | 数量
 executed_at | number | 約定日時（UnixTimeのミリ秒）
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -315,7 +317,7 @@ Name | Type | Description
 type | string | 以下の期間から指定: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 ohlcv | [string, string, string, string, string, number][] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミリ秒**]
 
-レスポンスのフォーマット:
+**レスポンスのフォーマット:**
 
 ```json
 {
@@ -340,7 +342,7 @@ ohlcv | [string, string, string, string, string, number][] | [始値, 高値, �
 }
 ```
 
-### Circuit Break Info
+### サーキットブレイク情報
 
 [Public API] サーキットブレイク情報を取得。
 
@@ -371,7 +373,7 @@ timestamp | number | 日時（UnixTimeのミリ秒）
 
 `mode` および `fee_type` の詳細は[サーキットブレーカー制度](https://bitbank.cc/docs/circuit-breaker-mode/)のページをご確認ください。
 
-response format:
+**レスポンスのフォーマット:**
 
 ```json
 {

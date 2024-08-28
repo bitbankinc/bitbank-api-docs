@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [リアルタイムデータ配信API (2023-11-17)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2023-11-17)
+- [リアルタイムデータ配信API (2024-08-28)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2024-08-28)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [WSチャンネル一覧](#ws%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E4%B8%80%E8%A6%A7)
     - [ティッカー](#%E3%83%86%E3%82%A3%E3%83%83%E3%82%AB%E3%83%BC)
@@ -16,7 +16,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2023-11-17)
+# リアルタイムデータ配信API (2024-08-28)
 
 ## API 概要
 
@@ -38,7 +38,7 @@ circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する�
 
 Name | Type | Description
 ------------ | ------------ | ------------
-sell | string |現在の売り注文の最安値
+sell | string | 現在の売り注文の最安値
 buy | string | 現在の買い注文の最高値
 high | string | 過去24時間の最高値取引価格
 low | string | 過去24時間の最安値取引価格
@@ -46,7 +46,6 @@ open | string | 24時間前の始値
 last | string | 最新取引価格
 vol | string | 過去24時間の出来高
 timestamp | number | 日時（UnixTimeのミリ秒）
-
 
 **サンプルコード:**
 
@@ -70,7 +69,6 @@ connected (press CTRL+C to quit)
 
 </p>
 </details>
-
 
 **レスポンスのフォーマット:**
 
@@ -99,6 +97,7 @@ connected (press CTRL+C to quit)
 ### 約定履歴
 
 約定履歴のwsチャンネルの名前： `transactions_{pair}`。
+
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
 **Response:**
@@ -110,7 +109,6 @@ side | string | `buy` または `sell`
 price | string | 価格
 amount | string | 数量
 executed_at | number | 約定日時（UnixTimeのミリ秒）
-
 
 **サンプルコード:**
 
@@ -176,6 +174,8 @@ ao | string \| undefined | asksの最高値よりも高いasksの数量。数量
 bu | string \| undefined | bidsの最安値よりも安いbidsの数量。数量の変動がない場合はメッセージに含まれません。
 au | string \| undefined | bidsの最安値よりも安いasksの数量。数量の変動がない場合はメッセージに含まれません。
 bo | string \| undefined | asksの最高値よりも高いbidsの数量。数量の変動がない場合はメッセージに含まれません。
+am | string \| undefined | 新しい成行売り数量。数量の変動がない場合はメッセージに含まれません。
+bm | string \| undefined | 新しい成行買い数量。数量の変動がない場合はメッセージに含まれません。
 t | number | 日時（UnixTimeのミリ秒）
 s | string | シーケンスID、単調増加しますが連続しているとは限りません
 
@@ -184,7 +184,6 @@ s | string | シーケンスID、単調増加しますが連続していると�
 `s` は `depth_whole_{pair}` の `sequenceId` と共通のシーケンスIDです。
 
 使い方については [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95) の節をご覧ください。
-
 
 <a name="depth-diff-sample-code"></a>**サンプルコード:**
 
@@ -207,7 +206,6 @@ connected (press CTRL+C to quit)
 
 </p>
 </details>
-
 
 **レスポンスのフォーマット:**
 
@@ -240,6 +238,8 @@ connected (press CTRL+C to quit)
                 ],
                 "ao": "1",
                 "bu": "1",
+                "am": "1",
+                "bm": "1",
                 "t": 1568344204624,
                 "s": "1234567890"
             }
@@ -255,23 +255,35 @@ connected (press CTRL+C to quit)
 
 circuit_break_info.mode が `NONE` 以外の場合、asksとbidsが反転する場合があります。
 
+#### circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合
+
+- asks, bidsで配信されるデータは、Best Bid Offerから200件ずつです。
+- したがって、asks, bidsのBBO（Best Bid Offer）は必ず `最も安いAsk > 最も高いBid` となります。
+
+#### circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合
+
+- asks, bidsで配信されるデータは、見積価格から上下200件ずつです。（最大400件）
+- したがって、通常時とは異なり、 `最も安いAsk < 最も高いBid` となる場合があります。
+- また、配信データの価格範囲よりも安い売り注文は `asks_under` に、高い買い注文は `bids_over` に加算されます。
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
-asks | [string, string][] | [ask, amount][]
-bids | [string, string][] | [bid, amount][]
+asks | [string, string][] | 売り板 [価格, 数量]
+bids | [string, string][] | 買い板 [価格, 数量]
 asks_over | string | asksの最高値よりも高いasksの数量
 bids_under | string | bidsの最安値よりも安いbidsの数量
-asks_under | string | asksの最安値よりも安いasksの数量。通常モードの場合は `0`
-bids_over | string | bidsの最高値よりも高いbidsの数量。通常モードの場合は `0`
+asks_under | string | bidsの最安値よりも安いasksの数量。通常モードの場合は `0`
+bids_over | string | asksの最高値よりも高いbidsの数量。通常モードの場合は `0`
+ask_market | string | 成行売り数量。通常モードの場合は `0`
+bid_market | string | 成行買い数量。通常モードの場合は `0`
 timestamp | number | timestamp
-sequenceId | string | シーケンスID、単調増加しますが連続しているとは限りません
+sequenceId | number | シーケンスID、単調増加しますが連続しているとは限りません
 
 `sequenceId` は `depth_diff_{pair}` の `s` と共通のシーケンスIDです。
 
 使い方については [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95) の節をご覧ください。
-
 
 <a name="depth-whole-sample-code"></a>**サンプルコード:**
 
@@ -286,7 +298,7 @@ connected (press CTRL+C to quit)
 > 40
 < 40{"sid":"lUkRb31kqoS9cLPNMc0W"}
 > 42["join-room","depth_whole_xrp_jpy"]
-< 42["message",{"room_name":"depth_whole_xrp_jpy","message":{"data":{"asks":[["26.928","1000.0000"],["26.929","56586.5153"],["26.930","218.3431"],["26.931","3123.8845"],["26.933","1799.0000"],["26.934","377.9136"],["26.938","3411.1507"],["26.950","80.0000"],["26.955","80.0000"],["26.958","7434.5900"],["26.959","15000.0000"],["26.960","15000.0000"],["26.964","10837.6620"],["26.979","15000.0000"], ...
+< 42["message",{"room_name":"depth_whole_xrp_jpy","message":{"data":{"asks":[["26.928","1000.0000"],["26.929","56586.5153"],["26.930","218.3431"],["26.931","3123.8845"],["26.933","1799.0000"],["26.934","377.9136"],["26.938","3411.1507"],["26.950","80.0000"],["26.955","80.0000"],["26.958","7434.5900"],["26.959","15000.0000"],["26.960","15000.0000"],["26.964","10837.6620"],["26.979","15000.0000"], ...]}}}]
 
 ```
 
@@ -326,6 +338,8 @@ connected (press CTRL+C to quit)
                 "bids_under": "0.123",
                 "asks_under": "0",
                 "bids_over": "0",
+                "ask_market": "0",
+                "bid_market": "0",
                 "timestamp": 1568344476514,
                 "sequenceId": "1234567890"
             }
@@ -343,14 +357,14 @@ connected (press CTRL+C to quit)
 Name | Type | Description
 ------------ | ------------ | ------------
 mode | string | `NONE` または `CIRCUIT_BREAK` または `FULL_RANGE_CIRCUIT_BREAK` または `RESUMPTION` または `LISTING`
-upper_trigger_price | string \| null | CB突入判定価格上限。上場中で基準価格が無い場合、CB中はnull
-lower_trigger_price | string \| null | CB突入判定価格下限。上場中で基準価格が無い場合、CB中はnull
-fee_type | string | `NORMAL` または `SELL_MAKER` または `BUY_MAKER` または `DYNAMIC`
 estimated_itayose_price | string \| null | 見積価格。ザラ場または見積価格が無い場合はnull
 estimated_itayose_amount | string \| null | 見積数量。ザラ場であればnull
 itayose_upper_price | string \| null | 参照価格レンジ上限。ザラ場、無期限、上場準備時はnull
 itayose_lower_price | string \| null | 参照価格レンジ下限。ザラ場、無期限、上場準備時はnull
-reopen_timestamp | number \| null | サーキットブレーク終了予定時刻（UnixTimeのミリ秒）。ザラ場、無期限、再開準備でCB終了予定時刻がない場合はnull
+upper_trigger_price | string \| null | CB突入判定価格上限。CB中はnull
+lower_trigger_price | string \| null | CB突入判定価格下限。CB中はnull
+fee_type | string | `NORMAL` または `SELL_MAKER` または `BUY_MAKER` または `DYNAMIC`
+reopen_timestamp | number \| null | サーキットブレイク終了予定時刻（UnixTimeのミリ秒）。ザラ場、またはCB終了予定時刻がない場合はnull
 timestamp | number | 日時（UnixTimeのミリ秒）
 
 `mode` および `fee_type` の詳細は[サーキットブレーカー制度](https://bitbank.cc/docs/circuit-breaker-mode/)のページをご確認ください。

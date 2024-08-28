@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2023-11-17)](#web-socket-streams-for-bitbank-2023-11-17)
+- [Web Socket Streams for Bitbank (2024-08-28)](#web-socket-streams-for-bitbank-2024-08-28)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -16,7 +16,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2023-11-17)
+# Web Socket Streams for Bitbank (2024-08-28)
 
 ## General WSS information
 
@@ -37,13 +37,13 @@ Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
 
 Name | Type | Description
 ------------ | ------------ | ------------
-sell | string | lowest sell price
-buy | string | highest buy price
-high | string | highest price in last 24 hours
-low | string | lowest price in last 24 hours
-open | string | open price at 24 hours ago
-last | string | last executed price
-vol | string | volume
+sell | string | the lowest price of sell orders
+buy | string | the highest price of buy orders
+high | string | the highest price in last 24 hours
+low | string | the lowest price in last 24 hours
+open | string | the open price at 24 hours ago
+last | string | the latest price executed
+vol | string | trading volume in last 24 hours
 timestamp | number | ticked at unix timestamp (milliseconds)
 
 **Sample code:**
@@ -68,7 +68,6 @@ connected (press CTRL+C to quit)
 
 </p>
 </details>
-
 
 **Response format:**
 
@@ -103,9 +102,9 @@ Transactions channel name is `transactions_{pair}`, available pairs are written 
 Name | Type | Description
 ------------ | ------------ | ------------
 transaction_id | number | transaction id
-side | string | enum: `buy` or `sell`
-amount | string | amount
+side | string | enum: `buy`, `sell`
 price | string | price
+amount | string | amount
 executed_at | number | executed at unix timestamp (milliseconds)
 
 **Sample code:**
@@ -171,6 +170,8 @@ ao | string \| undefined | optional. The quantity of asks over the highest price
 bu | string \| undefined | optional. The quantity of bids under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
 au | string \| undefined | optional. The quantity of asks under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
 bo | string \| undefined | optional. The quantity of bids over the highest price of asks orders. If there is no change in quantity, it will not be included in the message.
+am | string \| undefined | optional. The quantity of market sell orders. If there is no change in quantity, it will not be included in the message.
+bm | string \| undefined | optional. The quantity of market buy orders. If there is no change in quantity, it will not be included in the message.
 t | number | published at unix timestamp (milliseconds)
 s | string | sequence id, increased monotonically but not always consecutive
 
@@ -179,7 +180,6 @@ The amount of `a` (asks) and `b` (bids) is absolute, and its 0 means its price l
 The `s` (sequence id) is common with the `sequenceId` of `depth_whole_{pair}`.
 
 For usage, see [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly) section.
-
 
 <a name="depth-diff-sample-code"></a>**Sample code:**
 
@@ -234,6 +234,8 @@ connected (press CTRL+C to quit)
                 ],
                 "ao": "1",
                 "bu": "1",
+                "am": "1",
+                "bm": "1",
                 "t": 1568344204624,
                 "s": "1234567890"
             }
@@ -248,23 +250,35 @@ Whole depth channel name is `depth_whole_{pair}`, available pairs are written in
 
 Except for circuit_break_info.mode is `NONE`, asks and bids price possibly cross.
 
+#### In circuit_break_info.mode is `NONE` or estimated price is null
+
+- Asks and bids data is restricted to 200 entries each from best bid offer.
+- Asks and bids price never cross.
+
+#### In circuit_break_info.mode is not `NONE` and estimated price is not null
+
+- Asks and bids data is restricted to 200 entries each around the estimated price. (Max 400 entries)
+- Asks and bids price possibly cross.
+- asks_under, bids_over possibly includes the quantity of orders which price is out of range.
+
 **Response:**
 
 Name | Type | Description
 ------------ | ------------ | ------------
-asks | [string, string][] | [ask, amount][]
-bids | [string, string][] | [bid, amount][]
+asks | [string, string][] | array of [price, amount]
+bids | [string, string][] | array of [price, amount]
 asks_over | string | the quantity of asks over the highest price of asks orders.
 bids_under | string | the quantity of bids under the lowest price of bids orders.
 asks_under | string | the quantity of asks under the lowest price of asks orders. Usually "0" in `NORMAL` mode.
 bids_over | string | the quantity of bids over the highest price of bids orders. Usually "0" in `NORMAL` mode.
+ask_market | string | the quantity of market sell orders. Usually "0" in `NORMAL` mode.
+bid_market | string | the quantity of market buy orders. Usually "0" in `NORMAL` mode.
 timestamp | number | published at timestamp
-sequenceId | string | sequence id, increased monotonically but not always consecutive
+sequenceId | number | sequence id, increased monotonically but not always consecutive
 
 The `sequenceId` is common with the `s` of `depth_diff_{pair}`.
 
 For usage, see [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly) section.
-
 
 <a name="depth-whole-sample-code"></a>**Sample code:**
 
@@ -279,7 +293,7 @@ connected (press CTRL+C to quit)
 > 40
 < 40{"sid":"lUkRb31kqoS9cLPNMc0W"}
 > 42["join-room","depth_whole_xrp_jpy"]
-< 42["message",{"room_name":"depth_whole_xrp_jpy","message":{"data":{"asks":[["26.928","1000.0000"],["26.929","56586.5153"],["26.930","218.3431"],["26.931","3123.8845"],["26.933","1799.0000"],["26.934","377.9136"],["26.938","3411.1507"],["26.950","80.0000"],["26.955","80.0000"],["26.958","7434.5900"],["26.959","15000.0000"],["26.960","15000.0000"],["26.964","10837.6620"],["26.979","15000.0000"], ...
+< 42["message",{"room_name":"depth_whole_xrp_jpy","message":{"data":{"asks":[["26.928","1000.0000"],["26.929","56586.5153"],["26.930","218.3431"],["26.931","3123.8845"],["26.933","1799.0000"],["26.934","377.9136"],["26.938","3411.1507"],["26.950","80.0000"],["26.955","80.0000"],["26.958","7434.5900"],["26.959","15000.0000"],["26.960","15000.0000"],["26.964","10837.6620"],["26.979","15000.0000"], ...]}}}]
 
 ```
 
@@ -319,6 +333,8 @@ connected (press CTRL+C to quit)
                 "bids_under": "0.123",
                 "asks_under": "0",
                 "bids_over": "0",
+                "ask_market": "0",
+                "bid_market": "0",
                 "timestamp": 1568344476514,
                 "sequenceId": "1234567890"
             }

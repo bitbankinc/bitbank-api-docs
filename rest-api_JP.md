@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-08-22)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-08-22)
+- [Private REST API一覧 (2024-08-28)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-08-28)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -37,7 +37,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-08-22)
+# Private REST API一覧 (2024-08-28)
 
 ## API 概要
 
@@ -185,15 +185,17 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-asset | string | アセット名: [アセット一覧](assets.md)
+asset | string  | アセット名: [アセット一覧](assets.md)
 free_amount | string | 利用可能な量
 amount_precision | number | 精度
 onhand_amount | string | 保有量
 locked_amount | string | ロックされている量
+withdrawing_amount | string | ロックされている量のうち出金中数量
 withdrawal_fee | { min: string, max: string } or { under: string, over: string, threshold:string } for `jpy` | 出金手数料
 stop_deposit | boolean | 入金ステータス（全ネットワークが入金停止 = `true`）
 stop_withdrawal | boolean | 出金ステータス（全ネットワークが出金停止 = `true`）
 network_list | { asset: string, network: string, stop_deposit: boolean, stop_withdrawal: boolean, withdrawal_fee: string } or undefined for `jpy` | ネットワーク一覧
+collateral_ratio | string | 代用掛け目
 
 **サンプルコード:**
 
@@ -227,6 +229,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawing_amount": "string",
         "withdrawal_fee": {
             "min": "string",
             "max": "string"
@@ -241,7 +244,8 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
                 "stop_withdrawal": false,
                 "withdrawal_fee": "string"
             }
-        ]
+        ],
+        "collateral_ratio": "string"
       },
       {
         "asset": "jpy",
@@ -249,6 +253,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "amount_precision": 0,
         "onhand_amount": "string",
         "locked_amount": "string",
+        "withdrawing_amount": "string",
         "withdrawal_fee": {
             "under": "string",
             "over": "string",
@@ -256,11 +261,13 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         },
         "stop_deposit": false,
         "stop_withdrawal": false,
-    },
+        "collateral_ratio": "string"
+      },
     ]
   }
 }
 ```
+
 
 ### 注文情報
 
@@ -281,15 +288,17 @@ order_id | number | YES | 取引ID
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | 取引ID
+order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-type | string | `limit` または `market` または `stop` または `stop_limit`
-start_amount | string | 注文時の数量
-remaining_amount | string | 未約定の数量
+position_side | string \| null | `long` または `short`
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+start_amount | string \| null | 注文時の数量
+remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
 post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
+user_cancelable | boolean | ユーザがキャンセル可能な注文かどうか
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
@@ -330,12 +339,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "order_id": 0,
     "pair": "string",
     "side": "string",
+    "position_side": "string",
     "type": "string",
     "start_amount": "string",
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -359,7 +370,7 @@ Name | Type | Mandatory | Description
 pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
 amount | string | YES | 注文量
 price | string | NO | 価格
-side | string | YES  | `buy` または `sell`
+side | string | YES | `buy` または `sell`
 type | string | YES | `limit` または `market` または `stop` または `stop_limit`
 post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ `true` を指定可能。デフォルト `false`）
 trigger_price | string | NO | トリガー価格
@@ -368,18 +379,20 @@ trigger_price | string | NO | トリガー価格
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | 取引ID
+order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-type | string | `limit` または `market` または `stop` または `stop_limit`
-start_amount | string | 注文時の数量
-remaining_amount | string | 未約定の数量
+position_side | string \| null | `long` または `short`
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+start_amount | string \| null | 注文時の数量
+remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
 post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
+user_cancelable | boolean | ユーザがキャンセル可能な注文かどうか
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
-expire_at | number | 有効期限(UnixTimeのミリ秒)
+expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
 trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
@@ -416,12 +429,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "order_id": 0,
     "pair": "string",
     "side": "string",
+    "position_side": "string",
     "type": "string",
     "start_amount": "string",
     "remaining_amount": "string",
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -448,19 +463,21 @@ order_id | number | YES | 注文ID
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | 注文ID
+order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-type | string | `limit` または `market` または `stop` または `stop_limit`
-start_amount | string | 注文時の数量
-remaining_amount | string | 未約定の数量
+position_side | string \| null | `long` または `short`
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+start_amount | string \| null | 注文時の数量
+remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
 post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
+user_cancelable | boolean | ユーザがキャンセル可能な注文かどうか
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
-expire_at | number | 有効期限(UnixTimeのミリ秒)
-canceled_at | number | キャンセル日時(UnixTimeのミリ秒)
+expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
+canceled_at | number \| undefined | キャンセル日時(UnixTimeのミリ秒)
 triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
 trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
@@ -500,6 +517,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
     "executed_amount": "string",
     "price": "string",
     "post_only": false,
+    "user_cancelable": true,
     "average_price": "string",
     "ordered_at": 0,
     "expire_at": 0,
@@ -541,6 +559,7 @@ order_ids | number[] | YES | 注文ID。最大30個まで指定可能
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
@@ -605,15 +624,18 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "order_id": 0,
         "pair": "string",
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "start_amount": "string",
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
+        "canceled_at": 0,
         "triggered_at": 0,
         "trigger_price": "string",
         "status": "string"
@@ -622,7 +644,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
-
 #### アクティブな注文を取得する
 
 ```txt
@@ -644,22 +665,24 @@ end | number | NO | 終了UNIXタイムスタンプ
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | 注文ID
+order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-type | string | `limit` または `market` または `stop` または `stop_limit`
-start_amount | string | 注文時の数量
-remaining_amount | string | 未約定の数量
+position_side | string \| null | `long` または `short`
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+start_amount | string \| null | 注文時の数量
+remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
 price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
 post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
+user_cancelable | boolean | ユーザがキャンセル可能な注文かどうか
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
-expire_at | number | 有効期限(UnixTimeのミリ秒)
+expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
 executed_at | number \| undefined | 約定日時(UnixTimeのミリ秒)
 canceled_at | number \| undefined | キャンセル日時(UnixTimeのミリ秒)
 triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string \| undefined | トリガー価格（type = `sopt` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -692,12 +715,14 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "order_id": 0,
         "pair": "string",
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "start_amount": "string",
         "remaining_amount": "string",
         "executed_amount": "string",
         "price": "string",
         "post_only": false,
+        "user_cancelable": true,
         "average_price": "string",
         "ordered_at": 0,
         "expire_at": 0,
@@ -725,8 +750,8 @@ Name | Type | Mandatory | Description
 pair | string | NO | 通貨ペア: [ペア一覧](pairs.md)。注文IDを指定する場合pairの指定も必須
 count | number | NO | 取得する約定数(最大1000)
 order_id | number | NO | 注文ID
-since | number | NO | 開始UNIXタイムスタンプ
-end | number | NO | 終了UNIXタイムスタンプ
+since | number | NO | 開始UNIXタイムスタンプ(ミリ秒)
+end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
 order | string | NO | 約定時刻順序(`asc`: 昇順、`desc`: 降順、デフォルト`desc`)
 
 **Response:**
@@ -737,12 +762,15 @@ trade_id | number | trade id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 order_id | number | 注文ID
 side | string | `buy` または `sell`
-type | string | `limit` または `market` または `stop` または `stop_limit`
+position_side | string \| null | `long` または `short`
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
 amount | string | 注文量
 price | string | 価格
 maker_taker | string | `maker` または `taker`
 fee_amount_base | string | base手数料
 fee_amount_quote | string | quote手数料
+profit_loss | string \| undefined | 実現損益
+interest | string \| undefined | 利息
 executed_at | number | 約定日時（UnixTimeのミリ秒）
 
 **サンプルコード:**
@@ -776,12 +804,15 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
         "pair": "string",
         "order_id": 0,
         "side": "string",
+        "position_side": "string",
         "type": "string",
         "amount": "string",
         "price": "string",
         "maker_taker": "string",
         "fee_amount_base": "string",
         "fee_amount_quote": "string",
+        "profit_loss": "string",
+        "interest": "string",
         "executed_at": 0
       }
     ]
@@ -817,9 +848,8 @@ network | string | ネットワーク名: [ネットワーク一覧](networks.md
 amount | number | 入金数量
 txid | string \| null | 入金トランザクションID(暗号資産の時のみ)
 status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
-found_at | number| 検知UNIXタイムスタンプ(ミリ秒)
+found_at | number | 検知UNIXタイムスタンプ(ミリ秒)
 confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(ミリ秒、承認後のみ存在)
-
 
 **注意事項:**
 
@@ -1190,7 +1220,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
-
 #### 出金リクエストを行う
 
 ```txt
@@ -1226,9 +1255,8 @@ branch_name | string | 出金先銀行支店(法定通貨の時のみ)
 account_type | string | 出金先口座種別(法定通貨の時のみ)
 account_number | string | 出金先口座番号(法定通貨の時のみ)
 account_owner | string | 出金先口座名義(法定通貨の時のみ)
-status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
+status | string | `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒)
-
 
 **サンプルコード:**
 
@@ -1248,7 +1276,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
 </p>
 </details>
-
 
 
 **レスポンスのフォーマット:**
@@ -1280,7 +1307,6 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
-
 #### 出金履歴を取得する
 
 ```txt
@@ -1300,11 +1326,11 @@ end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
 
 Name | Type | Description
 ------------ | ------------ | ------------
-uuid | string | 出金識別uuid
+uuid | string | 出金識別ID
 asset | string | アセット名: [アセット一覧](assets.md)
 account_uuid | string | 出金アカウントのID
-amount | number | 出金数量
-fee | number | 出金手数料
+amount | string | 出金数量
+fee | string | 出金手数料
 label | string | 出金先アドレスにつけたラベル(暗号資産の時のみ)
 address | string | 出金先アドレス(暗号資産の時のみ)
 network | string | ネットワーク名(暗号資産の時のみ): [ネットワーク一覧](networks.md)
@@ -1315,9 +1341,8 @@ branch_name | string | 出金先銀行支店(法定通貨の時のみ)
 account_type | string | 出金先口座種別(法定通貨の時のみ)
 account_number | string | 出金先口座番号(法定通貨の時のみ)
 account_owner | string | 出金先口座名義(法定通貨の時のみ)
-status | string | ステータス: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
+status | string | `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒)
-
 
 **サンプルコード:**
 
@@ -1393,7 +1418,6 @@ pair | string | 通貨ペア: [ペア一覧](pairs.md)
 status | string | 取引所ステータス: `NORMAL`, `BUSY`, `VERY_BUSY`, `HALT`
 min_amount| string | 取引所ステータスに応じた最小注文数量（負荷が高いほど大きくなります）
 
-
 **サンプルコード:**
 
 <details>
@@ -1449,7 +1473,21 @@ maker_fee_rate_base | string | メイカー手数料率(原資産)
 taker_fee_rate_base | string | テイカー手数料率(原資産)
 maker_fee_rate_quote | string | メイカー手数料率(クオート資産)
 taker_fee_rate_quote | string | テイカー手数料率(クオート資産)
-unit_amount| string | 最小注文数量
+margin_open_maker_fee_rate_quote | string \| null | 新規建てmaker手数料率(クオート資産)
+margin_open_taker_fee_rate_quote | string \| null | 新規建てtaker手数料率(クオート資産)
+margin_close_maker_fee_rate_quote | string \| null | 決済maker手数料率(クオート資産)
+margin_close_taker_fee_rate_quote | string \| null | 決済maker手数料率(クオート資産)
+margin_long_interest | string \| null | ロング利息率/日
+margin_short_interest | string \| null | ショート利息率/日
+margin_current_individual_ratio | string \| null | 現在の個人のリスク想定比率
+margin_current_individual_until | number \| null | 現在の個人のリスク想定比率の適用終了日時（UnixTimeのミリ秒）
+margin_current_company_ratio | string \| null | 現在の法人のリスク想定比率
+margin_current_company_until | number \| null | 現在の法人のリスク想定比率の適用終了日時（UnixTimeのミリ秒）
+margin_next_individual_ratio | string \| null | 次の個人のリスク想定比率
+margin_next_individual_until | number \| null | 次の個人のリスク想定比率の適用終了日時（UnixTimeのミリ秒）
+margin_next_company_ratio | string \| null | 次の法人のリスク想定比率
+margin_next_company_until | number \| null | 次の法人のリスク想定比率の適用終了日時（UnixTimeのミリ秒）
+unit_amount | string | 最小注文数量
 limit_max_amount | string | 最大注文数量
 market_max_amount | string | 成行注文時の最大数量
 market_allowance_rate | string | 成行買注文時の余裕率
@@ -1461,6 +1499,8 @@ stop_order_and_cancel | boolean | 注文および注文キャンセル停止ス�
 stop_market_order | boolean | 成行注文停止ステータス
 stop_stop_order | boolean | 逆指値(成行)注文停止ステータス
 stop_stop_limit_order | boolean | 逆指値(指値)注文停止ステータス
+stop_margin_long_order | boolean | ロング新規建て注文停止ステータス
+stop_margin_short_order | boolean | ショート新規建て注文停止ステータス
 stop_buy_order | boolean | 買い注文停止ステータス
 stop_sell_order | boolean | 売り注文停止ステータス
 
@@ -1478,7 +1518,6 @@ curl https://api.bitbank.cc/v1/spot/pairs
 </details>
 
 
-
 **レスポンスのフォーマット:**
 
 ```json
@@ -1493,6 +1532,20 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "taker_fee_rate_base": "string",
         "maker_fee_rate_quote": "string",
         "taker_fee_rate_quote": "string",
+        "margin_open_maker_fee_rate_quote": "string",
+        "margin_open_taker_fee_rate_quote": "string",
+        "margin_close_maker_fee_rate_quote": "string",
+        "margin_close_taker_fee_rate_quote": "string",
+        "margin_long_interest": "string",
+        "margin_short_interest": "string",
+        "margin_current_individual_ratio": "string",
+        "margin_current_individual_until": 0,
+        "margin_current_company_ratio": "string",
+        "margin_current_company_until": 0,
+        "margin_next_individual_ratio": "string",
+        "margin_next_individual_until": 0,
+        "margin_next_company_ratio": "string",
+        "margin_next_company_until": 0,
         "unit_amount": "string",
         "limit_max_amount": "string",
         "market_max_amount": "string",
@@ -1505,6 +1558,8 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "stop_market_order": false,
         "stop_stop_order": false,
         "stop_stop_limit_order": false,
+        "stop_margin_long_order": false,
+        "stop_margin_short_order": false,
         "stop_buy_order": false,
         "stop_sell_order": false
       }

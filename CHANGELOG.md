@@ -1,4 +1,14 @@
-# CHANGELOG for Bitbank's API (2024-08-22)
+# CHANGELOG for Bitbank's API (2024-08-28)
+
+## 2024-08-28
+* Updated docs
+  * `assets.md`
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `public-stream.md`
+  * `public-stream_JP.md`
+  * `rest-api.md`
+  * `rest-api_JP.md`
 
 ## 2024-08-22
 * Updated error codes
