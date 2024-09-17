@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2024-02-08)](#pairs-2024-02-08)
+- [pairs (2024-09-05)](#pairs-2024-09-05)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2024-02-08)
+# pairs (2024-09-05)
 
 The following is the list of pair.
 
@@ -41,7 +41,7 @@ boba_jpy | boba | jpy | false
 boba_btc | boba | btc | true
 enj_jpy | enj | jpy | false
 enj_btc | enj | btc | true
-matic_jpy | matic | jpy | false
+matic_jpy | matic | jpy | true
 matic_btc | matic | btc | true
 dot_jpy | dot | jpy | false
 doge_jpy | doge | jpy | false
@@ -65,3 +65,4 @@ arb_jpy | arb | jpy | false
 klay_jpy | klay | jpy | false
 imx_jpy | imx | jpy | false
 mask_jpy | mask | jpy | false
+pol_jpy | pol | jpy | false
