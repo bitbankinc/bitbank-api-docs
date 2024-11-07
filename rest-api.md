@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-08-28)](#private-rest-api-for-bitbank-2024-08-28)
+- [Private REST API for Bitbank (2024-11-11)](#private-rest-api-for-bitbank-2024-11-11)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
   - [Rate limit](#rate-limit)
@@ -36,7 +36,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-08-28)
+# Private REST API for Bitbank (2024-11-11)
 
 ## General API Information
 
@@ -359,10 +359,11 @@ POST /user/spot/order
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | pair enum: [pair list](pairs.md)
-amount | string | YES | amount
+amount | string | NO | amount. required if type is other than `take_profit`, `stop_loss`
 price | string | NO | price
 side | string | YES | `buy` or `sell`
-type | string | YES | `limit` or `market` or `stop` or `stop_limit`
+position_side | string | NO | `long` or `short`
+type | string | YES | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 post_only | boolean | NO | Post Only (`true` can be specified only if type = `limit`. default `false`)
 trigger_price | string | NO | trigger price
 
@@ -725,6 +726,80 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
+
+### Margin
+
+#### Fetch positions information
+
+```txt
+GET /user/margin/positions
+```
+
+**Parameters(requestBody):**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | information regarding `margin_call` or `debt` or `settled`
+payables | { amount: string } | payables amount
+positions | [{ pair: string, position_side: string, open_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | information of positions
+losscut_threshold | { individual: string, company: string } | losscut threshold
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/positions" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/positions
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "notice": {
+      "what": "string",
+      "occurred_at": 0,
+      "amount": "0",
+      "due_date_at": 0
+    },
+    "payables": {
+      "amount": "0"
+    },
+    "positions": [
+      {
+        "pair": "string",
+        "position_side": "string",
+        "open_amount": "0",
+        "product": "0",
+        "average_price": "0",
+        "unrealized_fee_amount": "0",
+        "unrealized_interest_amount": "0"
+      }
+    ],
+    "losscut_threshold": {
+      "individual": "0",
+      "company": "0"
+    }
+  }
+}
+```
+
 
 ### Trade
 

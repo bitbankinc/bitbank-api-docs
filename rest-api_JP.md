@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-08-28)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-08-28)
+- [Private REST API一覧 (2024-11-11)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-11-11)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
@@ -18,6 +18,8 @@
       - [注文をキャンセルする(複数)](#%E6%B3%A8%E6%96%87%E3%82%92%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E3%81%99%E3%82%8B%E8%A4%87%E6%95%B0)
       - [注文情報を取得する(複数)](#%E6%B3%A8%E6%96%87%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B%E8%A4%87%E6%95%B0)
       - [アクティブな注文を取得する](#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%81%AA%E6%B3%A8%E6%96%87%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+    - [建玉情報](#%E5%BB%BA%E7%8E%89%E6%83%85%E5%A0%B1)
+      - [建玉・追証未収金情報を取得する](#%E5%BB%BA%E7%8E%89%E3%83%BB%E8%BF%BD%E8%A8%BC%E6%9C%AA%E5%8F%8E%E9%87%91%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [入金](#%E5%85%A5%E9%87%91)
@@ -37,7 +39,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-08-28)
+# Private REST API一覧 (2024-11-11)
 
 ## API 概要
 
@@ -368,10 +370,11 @@ POST /user/spot/order
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 pair | string | YES | 通貨ペア: [ペア一覧](pairs.md)
-amount | string | YES | 注文量
+amount | string | NO | 注文量。typeが `take_profit`、`stop_loss` 以外の場合は必須
 price | string | NO | 価格
 side | string | YES | `buy` または `sell`
-type | string | YES | `limit` または `market` または `stop` または `stop_limit`
+position_side | string | NO | `long` または `short`
+type | string | YES | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
 post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ `true` を指定可能。デフォルト `false`）
 trigger_price | string | NO | トリガー価格
 
@@ -734,6 +737,80 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
   }
 }
 ```
+
+### 建玉情報
+
+#### 建玉・追証未収金情報を取得する
+
+```txt
+GET /user/margin/positions
+```
+
+**Parameters(requestBody):**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | `追証` または `未収金` または `精算` に関する情報
+payables | { amount: string } | 未収金額
+positions | [{ pair: string, position_side: string, open_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | 建玉情報
+losscut_threshold | { individual: string, company: string } | 強制決済掛け目
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/positions" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/positions
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "notice": {
+      "what": "string",
+      "occurred_at": 0,
+      "amount": "0",
+      "due_date_at": 0
+    },
+    "payables": {
+      "amount": "0"
+    },
+    "positions": [
+      {
+        "pair": "string",
+        "position_side": "string",
+        "open_amount": "0",
+        "product": "0",
+        "average_price": "0",
+        "unrealized_fee_amount": "0",
+        "unrealized_interest_amount": "0"
+      }
+    ],
+    "losscut_threshold": {
+      "individual": "0",
+      "company": "0"
+    }
+  }
+}
+```
+
 
 ### 約定履歴
 
