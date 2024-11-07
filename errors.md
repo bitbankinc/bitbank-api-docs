@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2024-08-22)](#error-codes-for-bitbank-2024-08-22)
+- [Error codes for Bitbank (2024-11-11)](#error-codes-for-bitbank-2024-11-11)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2024-08-22)
+# Error codes for Bitbank (2024-11-11)
 
 Here is the format of error JSON payload:
 
@@ -141,6 +141,9 @@ The following is the list of Bitbank's error codes.
 - `40159` Invalid originator building.
 - `40160` Invalid originator substantial controller name.
 - `40163` Invalid beneficiary substantial controller name.
+- `40164` Invalid position side.
+- `40165` Can not be margin trading with such pair.
+- `40200` Stop open orders cannot be accepted.
 
 ## DATA_ERROR
 
@@ -171,6 +174,20 @@ The following is the list of Bitbank's error codes.
 - `50052` Originator requires additional entries.
 - `50053` Cannot edit originator under review.
 - `50054` Cannot withdraw because the information registration for unreflected deposits has not been completed.
+- `50055` Margin trading review has not been completed.
+- `50056` Temporarily restricting new margin orders. Please try your request again after a while.
+- `50057` Temporarily restricting new margin orders. Please try your request again after a while.
+- `50058` Exceeds available balance for open order.
+- `50059` Exceeds total margin position.
+- `50070` Withdrawals in JPY are not available.
+- `50071` Withdrawals in CC are not available.
+- `50072` Buy orders cannot be used in spot transactions.
+- `50073` Sell orders cannot be used in spot transactions.
+- `50078` Open orders cannot be used in margin trading.
+- `50079` Close orders cannot be used in margin trading.
+- `50080` Open orders cannot be used in margin trading.
+- `50081` Close orders cannot be used in margin trading.
+- `50083` Withdrawals can not be used due to realized loss.
 
 ## VALUE_ERROR
 
@@ -183,6 +200,8 @@ The following is the list of Bitbank's error codes.
 - `60011` Too many Simultaneous orders, current limit is 30.
 - `60016` Trigger price has exceeded the upper limit.
 - `60017` Withdrawal amount has exceeded the upper limit.
+- `60018` Trigger price to trigger immediately cannot be specified.
+- `60019` The side of a TakeProfit or StopLoss order must be in the close direction.
 
 ## STOP_UPDATE_REQUEST_SYSTEM_STATUS
 
@@ -207,3 +226,6 @@ The following is the list of Bitbank's error codes.
 - `70021` Limit order price is over the threshold.
 - `70022` Stop limit order has been temporarily restricted.
 - `70023` Stop order has been temporarily restricted.
+- `70024` Long open order has been temporarily restricted.
+- `70025` Short open order has been temporarily restricted.
+- `70026` Order has been temporarily restricted.
