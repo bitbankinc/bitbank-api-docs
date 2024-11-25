@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2024-09-05)](#pairs-2024-09-05)
+- [pairs (2024-11-21)](#pairs-2024-11-21)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2024-09-05)
+# pairs (2024-11-21)
 
 The following is the list of pair.
 
@@ -66,3 +66,5 @@ klay_jpy | klay | jpy | false
 imx_jpy | imx | jpy | false
 mask_jpy | mask | jpy | false
 pol_jpy | pol | jpy | false
+sol_jpy | sol | jpy | false
+cyber_jpy | cyber | jpy | false

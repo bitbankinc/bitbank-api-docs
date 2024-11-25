@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2024-09-05)](#assets-2024-09-05)
+- [assets (2024-11-21)](#assets-2024-11-21)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2024-09-05)
+# assets (2024-11-21)
 
 The following is the list of asset.
 
@@ -52,3 +52,5 @@ klay | klaytn
 imx | immutable x
 mask | mask network
 pol | polygon ecosystem token
+sol | solana
+cyber | cyber connect
