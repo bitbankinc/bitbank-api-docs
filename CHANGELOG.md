@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2024-11-11)
+# CHANGELOG for Bitbank's API (2024-11-21)
 
+## 2024-11-21
+* Added new pairs to
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2024-11-11
 * Updated docs
   * `rest-api.md`
