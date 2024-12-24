@@ -4,19 +4,21 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [リアルタイムデータ配信API (2024-08-28)](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api-2024-08-28)
+- [リアルタイムデータ配信API](#%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%87%E3%83%BC%E3%82%BF%E9%85%8D%E4%BF%A1api)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [WSチャンネル一覧](#ws%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E4%B8%80%E8%A6%A7)
     - [ティッカー](#%E3%83%86%E3%82%A3%E3%83%83%E3%82%AB%E3%83%BC)
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
     - [板情報の差分配信](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%B7%AE%E5%88%86%E9%85%8D%E4%BF%A1)
     - [板情報](#%E6%9D%BF%E6%83%85%E5%A0%B1)
+      - [circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合](#circuit_break_infomode%E3%81%8C-none-%E3%82%82%E3%81%97%E3%81%8F%E3%81%AF-%E8%A6%8B%E7%A9%8D%E4%BE%A1%E6%A0%BC%E3%81%8Cnull-%E3%81%AE%E5%A0%B4%E5%90%88)
+      - [circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合](#circuit_break_infomode%E3%81%8C-none-%E4%BB%A5%E5%A4%96-%E3%81%8B%E3%81%A4-%E8%A6%8B%E7%A9%8D%E4%BE%A1%E6%A0%BC%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%99%E3%82%8B-%E5%A0%B4%E5%90%88)
     - [サーキットブレイク情報](#%E3%82%B5%E3%83%BC%E3%82%AD%E3%83%83%E3%83%88%E3%83%96%E3%83%AC%E3%82%A4%E3%82%AF%E6%83%85%E5%A0%B1)
   - [板情報の処理方法](#%E6%9D%BF%E6%83%85%E5%A0%B1%E3%81%AE%E5%87%A6%E7%90%86%E6%96%B9%E6%B3%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# リアルタイムデータ配信API (2024-08-28)
+# リアルタイムデータ配信API
 
 ## API 概要
 
@@ -32,7 +34,7 @@
 ティッカーのwsチャンネルの名前： `ticker_{pair}`。
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
-circuit_break_info.mode が `NONE` 以外の場合、sellとbuyが反転する場合があります。
+通常モード以外の場合、sell <= buy となる場合があります。
 
 **Response:**
 
@@ -162,7 +164,7 @@ connected (press CTRL+C to quit)
 板情報の差分配信のwsチャンネルの名前： `depth_diff_{pair}`。
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
-circuit_break_info.mode が `NONE` 以外の場合、aとbが反転する場合があります。
+通常モード以外の場合、a <= b となる場合があります。
 
 **Response:**
 
@@ -170,10 +172,10 @@ Name | Type | Description
 ------------ | ------------ | ------------
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
-ao | string \| undefined | asksの最高値よりも高いasksの数量。数量の変動がない場合はメッセージに含まれません。
-bu | string \| undefined | bidsの最安値よりも安いbidsの数量。数量の変動がない場合はメッセージに含まれません。
-au | string \| undefined | bidsの最安値よりも安いasksの数量。数量の変動がない場合はメッセージに含まれません。
-bo | string \| undefined | asksの最高値よりも高いbidsの数量。数量の変動がない場合はメッセージに含まれません。
+ao | string \| undefined | [asks](#板情報)の最高値よりも高いasksの数量。数量の変動がない場合はメッセージに含まれません。
+bu | string \| undefined | [bids](#板情報)の最安値よりも安いbidsの数量。数量の変動がない場合はメッセージに含まれません。
+au | string \| undefined | [bids](#板情報)の最安値よりも安いasksの数量。数量の変動がない場合はメッセージに含まれません。
+bo | string \| undefined | [asks](#板情報)の最高値よりも高いbidsの数量。数量の変動がない場合はメッセージに含まれません。
 am | string \| undefined | 新しい成行売り数量。数量の変動がない場合はメッセージに含まれません。
 bm | string \| undefined | 新しい成行買い数量。数量の変動がない場合はメッセージに含まれません。
 t | number | 日時（UnixTimeのミリ秒）
@@ -253,7 +255,18 @@ connected (press CTRL+C to quit)
 板情報のwsチャンネルの名前： `depth_whole_{pair}`
 通貨ペアの一覧: [ペア一覧](pairs.md)。
 
-circuit_break_info.mode が `NONE` 以外の場合、asksとbidsが反転する場合があります。
+通常モード以外の場合、asks <= bids となる場合があります。
+
+#### circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合
+
+- asks, bidsで配信されるデータは、Best Bid Offerから200件ずつです。
+- したがって、asks, bidsのBBO（Best Bid Offer）は必ず `最も安いAsk > 最も高いBid` となります。
+
+#### circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合
+
+- asks, bidsで配信されるデータは、見積価格から上下200件ずつです。（最大400件）
+- したがって、通常時とは異なり、 `最も安いAsk < 最も高いBid` となる場合があります。
+- また、配信データの価格範囲よりも安い売り注文は `asks_under` に、高い買い注文は `bids_over` に加算されます。
 
 #### circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合
 
@@ -272,10 +285,10 @@ Name | Type | Description
 ------------ | ------------ | ------------
 asks | [string, string][] | 売り板 [価格, 数量]
 bids | [string, string][] | 買い板 [価格, 数量]
-asks_over | string | asksの最高値よりも高いasksの数量
-bids_under | string | bidsの最安値よりも安いbidsの数量
-asks_under | string | bidsの最安値よりも安いasksの数量。通常モードの場合は `0`
-bids_over | string | asksの最高値よりも高いbidsの数量。通常モードの場合は `0`
+asks_over | string | asksの最高値(asks配列の一番最後の要素)よりも高いasksの数量
+bids_under | string | bidsの最安値(bids配列の一番最後の要素)よりも安いbidsの数量
+asks_under | string | bidsの最安値(bids配列の一番最後の要素)よりも安いasksの数量。通常モードの場合は `0`
+bids_over | string | asksの最高値(asks配列の一番最後の要素)よりも高いbidsの数量。通常モードの場合は `0`
 ask_market | string | 成行売り数量。通常モードの場合は `0`
 bid_market | string | 成行買い数量。通常モードの場合は `0`
 timestamp | number | timestamp
@@ -357,14 +370,14 @@ connected (press CTRL+C to quit)
 Name | Type | Description
 ------------ | ------------ | ------------
 mode | string | `NONE` または `CIRCUIT_BREAK` または `FULL_RANGE_CIRCUIT_BREAK` または `RESUMPTION` または `LISTING`
-estimated_itayose_price | string \| null | 見積価格。ザラ場または見積価格が無い場合はnull
-estimated_itayose_amount | string \| null | 見積数量。ザラ場であればnull
-itayose_upper_price | string \| null | 参照価格レンジ上限。ザラ場、無期限、上場準備時はnull
-itayose_lower_price | string \| null | 参照価格レンジ下限。ザラ場、無期限、上場準備時はnull
+estimated_itayose_price | string \| null | 見積価格。通常モードまたは見積価格が無い場合はnull
+estimated_itayose_amount | string \| null | 見積数量。通常モードであればnull
+itayose_upper_price | string \| null | CB時制限値幅価格上限。通常モード、無期限サーキットブレイクモード、新規上場モードはnull
+itayose_lower_price | string \| null | CB時制限値幅価格下限。通常モード、無期限サーキットブレイクモード、新規上場モードはnull
 upper_trigger_price | string \| null | CB突入判定価格上限。CB中はnull
 lower_trigger_price | string \| null | CB突入判定価格下限。CB中はnull
 fee_type | string | `NORMAL` または `SELL_MAKER` または `BUY_MAKER` または `DYNAMIC`
-reopen_timestamp | number \| null | サーキットブレイク終了予定時刻（UnixTimeのミリ秒）。ザラ場、またはCB終了予定時刻がない場合はnull
+reopen_timestamp | number \| null | サーキットブレイク終了予定時刻（UnixTimeのミリ秒）。通常モード、またはCB終了予定時刻がない場合はnull
 timestamp | number | 日時（UnixTimeのミリ秒）
 
 `mode` および `fee_type` の詳細は[サーキットブレーカー制度](https://bitbank.cc/docs/circuit-breaker-mode/)のページをご確認ください。

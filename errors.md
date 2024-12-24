@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Error codes for Bitbank (2024-11-11)](#error-codes-for-bitbank-2024-11-11)
+- [Error codes for Bitbank](#error-codes-for-bitbank)
   - [SYSTEM_ERROR](#system_error)
   - [AUTHENTICATION_ERROR](#authentication_error)
   - [REQUIRED_PARAMETER_ERROR](#required_parameter_error)
@@ -15,7 +15,7 @@
 
 [日本語](errors_JP.md)
 
-# Error codes for Bitbank (2024-11-11)
+# Error codes for Bitbank
 
 Here is the format of error JSON payload:
 

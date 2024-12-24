@@ -4,19 +4,21 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Web Socket Streams for Bitbank (2024-08-28)](#web-socket-streams-for-bitbank-2024-08-28)
+- [Web Socket Streams for Bitbank](#web-socket-streams-for-bitbank)
   - [General WSS information](#general-wss-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
     - [Transactions](#transactions)
     - [Depth Diff](#depth-diff)
     - [Depth Whole](#depth-whole)
+      - [In circuit_break_info.mode is `NONE` or estimated price is null](#in-circuit_break_infomode-is-none-or-estimated-price-is-null)
+      - [In circuit_break_info.mode is not `NONE` and estimated price is not null](#in-circuit_break_infomode-is-not-none-and-estimated-price-is-not-null)
     - [Circuit Break Info](#circuit-break-info)
   - [How to manage a local order book correctly](#how-to-manage-a-local-order-book-correctly)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Web Socket Streams for Bitbank (2024-08-28)
+# Web Socket Streams for Bitbank
 
 ## General WSS information
 
@@ -31,7 +33,7 @@
 
 Ticker channel name is `ticker_{pair}`, available pairs are written in [pair list](pairs.md).
 
-Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+Except for continuous trading mode, it may be the case that sell <= buy.
 
 **Response:**
 
@@ -158,7 +160,7 @@ connected (press CTRL+C to quit)
 
 Depth Diff channel name is `depth_diff_{pair}`, available pairs are written in [pair list](pairs.md).
 
-Except for circuit_break_info.mode is `NONE`, a and b price possibly cross.
+Except for continuous trading mode, it may be the case that a <= b.
 
 **Response:**
 
@@ -166,10 +168,10 @@ Name | Type | Description
 ------------ | ------------ | ------------
 a | [string, string][] | [ask, amount][]
 b | [string, string][] | [bid, amount][]
-ao | string \| undefined | optional. The quantity of asks over the highest price of asks orders. If there is no change in quantity, it will not be included in the message.
-bu | string \| undefined | optional. The quantity of bids under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
-au | string \| undefined | optional. The quantity of asks under the lowest price of bids orders. If there is no change in quantity, it will not be included in the message.
-bo | string \| undefined | optional. The quantity of bids over the highest price of asks orders. If there is no change in quantity, it will not be included in the message.
+ao | string \| undefined | optional. The quantity of asks over the highest price of [asks orders](#Depth-Whole). If there is no change in quantity, it will not be included in the message.
+bu | string \| undefined | optional. The quantity of bids under the lowest price of [bids orders](#Depth-Whole). If there is no change in quantity, it will not be included in the message.
+au | string \| undefined | optional. The quantity of asks under the lowest price of [bids orders](#Depth-Whole) orders. If there is no change in quantity, it will not be included in the message.
+bo | string \| undefined | optional. The quantity of bids over the highest price of [asks orders](#Depth-Whole). If there is no change in quantity, it will not be included in the message.
 am | string \| undefined | optional. The quantity of market sell orders. If there is no change in quantity, it will not be included in the message.
 bm | string \| undefined | optional. The quantity of market buy orders. If there is no change in quantity, it will not be included in the message.
 t | number | published at unix timestamp (milliseconds)
@@ -248,7 +250,18 @@ connected (press CTRL+C to quit)
 
 Whole depth channel name is `depth_whole_{pair}`, available pairs are written in [pair list](pairs.md).
 
-Except for circuit_break_info.mode is `NONE`, asks and bids price possibly cross.
+Except for continuous trading mode, it may be the case that asks <= bids.
+
+#### In circuit_break_info.mode is `NONE` or estimated price is null
+
+- Asks and bids data is restricted to 200 entries each from best bid offer.
+- Asks and bids price never cross.
+
+#### In circuit_break_info.mode is not `NONE` and estimated price is not null
+
+- Asks and bids data is restricted to 200 entries each around the estimated price. (Max 400 entries)
+- Asks and bids price possibly cross.
+- asks_under, bids_over possibly includes the quantity of orders which price is out of range.
 
 #### In circuit_break_info.mode is `NONE` or estimated price is null
 

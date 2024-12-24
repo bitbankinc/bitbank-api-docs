@@ -4,12 +4,19 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API for Bitbank (2024-11-11)](#private-rest-api-for-bitbank-2024-11-11)
+- [Private REST API for Bitbank](#private-rest-api-for-bitbank)
   - [General API Information](#general-api-information)
   - [Authorization](#authorization)
+    - [ACCESS-TIME-WINDOW method](#access-time-window-method)
+    - [ACCESS-NONCE method](#access-nonce-method)
+    - [ACCESS-SIGNATURE](#access-signature)
+      - [Sample](#sample)
+        - [ACCESS-TIME-WINDOW](#access-time-window)
+        - [ACCESS-NONCE](#access-nonce)
   - [Rate limit](#rate-limit)
   - [General endpoints](#general-endpoints)
     - [Assets](#assets)
+      - [return user's asset list](#return-users-asset-list)
     - [Order](#order)
       - [Fetch order information](#fetch-order-information)
       - [Create new order](#create-new-order)
@@ -17,6 +24,8 @@
       - [Cancel multiple orders](#cancel-multiple-orders)
       - [Fetch multiple orders](#fetch-multiple-orders)
       - [Fetch active orders](#fetch-active-orders)
+    - [Margin](#margin)
+      - [Fetch positions information](#fetch-positions-information)
     - [Trade](#trade)
       - [Fetch trade history](#fetch-trade-history)
     - [Deposit](#deposit)
@@ -36,7 +45,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API for Bitbank (2024-11-11)
+# Private REST API for Bitbank
 
 ## General API Information
 
@@ -282,7 +291,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| null | `long` or `short`
+position_side | string \| undefined | `long` or `short`
 type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
@@ -374,7 +383,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| null | `long` or `short`
+position_side | string \| undefined | `long` or `short`
 type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
@@ -458,7 +467,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| null | `long` or `short`
+position_side | string \| undefined | `long` or `short`
 type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
@@ -469,7 +478,7 @@ user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
-canceled_at | number \| undefined | canceled at unix timestamp (milliseconds)
+canceled_at | number | canceled at unix timestamp (milliseconds)
 triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
 trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
@@ -535,6 +544,12 @@ pair | string | YES | pair enum: [pair list](pairs.md)
 order_ids | number[] | YES | order ids. Up to 30 ids can be specified
 
 **Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+orders | Array | list of object same as [Cancel order response](#cancel-order)
+
+**Response format:**
 
 ```json
 {
@@ -604,6 +619,11 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 </p>
 </details>
 
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+orders | Array | list of object same as [Fetch order information response](#fetch-order-information)
 
 **Response format:**
 
@@ -657,25 +677,7 @@ end | number | NO | end unix timestamp
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | order id
-pair | string | pair enum: [pair list](pairs.md)
-side | string | `buy` or `sell`
-position_side | string \| null | `long` or `short`
-type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
-start_amount | string \| null | order qty when placed
-remaining_amount | string \| null | qty not executed
-executed_amount| string | qty executed
-price | string \| undefined | order price (present only if type = `limit` or `stop_limit`)
-post_only | boolean \| undefined | whether Post Only or not (present only if type = `limit`)
-user_cancelable | boolean | whether cancelable order or not
-average_price | string | avg executed price
-ordered_at | number | ordered at unix timestamp (milliseconds)
-expire_at | number \| null | expiration time in unix timestamp (milliseconds)
-executed_at | number \| undefined | executed at unix timestamp (milliseconds)
-canceled_at | number \| undefined | canceled at unix timestamp (milliseconds)
-triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
-status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+orders | Array | list of object same as [Fetch order information response](#fetch-order-information)
 
 **Sample code:**
 
@@ -828,13 +830,14 @@ trade_id | number | trade id
 pair | string | pair enum: [pair list](pairs.md)
 order_id | number | order id
 side | string | `buy` or `sell`
-position_side | string \| null | `long` or `short`
+position_side | string \| undefined | `long` or `short`
 type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
 amount | string | amount
 price | string | order price
 maker_taker | string | maker or taker
 fee_amount_base | string | base asset fee amount
 fee_amount_quote | string | quote asset fee amount
+fee_occurred_amount_quote | string | quote fee occurred amount which taken later. In case of spot trading, this value is same as fee_amount_quote.
 profit_loss | string \| undefined | realized profit and loss
 interest | string \| undefined | interest
 executed_at | number | order executed at unix timestamp (milliseconds)
