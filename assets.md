@@ -6,7 +6,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# assets (2024-12-11)
+# assets
 
 The following is the list of asset.
 

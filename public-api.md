@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Public REST API for Bitbank (2024-08-28)](#public-rest-api-for-bitbank-2024-08-28)
+- [Public REST API for Bitbank](#public-rest-api-for-bitbank)
   - [General API Information](#general-api-information)
   - [General endpoints](#general-endpoints)
     - [Ticker](#ticker)
@@ -19,7 +19,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Public REST API for Bitbank (2024-08-28)
+# Public REST API for Bitbank
 
 ## General API Information
 
@@ -42,7 +42,7 @@
 
 Get Ticker information
 
-Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+Except for continuous trading mode, it may be the case that sell <= buy.
 
 ```txt
 GET /{pair}/ticker
@@ -89,7 +89,7 @@ timestamp | number | ticked at unix timestamp (milliseconds)
 
 Get All Tickers information
 
-Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+Except for continuous trading mode, it may be the case that sell <= buy.
 
 ```txt
 GET /tickers
@@ -136,7 +136,7 @@ timestamp | number | ticked at unix timestamp (milliseconds)
 
 Get All JPY Pair Tickers information
 
-Except for circuit_break_info.mode is `NONE`, sell and buy price possibly cross.
+Except for continuous trading mode, it may be the case that sell <= buy.
 
 ```txt
 GET /tickers_jpy

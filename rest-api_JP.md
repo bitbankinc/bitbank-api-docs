@@ -4,9 +4,15 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Private REST API一覧 (2024-11-11)](#private-rest-api%E4%B8%80%E8%A6%A7-2024-11-11)
+- [Private REST API一覧](#private-rest-api%E4%B8%80%E8%A6%A7)
   - [API 概要](#api-%E6%A6%82%E8%A6%81)
   - [認証](#%E8%AA%8D%E8%A8%BC)
+    - [ACCESS-TIME-WINDOW方式](#access-time-window%E6%96%B9%E5%BC%8F)
+    - [ACCESS-NONCE方式](#access-nonce%E6%96%B9%E5%BC%8F)
+    - [署名](#%E7%BD%B2%E5%90%8D)
+      - [サンプル](#%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB)
+        - [ACCESS-TIME-WINDOW](#access-time-window)
+        - [ACCESS-NONCE](#access-nonce)
   - [レートリミット](#%E3%83%AC%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9F%E3%83%83%E3%83%88)
   - [エンドポイント一覧](#%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7)
     - [アセット](#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88)
@@ -39,7 +45,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Private REST API一覧 (2024-11-11)
+# Private REST API一覧
 
 ## API 概要
 
@@ -293,7 +299,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-position_side | string \| null | `long` または `short`
+position_side | string \| undefined | `long` または `short`
 type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
 start_amount | string \| null | 注文時の数量
 remaining_amount | string \| null | 未約定の数量
@@ -385,7 +391,7 @@ Name | Type | Description
 order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-position_side | string \| null | `long` または `short`
+position_side | string \| undefined | `long` または `short`
 type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
 start_amount | string \| null | 注文時の数量
 remaining_amount | string \| null | 未約定の数量
@@ -547,6 +553,12 @@ order_ids | number[] | YES | 注文ID。最大30個まで指定可能
 
 **Response:**
 
+Name | Type | Description
+------------ | ------------ | ------------
+orders | Array | [注文をキャンセルする](#注文をキャンセルする)のレスポンスオブジェクトのリスト
+
+**Response format:**
+
 ```json
 {
   "success": 1,
@@ -615,6 +627,11 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 </p>
 </details>
 
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+orders | Array | [注文情報を取得する](#注文情報を取得する)のレスポンスオブジェクトのリスト
 
 **レスポンスのフォーマット:**
 
@@ -668,25 +685,7 @@ end | number | NO | 終了UNIXタイムスタンプ
 
 Name | Type | Description
 ------------ | ------------ | ------------
-order_id | number | order id
-pair | string | 通貨ペア: [ペア一覧](pairs.md)
-side | string | `buy` または `sell`
-position_side | string \| null | `long` または `short`
-type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
-start_amount | string \| null | 注文時の数量
-remaining_amount | string \| null | 未約定の数量
-executed_amount| string | 約定済み数量
-price | string \| undefined | 注文価格（type = `limit` または `stop_limit` 時のみ）
-post_only | boolean \| undefined | Post Onlyかどうか（type = `limit`時のみ）
-user_cancelable | boolean | ユーザがキャンセル可能な注文かどうか
-average_price | string | 平均約定価格
-ordered_at | number | 注文日時(UnixTimeのミリ秒)
-expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
-executed_at | number \| undefined | 約定日時(UnixTimeのミリ秒)
-canceled_at | number \| undefined | キャンセル日時(UnixTimeのミリ秒)
-triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
-status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+orders | Array | [注文情報を取得する](#注文情報を取得する)のレスポンスオブジェクトのリスト
 
 **サンプルコード:**
 
@@ -839,13 +838,14 @@ trade_id | number | trade id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 order_id | number | 注文ID
 side | string | `buy` または `sell`
-position_side | string \| null | `long` または `short`
+position_side | string \| undefined | `long` または `short`
 type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
 amount | string | 注文量
 price | string | 価格
 maker_taker | string | `maker` または `taker`
 fee_amount_base | string | base手数料
 fee_amount_quote | string | quote手数料
+fee_occurred_amount_quote | string | quote発生手数料。後ほど徴収される。現物取引ではfee_amount_quoteと同値。
 profit_loss | string \| undefined | 実現損益
 interest | string \| undefined | 利息
 executed_at | number | 約定日時（UnixTimeのミリ秒）

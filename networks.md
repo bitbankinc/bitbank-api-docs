@@ -6,7 +6,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# networks (2023-11-08)
+# networks
 
 The following is the list of network.
 
