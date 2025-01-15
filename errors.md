@@ -174,11 +174,11 @@ The following is the list of Bitbank's error codes.
 - `50052` Originator requires additional entries.
 - `50053` Cannot edit originator under review.
 - `50054` Cannot withdraw because the information registration for unreflected deposits has not been completed.
-- `50055` Margin trading review has not been completed.
-- `50056` Temporarily restricting new margin orders. Please try your request again after a while.
-- `50057` Temporarily restricting new margin orders. Please try your request again after a while.
-- `50058` Exceeds available balance for open order.
-- `50059` Exceeds total margin position.
+- `50058` Margin trading review has not been completed.
+- `50059` Temporarily restricting new margin orders. Please try your request again after a while.
+- `50060` Temporarily restricting new margin orders. Please try your request again after a while.
+- `50061` Exceeds available balance for open order.
+- `50062` Exceeds total margin position.
 - `50070` Withdrawals in JPY are not available.
 - `50071` Withdrawals in CC are not available.
 - `50072` Buy orders cannot be used in spot transactions.
