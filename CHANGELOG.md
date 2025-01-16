@@ -1,7 +1,13 @@
-# CHANGELOG for Bitbank's API (2024-12-24)
+# CHANGELOG for Bitbank's API (2025-01-16)
 
+## 2025-01-16
+
+* Updated docs
+  * `errors.md`
+  * `errors_JP.md`
+
+---
 ## 2024-12-24
-
 * Updated docs
   * `public-api.md`
   * `public-api_JP.md`
