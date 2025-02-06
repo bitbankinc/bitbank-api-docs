@@ -1,7 +1,13 @@
-# CHANGELOG for Bitbank's API (2025-01-16)
+# CHANGELOG for Bitbank's API (2025-02-03)
 
+## 2025-02-03
+* Updated docs
+  * `pairs.md`
+  * `networks.md`
+  * `assets.md`
+
+---
 ## 2025-01-16
-
 * Updated docs
   * `errors.md`
   * `errors_JP.md`
@@ -42,7 +48,6 @@
   * `pairs.md`
   * `assets.md`
 
----
 ## 2024-08-28
 * Updated docs
   * `assets.md`

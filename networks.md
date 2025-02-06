@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [networks (2023-11-08)](#networks-2023-11-08)
+- [networks](#networks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -32,3 +32,4 @@ bsc | BNB Smart Chain
 arbitrum | Arbitrum
 op | OP Mainnet
 polygon | Polygon
+tron | Tron
