@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [assets (2024-12-11)](#assets-2024-12-11)
+- [assets](#assets)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -55,3 +55,4 @@ pol | polygon ecosystem token
 sol | solana
 cyber | cyber connect
 render | render
+trx | tron

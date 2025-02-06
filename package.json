@@ -4,7 +4,7 @@
   "description": "Official Documentation for the bitbank.cc APIs and Streams",
   "main": "README.md",
   "scripts": {
-    "toc": "doctoc rest-api.md rest-api_JP.md public-stream.md public-stream_JP.md public-api.md public-api_JP.md errors.md errors_JP.md",
+    "toc": "doctoc rest-api.md rest-api_JP.md public-stream.md public-stream_JP.md public-api.md public-api_JP.md errors.md errors_JP.md networks.md assets.md pairs.md",
     "changelog": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
