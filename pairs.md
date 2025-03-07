@@ -70,3 +70,4 @@ sol_jpy | sol | jpy | false
 cyber_jpy | cyber | jpy | false
 render_jpy | render | jpy | false
 trx_jpy | trx | jpy | false
+lpt_jpy | lpt | jpy | false

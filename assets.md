@@ -56,3 +56,4 @@ sol | solana
 cyber | cyber connect
 render | render
 trx | tron
+lpt | livepeer
