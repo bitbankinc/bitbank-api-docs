@@ -1,5 +1,14 @@
-# CHANGELOG for Bitbank's API (2025-03-04)
+# CHANGELOG for Bitbank's API (2025-04-01)
 
+## 2025-04-01
+* Added new docs
+  * `private-stream.md`
+  * `private-stream_JP.md`
+* Updated docs
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2025-03-04
 * Updated docs
   * `pairs.md`

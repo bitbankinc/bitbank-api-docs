@@ -25,7 +25,7 @@
       - [注文情報を取得する(複数)](#%E6%B3%A8%E6%96%87%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B%E8%A4%87%E6%95%B0)
       - [アクティブな注文を取得する](#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%81%AA%E6%B3%A8%E6%96%87%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [建玉情報](#%E5%BB%BA%E7%8E%89%E6%83%85%E5%A0%B1)
-      - [建玉・追証未収金情報を取得する](#%E5%BB%BA%E7%8E%89%E3%83%BB%E8%BF%BD%E8%A8%BC%E6%9C%AA%E5%8F%8E%E9%87%91%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+      - [建玉・追証・不足金額情報を取得する](#%E5%BB%BA%E7%8E%89%E3%83%BB%E8%BF%BD%E8%A8%BC%E3%83%BB%E4%B8%8D%E8%B6%B3%E9%87%91%E9%A1%8D%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [入金](#%E5%85%A5%E9%87%91)
@@ -42,6 +42,8 @@
       - [取引所ステータスを取得する](#%E5%8F%96%E5%BC%95%E6%89%80%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [銘柄詳細](#%E9%8A%98%E6%9F%84%E8%A9%B3%E7%B4%B0)
       - [銘柄詳細一覧を取得する](#%E9%8A%98%E6%9F%84%E8%A9%B3%E7%B4%B0%E4%B8%80%E8%A6%A7%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+    - [プライベートストリーム](#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%82%B9%E3%83%88%E3%83%AA%E3%83%BC%E3%83%A0)
+      - [プライベートストリームのチャンネルとトークンを取得する](#%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%82%B9%E3%83%88%E3%83%AA%E3%83%BC%E3%83%A0%E3%81%AE%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E3%81%A8%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -299,8 +301,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-position_side | string \| undefined | `long` または `short`
-type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+position_side | string \| undefined | `long` または `short`（信用取引の時のみ）
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`, `losscut`のうちいずれか
 start_amount | string \| null | 注文時の数量
 remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -310,8 +312,8 @@ user_cancelable | boolean | ユーザがキャンセル可能な注文かどう�
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
-triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **注意事項:**
@@ -380,7 +382,7 @@ amount | string | NO | 注文量。typeが `take_profit`、`stop_loss` 以外の
 price | string | NO | 価格
 side | string | YES | `buy` または `sell`
 position_side | string | NO | `long` または `short`
-type | string | YES | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+type | string | YES | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`, `losscut`のうちいずれか
 post_only | boolean | NO | Post Onlyかどうか（type = `limit` 時のみ `true` を指定可能。デフォルト `false`）
 trigger_price | string | NO | トリガー価格
 
@@ -391,8 +393,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-position_side | string \| undefined | `long` または `short`
-type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+position_side | string \| undefined | `long` または `short`（信用取引の時のみ）
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`, `losscut`のうちいずれか
 start_amount | string \| null | 注文時の数量
 remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -402,7 +404,7 @@ user_cancelable | boolean | ユーザがキャンセル可能な注文かどう�
 average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
-trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **注意事項:**
@@ -475,8 +477,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 side | string | `buy` または `sell`
-position_side | string \| null | `long` または `short`
-type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+position_side | string \| undefined | `long` または `short`（信用取引の時のみ）
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`, `losscut`のうちいずれか
 start_amount | string \| null | 注文時の数量
 remaining_amount | string \| null | 未約定の数量
 executed_amount| string | 約定済み数量
@@ -487,8 +489,8 @@ average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
 canceled_at | number \| undefined | キャンセル日時(UnixTimeのミリ秒)
-triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop` または `stop_limit` 時のみ）
-trigger_price | string \| undefined | トリガー価格（type = `stop` または `stop_limit` 時のみ）
+triggered_at | number \| undefined | トリガー日時(UnixTimeのミリ秒)（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
+trigger_price | string \| undefined | トリガー価格（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
 status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
 
 **サンプルコード:**
@@ -739,7 +741,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
 ### 建玉情報
 
-#### 建玉・追証未収金情報を取得する
+#### 建玉・追証・不足金額情報を取得する
 
 ```txt
 GET /user/margin/positions
@@ -752,8 +754,8 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | `追証` または `未収金` または `精算` に関する情報
-payables | { amount: string } | 未収金額
+notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | `追証` または `不足金` または `精算` に関する情報
+payables | { amount: string } | 不足金額
 positions | [{ pair: string, position_side: string, open_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | 建玉情報
 losscut_threshold | { individual: string, company: string } | 強制決済掛け目
 
@@ -838,8 +840,8 @@ trade_id | number | trade id
 pair | string | 通貨ペア: [ペア一覧](pairs.md)
 order_id | number | 注文ID
 side | string | `buy` または `sell`
-position_side | string \| undefined | `long` または `short`
-type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`のうちいずれか
+position_side | string \| undefined | `long` または `short`（信用取引の時のみ）
+type | string | `limit`、`market`、`stop`、`stop_limit`、`take_profit`、`stop_loss`, `losscut`のうちいずれか
 amount | string | 注文量
 price | string | 価格
 maker_taker | string | `maker` または `taker`
@@ -1641,6 +1643,58 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "stop_sell_order": false
       }
     ]
+  }
+}
+```
+
+### プライベートストリーム
+
+#### プライベートストリームのチャンネルとトークンを取得する
+
+プライベートストリームのチャンネルとトークンを取得します。
+チャンネルとトークンの使い方は[こちら](private-stream_JP.md)を参照してください。
+
+```txt
+GET /user/subscribe
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pubnub_channel | string | チャンネル
+pubnub_token | string | トークン
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/subscribe" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/subscribe
+```
+
+</p>
+</details>
+
+
+**レスポンスのフォーマット:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "pubnub_channel": "string",
+    "pubnub_token": "string"
   }
 }
 ```

@@ -42,6 +42,8 @@
       - [Get exchange status](#get-exchange-status)
     - [Settings](#settings)
       - [Get all pairs info](#get-all-pairs-info)
+    - [Private stream](#private-stream)
+      - [Get channel and token for private stream](#get-channel-and-token-for-private-stream)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -291,8 +293,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| undefined | `long` or `short`
-type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+position_side | string \| undefined | `long` or `short`(only for margin trading)
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`, `losscut`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
@@ -302,8 +304,8 @@ user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
-triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
+triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Caveat:**
@@ -372,7 +374,7 @@ amount | string | NO | amount. required if type is other than `take_profit`, `st
 price | string | NO | price
 side | string | YES | `buy` or `sell`
 position_side | string | NO | `long` or `short`
-type | string | YES | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+type | string | YES | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`, `losscut`
 post_only | boolean | NO | Post Only (`true` can be specified only if type = `limit`. default `false`)
 trigger_price | string | NO | trigger price
 
@@ -383,8 +385,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| undefined | `long` or `short`
-type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+position_side | string \| undefined | `long` or `short`(only for margin trading)
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`, `losscut`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
@@ -394,7 +396,7 @@ user_cancelable | boolean | whether cancelable order or not
 average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
-trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Caveat:**
@@ -467,8 +469,8 @@ Name | Type | Description
 order_id | number | order id
 pair | string | pair enum: [pair list](pairs.md)
 side | string | `buy` or `sell`
-position_side | string \| undefined | `long` or `short`
-type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+position_side | string \| undefined | `long` or `short`(only for margin trading)
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`, `losscut`
 start_amount | string \| null | order qty when placed
 remaining_amount | string \| null | qty not executed
 executed_amount| string | qty executed
@@ -479,8 +481,8 @@ average_price | string | avg executed price
 ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
 canceled_at | number | canceled at unix timestamp (milliseconds)
-triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop` or `stop_limit`)
-trigger_price | string \| undefined | trigger price (present only if type = `stop` or `stop_limit`)
+triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
+trigger_price | string \| undefined | trigger price (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
 status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
 
 **Sample code:**
@@ -830,8 +832,8 @@ trade_id | number | trade id
 pair | string | pair enum: [pair list](pairs.md)
 order_id | number | order id
 side | string | `buy` or `sell`
-position_side | string \| undefined | `long` or `short`
-type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`
+position_side | string \| undefined | `long` or `short`(only for margin trading)
+type | string | one of `limit`, `market`, `stop`, `stop_limit`, `take_profit`, `stop_loss`, `losscut`
 amount | string | amount
 price | string | order price
 maker_taker | string | maker or taker
@@ -1633,6 +1635,58 @@ curl https://api.bitbank.cc/v1/spot/pairs
         "stop_sell_order": false
       }
     ]
+  }
+}
+```
+
+### Private stream
+
+#### Get channel and token for private stream
+
+Get channel and token for private stream.
+Please refer to [the page of private stream](private-stream.md) for more details.
+
+```txt
+GET /user/subscribe
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+pubnub_channel | string | channel name
+pubnub_token | string | token
+
+**Sample code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/subscribe" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/subscribe
+```
+
+</p>
+</details>
+
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "pubnub_channel": "string",
+    "pubnub_token": "string"
   }
 }
 ```
