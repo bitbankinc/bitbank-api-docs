@@ -450,7 +450,7 @@ unrealized_interest_amount | string | 未実現利息
 
 #### 決済損金額・不足金額情報通知 margin_payable_update
 
-決済損金額・未収金情報を受信します。
+決済損金額・不足金情報を受信します。
 
 Name | Type | Description
 ------------ | ------------ | ------------
