@@ -1,4 +1,4 @@
-# CHANGELOG for Bitbank's API (2025-04-01)
+# CHANGELOG for Bitbank's API (2025-04-17)
 
 ## 2025-04-17
 * Updated docs
