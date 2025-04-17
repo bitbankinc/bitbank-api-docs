@@ -1646,6 +1646,10 @@ curl https://api.bitbank.cc/v1/spot/pairs
 Get channel and token for private stream.
 Please refer to [the page of private stream](private-stream.md) for more details.
 
+pubnub_channel is assigned a unique channel for each user.
+pubnub_token has TTL(time to live) of 12 hours.
+When the pubnub_token expires, the connection to PubNub will be disconnected. Please call this API again to obtain a new pubnub_token.
+
 ```txt
 GET /user/subscribe
 ```

@@ -1654,6 +1654,10 @@ curl https://api.bitbank.cc/v1/spot/pairs
 プライベートストリームのチャンネルとトークンを取得します。
 チャンネルとトークンの使い方は[こちら](private-stream_JP.md)を参照してください。
 
+pubnub_channelは、ユーザごとに異なるチャンネル名が割り当てられます。
+pubnub_tokenには12時間の有効期限が設定されています。
+pubnub_tokenの有効期限が切れると、PubNubとの接続が切断されるため、再度このAPIを呼び出して新しいpubnub_tokenを取得してください。
+
 ```txt
 GET /user/subscribe
 ```
