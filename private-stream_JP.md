@@ -527,6 +527,17 @@ const API_SECRET = '<your_api_secret>';
 
 const PUBNUB_SUB_KEY = 'sub-c-ecebae8e-dd60-11e6-b6b1-02ee2ddab7fe';
 
+const store = new Map();
+// statusは0->3の方向にしか変化しない
+const STATUS_STAGE = {
+    INACTIVE: 0,
+    UNFILLED: 1,
+    PARTIALLY_FILLED: 2,
+    FULLY_FILLED: 3,
+    CANCELED_PARTIALLY_FILLED: 3,
+    CANCELED_UNFILLED: 3,
+}
+
 const main = async () => {
     const { channel, token } = await getChannelAndToken();
 
@@ -534,9 +545,17 @@ const main = async () => {
 
     subscribePrivateChannel(pubnub, channel, token);
 
+    // statusが3=不活性の状態になった場合は1分後storeから削除する
     setInterval(() => {
-        // Keep connection alive
-    }, 10000);
+      const now = new Date().getTime();
+      store.forEach((value, key) => {
+        if (now - value.last_update_at > 60 * 1000 && STATUS_STAGE[value.status] === 3) {
+          store.delete(key);
+        }
+      });
+
+      console.log('store:', store);
+    }, 60 * 1000);
 }
 
 const toSha256 = (key, value) =>{
@@ -553,6 +572,18 @@ const getPubNubAndAddListener = (channel, token) => {
     userId: channel,
     ssl: true,
   });
+  /**
+   * 注意： いくつかのSDKでは、addListenerとは別にsubscriptionインスタンスにて個別のメッセージ受信メソッドを持っていますが、
+   *       併用するとメッセージがどちらかにしか届かない可能性があるため、
+   *       addListener内でstatus, messageの受信処理をまとめて行うことを推奨します。
+   *
+   * 以下は使用しないことを推奨します。
+   * JavaScript: subscription.onMessage
+   * Java: subscription.setOnMessage
+   * C#: subscription.OnMessage
+   * Ruby: subscription.on_message
+   * etc.
+   */
   pubnub.addListener({
     status: async (status) => {
       switch (status.category) {
@@ -626,9 +657,30 @@ const getPubNubAndAddListener = (channel, token) => {
       }
     },
 
+    // メッセージの順序は保証されないため、注文の順番が入れ替わっていたとしてもより状況が進んでいるもののみstoreに残るようにする必要がある
+    // 注文messageが来たときにstoreを見て、なかったら追加、あったとしたら注文の状況が進んでいる時のみ更新する。
     message: (data) => {
       if (data && data.message) {
         console.info('message received', JSON.stringify(data.message));
+      }
+      if (data.message.method === 'spot_order_new' || data.message.method === 'spot_order') {
+        const order = data.message.params[0];
+        if (!store.has(order.order_id)) {
+          store.set(order.order_id, {
+            status: order.status,
+            remaining_amount: order.remaining_amount,
+            last_update_at: new Date().getTime(),
+          });
+        } else {
+          const last = store.get(order.order_id);
+          if (STATUS_STAGE[last.status] < STATUS_STAGE[order.status] || (STATUS_STAGE[last.status] === STATUS_STAGE[order.status] && last.remaining_amount > order.remaining_amount)) {
+            store.set(order.order_id, {
+              status: order.status,
+              remaining_amount: order.remaining_amount,
+              last_update_at: new Date().getTime(),
+            });
+          }
+        }
       }
     },
   });
