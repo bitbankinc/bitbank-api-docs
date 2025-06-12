@@ -1,5 +1,11 @@
 # CHANGELOG for Bitbank's API (2025-05-13)
 
+## 2025-06-10
+* Updated docs
+  * `private-stream.md`
+  * `private-stream_JP.md`
+
+---
 ## 2025-05-13
 * Updated docs
   * `pairs.md`

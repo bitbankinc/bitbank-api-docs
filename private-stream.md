@@ -525,6 +525,17 @@ const API_SECRET = '<your_api_secret>';
 
 const PUBNUB_SUB_KEY = 'sub-c-ecebae8e-dd60-11e6-b6b1-02ee2ddab7fe';
 
+const store = new Map();
+// status only changes in the direction from 0 to 3
+const STATUS_STAGE = {
+    INACTIVE: 0,
+    UNFILLED: 1,
+    PARTIALLY_FILLED: 2,
+    FULLY_FILLED: 3,
+    CANCELED_PARTIALLY_FILLED: 3,
+    CANCELED_UNFILLED: 3,
+}
+
 const main = async () => {
 
     const { channel, token } = await getChannelAndToken();
@@ -533,9 +544,17 @@ const main = async () => {
 
     subscribePrivateChannel(pubnub, channel, token);
 
+    // If the status becomes 3 (inactive), remove it from the store after 1 minute
     setInterval(() => {
-        // Keep connection alive
-    }, 10000);
+      const now = new Date().getTime();
+      store.forEach((value, key) => {
+        if (now - value.last_update_at > 60 * 1000 && STATUS_STAGE[value.status] === 3) {
+          store.delete(key);
+        }
+      });
+
+      console.log('store:', store);
+    }, 60 * 1000);
 }
 
 const toSha256 = (key, value) =>{
@@ -552,6 +571,18 @@ const getPubNubAndAddListener = (channel, token) => {
     userId: channel,
     ssl: true,
   });
+  /**
+   * Note: In some SDKs, there are separate message receiving methods on the subscription instance in addition to addListener.
+   *       Using both may result in messages being delivered to only one handler.
+   *       It is recommended to handle both status and message events within addListener.
+   *
+   * The following are not recommended:
+   * JavaScript: subscription.onMessage
+   * Java: subscription.setOnMessage
+   * C#: subscription.OnMessage
+   * Ruby: subscription.on_message
+   * etc.
+   */
   pubnub.addListener({
     status: async (status) => {
       switch (status.category) {
@@ -625,9 +656,30 @@ const getPubNubAndAddListener = (channel, token) => {
       }
     },
 
+    // Since message order is not guaranteed, only the most up-to-date order status should remain in the store, even if order messages arrive out of sequence.
+    // When an order message arrives, check the store: if it doesn't exist, add it; if it does, update only if the order status has progressed.
     message: (data) => {
       if (data && data.message) {
         console.info('message received', JSON.stringify(data.message));
+      }
+      if (data.message.method === 'spot_order_new' || data.message.method === 'spot_order') {
+        const order = data.message.params[0];
+        if (!store.has(order.order_id)) {
+          store.set(order.order_id, {
+            status: order.status,
+            remaining_amount: order.remaining_amount,
+            last_update_at: new Date().getTime(),
+          });
+        } else {
+          const last = store.get(order.order_id);
+          if (STATUS_STAGE[last.status] < STATUS_STAGE[order.status] || (STATUS_STAGE[last.status] === STATUS_STAGE[order.status] && last.remaining_amount > order.remaining_amount)) {
+            store.set(order.order_id, {
+              status: order.status,
+              remaining_amount: order.remaining_amount,
+              last_update_at: new Date().getTime(),
+            });
+          }
+        }
       }
     },
   });
