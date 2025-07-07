@@ -24,7 +24,8 @@
       - [注文をキャンセルする(複数)](#%E6%B3%A8%E6%96%87%E3%82%92%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E3%81%99%E3%82%8B%E8%A4%87%E6%95%B0)
       - [注文情報を取得する(複数)](#%E6%B3%A8%E6%96%87%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B%E8%A4%87%E6%95%B0)
       - [アクティブな注文を取得する](#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%81%AA%E6%B3%A8%E6%96%87%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
-    - [建玉情報](#%E5%BB%BA%E7%8E%89%E6%83%85%E5%A0%B1)
+    - [信用取引情報](#%E4%BF%A1%E7%94%A8%E5%8F%96%E5%BC%95%E6%83%85%E5%A0%B1)
+      - [信用取引ステータスを取得する](#%E4%BF%A1%E7%94%A8%E5%8F%96%E5%BC%95%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
       - [建玉・追証・不足金額情報を取得する](#%E5%BB%BA%E7%8E%89%E3%83%BB%E8%BF%BD%E8%A8%BC%E3%83%BB%E4%B8%8D%E8%B6%B3%E9%87%91%E9%A1%8D%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
     - [約定履歴](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4)
       - [約定履歴を取得する](#%E7%B4%84%E5%AE%9A%E5%B1%A5%E6%AD%B4%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
@@ -739,7 +740,101 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 }
 ```
 
-### 建玉情報
+### 信用取引情報
+
+#### 信用取引ステータスを取得する
+
+```txt
+GET /user/margin/status
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+---- | ---- | -----------
+status | string | 口座状況ステータス: `NORMAL` 正常, `LOSSCUT` 強制決済中, `CALL` 追証発生中, `DEBT` 不足金発生中, `SETTLED` 債権売却済。未申込時も `NORMAL` を返却します。
+total_margin_balance_percentage | string \| null | 保証金率%。小数以下2桁になるように切り捨てています。建玉が無い時は `null` です。
+total_margin_balance | string | 受入保証金合計額。小数以下4桁になるように切り捨てています。
+margin_position_profit_loss | string | 評価損益。小数以下4桁になるように-∞方向に丸めています。
+unrealized_cost | string | 未収費用。小数以下4桁になるように+∞方向に丸めています。
+total_margin_position_product | string | 建玉合計。小数以下4桁になるように切り捨てています。
+open_margin_position_product | string | 建玉の保有分。小数以下4桁になるように切り捨てています。
+open_margin_order_product | string | 建玉の新規発注中。小数以下4桁になるように切り捨てています。
+total_position_maintenance_margin | string | 維持必要保証金額。小数以下4桁になるように切り上げています。
+total_long_position_maintenance_margin | string | 維持必要保証金額のロング分。小数以下4桁になるように切り上げています。
+total_short_position_maintenance_margin | string | 維持必要保証金額のショート分。小数以下4桁になるように切り上げています。
+total_open_order_maintenance_margin | string | 約定時必要保証金額。小数以下4桁になるように切り上げています。
+total_long_open_order_maintenance_margin | string | 約定時必要保証金額のロング分。小数以下4桁になるように切り上げています。
+total_short_open_order_maintenance_margin | string | 約定時必要保証金額のショート分。小数以下4桁になるように切り上げています。
+margin_call_percentage | string \| null | 追加保証金率%。小数以下0桁になるように切り上げています。建玉が無い時は `null` です。
+losscut_percentage | string \| null | 強制決済率%。小数以下0桁になるように切り上げています。建玉が無い時は `null` です。
+buy_credit | string | 買いのご利用可能枠
+sell_credit | string | 売りのご利用可能枠
+available_balances | {pair: string, long: string, short: string}[] | 新規建てご利用可能額
+
+available_balances の各項目は以下の通りです:
+
+Name | Type | Description
+---- | ---- | -----------
+pair | string | 信用ペア名
+long | string | ロング新規建てご利用可能額。小数以下4桁になるように切り捨てています。
+short | string | ショート新規建てご利用可能額。小数以下4桁になるように切り捨てています。
+
+**サンプルコード:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/status
+```
+
+</p>
+</details>
+
+**レスポンスのフォーマット:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "status": "NORMAL",
+    "total_margin_balance_percentage": null,
+    "total_margin_balance": "0.0000",
+    "margin_position_profit_loss": "0.0000",
+    "unrealized_cost": "0.0000",
+    "total_margin_position_product": "0.0000",
+    "open_margin_position_product": "0.0000",
+    "open_margin_order_product": "0.0000",
+    "total_position_maintenance_margin": "0.0000",
+    "total_long_position_maintenance_margin": "0.0000",
+    "total_short_position_maintenance_margin": "0.0000",
+    "total_open_order_maintenance_margin": "0.0000",
+    "total_long_open_order_maintenance_margin": "0.0000",
+    "total_short_open_order_maintenance_margin": "0.0000",
+    "margin_call_percentage": null,
+    "losscut_percentage": null,
+    "buy_credit": "0",
+    "sell_credit": "0",
+    "available_balances": [
+      {
+        "pair": "btc_jpy",
+        "long": "0.0000",
+        "short": "0.0000"
+      },
+    ]
+  }
+}
+```
 
 #### 建玉・追証・不足金額情報を取得する
 
@@ -747,7 +842,7 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 GET /user/margin/positions
 ```
 
-**Parameters(requestBody):**
+**Parameters:**
 None
 
 **Response:**

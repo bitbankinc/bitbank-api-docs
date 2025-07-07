@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2025-05-13)
+# CHANGELOG for Bitbank's API (2025-07-07)
 
+## 2025-07-07
+* Added a GET /user/margin/status endpoint to
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2025-06-10
 * Updated docs
   * `private-stream.md`
