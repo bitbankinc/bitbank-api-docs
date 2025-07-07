@@ -25,6 +25,7 @@
       - [Fetch multiple orders](#fetch-multiple-orders)
       - [Fetch active orders](#fetch-active-orders)
     - [Margin](#margin)
+      - [Fetch Margin Trading Status](#fetch-margin-trading-status)
       - [Fetch positions information](#fetch-positions-information)
     - [Trade](#trade)
       - [Fetch trade history](#fetch-trade-history)
@@ -733,13 +734,107 @@ curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS
 
 ### Margin
 
+#### Fetch Margin Trading Status
+
+```txt
+GET /user/margin/status
+```
+
+**Parameters:**
+None
+
+**Response:**
+
+Name | Type | Description
+---- | ---- | -----------
+status | string | account status: `NORMAL` (normal), `LOSSCUT` (forced liquidation is ongoing), `CALL` (margin call), `DEBT` (payables occurred), `SETTLED` (debt permanently resolved). It also returns `NORMAL` if you have not applied to a margin trade yet.
+total_margin_balance_percentage | string \| null | Margin balance percentage. Truncated to two decimal places. Returns `null` if there are no positions.
+total_margin_balance | string | Total margin balance. Truncated to four decimal places.
+margin_position_profit_loss | string | Unrealized profit and loss. Rounded towards -∞ to four decimal places.
+unrealized_cost | string | Unrealized cost. Rounded towards +∞ to four decimal places.
+total_margin_position_product | string | Total position size. Truncated to four decimal places.
+open_margin_position_product | string | Open position size. Truncated to four decimal places.
+open_margin_order_product | string | Open order size. Truncated to four decimal places.
+total_position_maintenance_margin | string | Maintenance margin required for all positions. Rounded up to four decimal places.
+total_long_position_maintenance_margin | string | Maintenance margin required for long positions. Rounded up to four decimal places.
+total_short_position_maintenance_margin | string | Maintenance margin required for short positions. Rounded up to four decimal places.
+total_open_order_maintenance_margin | string | Maintenance margin required for all open orders. Rounded up to four decimal places.
+total_long_open_order_maintenance_margin | string | Maintenance margin required for long open orders. Rounded up to four decimal places.
+total_short_open_order_maintenance_margin | string | Maintenance margin required for short open orders. Rounded up to four decimal places.
+margin_call_percentage | string \| null | Margin call threshold in percentage. Rounded up to zero decimal places. Returns `null` if there are no positions.
+losscut_percentage | string \| null | Forced liquidation threshold in percentage. Rounded up to zero decimal places. Returns `null` if there are no positions.
+buy_credit | string | available credit for buying
+sell_credit | string | available credit for selling
+available_balances | {pair: string, long: string, short: string}[] | available balances for opening new positions
+
+Each item in `available_balances` has the following structure:
+
+Name | Type | Description
+---- | ---- | -----------
+pair | string | margin pair name
+long | string | Available balance for opening long positions. Truncated to four decimal places.
+short | string | Available balance for opening short positions. Truncated to four decimal places.
+
+**Sample Code:**
+
+<details>
+<summary>Curl</summary>
+<p>
+
+```sh
+export API_KEY=___your api key___
+export API_SECRET=___your api secret___
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
+
+curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/status
+```
+
+</p>
+</details>
+
+**Response format:**
+
+```json
+{
+  "success": 1,
+  "data": {
+    "status": "NORMAL",
+    "total_margin_balance_percentage": null,
+    "total_margin_balance": "0.0000",
+    "margin_position_profit_loss": "0.0000",
+    "unrealized_cost": "0.0000",
+    "total_margin_position_product": "0.0000",
+    "open_margin_position_product": "0.0000",
+    "open_margin_order_product": "0.0000",
+    "total_position_maintenance_margin": "0.0000",
+    "total_long_position_maintenance_margin": "0.0000",
+    "total_short_position_maintenance_margin": "0.0000",
+    "total_open_order_maintenance_margin": "0.0000",
+    "total_long_open_order_maintenance_margin": "0.0000",
+    "total_short_open_order_maintenance_margin": "0.0000",
+    "margin_call_percentage": null,
+    "losscut_percentage": null,
+    "buy_credit": "0",
+    "sell_credit": "0",
+    "available_balances": [
+      {
+        "pair": "btc_jpy",
+        "long": "0.0000",
+        "short": "0.0000"
+      },
+    ]
+  }
+}
+```
+
 #### Fetch positions information
 
 ```txt
 GET /user/margin/positions
 ```
 
-**Parameters(requestBody):**
+**Parameters:**
 None
 
 **Response:**
