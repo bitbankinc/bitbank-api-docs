@@ -263,17 +263,6 @@ Except for continuous trading mode, it may be the case that asks <= bids.
 - Asks and bids price possibly cross.
 - asks_under, bids_over possibly includes the quantity of orders which price is out of range.
 
-#### In circuit_break_info.mode is `NONE` or estimated price is null
-
-- Asks and bids data is restricted to 200 entries each from best bid offer.
-- Asks and bids price never cross.
-
-#### In circuit_break_info.mode is not `NONE` and estimated price is not null
-
-- Asks and bids data is restricted to 200 entries each around the estimated price. (Max 400 entries)
-- Asks and bids price possibly cross.
-- asks_under, bids_over possibly includes the quantity of orders which price is out of range.
-
 **Response:**
 
 Name | Type | Description
