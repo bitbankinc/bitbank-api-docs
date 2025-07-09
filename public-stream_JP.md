@@ -268,17 +268,6 @@ connected (press CTRL+C to quit)
 - したがって、通常時とは異なり、 `最も安いAsk < 最も高いBid` となる場合があります。
 - また、配信データの価格範囲よりも安い売り注文は `asks_under` に、高い買い注文は `bids_over` に加算されます。
 
-#### circuit_break_info.modeが `NONE` もしくは 見積価格がNull の場合
-
-- asks, bidsで配信されるデータは、Best Bid Offerから200件ずつです。
-- したがって、asks, bidsのBBO（Best Bid Offer）は必ず `最も安いAsk > 最も高いBid` となります。
-
-#### circuit_break_info.modeが `NONE` 以外 かつ 見積価格が存在する 場合
-
-- asks, bidsで配信されるデータは、見積価格から上下200件ずつです。（最大400件）
-- したがって、通常時とは異なり、 `最も安いAsk < 最も高いBid` となる場合があります。
-- また、配信データの価格範囲よりも安い売り注文は `asks_under` に、高い買い注文は `bids_over` に加算されます。
-
 **Response:**
 
 Name | Type | Description
