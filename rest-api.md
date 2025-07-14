@@ -111,7 +111,7 @@ if (ACCESS-REQUEST-TIME < (serverTime + 1000) && (serverTime - ACCESS-REQUEST-TI
 export API_SECRET="hoge"
 export ACCESS_REQUEST_TIME="1721121776490"
 export ACCESS_TIME_WINDOW="1000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 
 echo $ACCESS_SIGNATURE
@@ -125,7 +125,7 @@ export API_SECRET="hoge"
 export ACCESS_REQUEST_TIME="1721121776490"
 export ACCESS_TIME_WINDOW="1000"
 export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_REQUEST_TIME$ACCESS_TIME_WINDOW$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 
 echo $ACCESS_SIGNATURE
@@ -139,7 +139,7 @@ echo $ACCESS_SIGNATURE
 ```bash
 export API_SECRET="hoge"
 export ACCESS_NONCE="1721121776490"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 
 echo $ACCESS_SIGNATURE
@@ -152,7 +152,7 @@ f957817b95c3af6cf5e2e9dfe1503ea8088f46879d4ab73051467fd7b94f1aba
 export API_SECRET="hoge"
 export ACCESS_NONCE="1721121776490"
 export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 
 echo $ACCESS_SIGNATURE
@@ -210,7 +210,7 @@ collateral_ratio | string | collateral ratio
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/assets" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/assets
 ```
@@ -324,7 +324,7 @@ status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULL
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/order?pair=btc_jpy&order_id=1" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/order?pair=btc_jpy&order_id=1" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/order?pair=btc_jpy\&order_id=1
 ```
@@ -415,7 +415,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"pair": "xrp_jpy", "price": "20", "amount": "1","side": "buy", "type": "limit"}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/order
 ```
@@ -497,7 +497,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"pair": "xrp_jpy", "order_id": 1}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/cancel_order
 ```
@@ -614,7 +614,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"pair": "xrp_jpy", "order_ids": [1]}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/spot/orders_info
 ```
@@ -692,7 +692,7 @@ orders | Array | list of object same as [Fetch order information response](#fetc
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/active_orders?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/active_orders?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/active_orders?pair=btc_jpy
 ```
@@ -785,7 +785,7 @@ short | string | Available balance for opening short positions. Truncated to fou
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/status" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/status" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/status
 ```
@@ -856,7 +856,7 @@ losscut_threshold | { individual: string, company: string } | losscut threshold
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/positions" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/margin/positions" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/margin/positions
 ```
@@ -949,7 +949,7 @@ executed_at | number | order executed at unix timestamp (milliseconds)
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/trade_history?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/spot/trade_history?pair=btc_jpy" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/spot/trade_history?pair=btc_jpy
 ```
@@ -1031,7 +1031,7 @@ confirmed_at | number | confirmed (about to be added to your balance) at unix ti
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_history?asset=btc
 ```
@@ -1092,7 +1092,7 @@ created_at | number| created at unix timestamp (milliseconds)
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/unconfirmed_deposits" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/unconfirmed_deposits" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/unconfirmed_deposits
 ```
@@ -1165,7 +1165,7 @@ prefecture | string \| null | originator substantial controller prefecture
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_originators" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_originators" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/deposit_originators
 ```
@@ -1265,7 +1265,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"deposits": [{ "uuid": "___deposit uuid___", "originator_uuid": "___originator uuid___" }]}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits
 ```
@@ -1309,7 +1309,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"originator_uuid": "___originator uuid___"}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/confirm_deposits_all
 ```
@@ -1360,7 +1360,7 @@ address | string | withdrawal address
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_account?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_account?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_account?asset=btc
 ```
@@ -1435,7 +1435,7 @@ export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
 export REQUEST_BODY='{"asset": "xrp", "uuid": "___your uuid___", "amount": "1"}'
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE$REQUEST_BODY" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' -H "Content-Type: application/json" -d ''"$REQUEST_BODY"'' https://api.bitbank.cc/v1/user/request_withdrawal
 ```
@@ -1520,7 +1520,7 @@ requested_at | number | requested at unix timestamp (milliseconds)
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/withdrawal_history?asset=btc
 ```
@@ -1769,7 +1769,7 @@ pubnub_token | string | token
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/subscribe" | openssl dgst -sha256 -hmac "$API_SECRET")"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/subscribe" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
 curl -H 'ACCESS-KEY:'"$API_KEY"'' -H 'ACCESS-NONCE:'"$ACCESS_NONCE"'' -H 'ACCESS-SIGNATURE:'"$ACCESS_SIGNATURE"'' https://api.bitbank.cc/v1/user/subscribe
 ```
