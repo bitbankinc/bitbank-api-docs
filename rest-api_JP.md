@@ -523,6 +523,7 @@ curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNA
     "order_id": 0,
     "pair": "string",
     "side": "string",
+    "position_side": "string",
     "type": "string",
     "start_amount": "string",
     "remaining_amount": "string",
