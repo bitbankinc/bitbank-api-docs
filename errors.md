@@ -51,6 +51,7 @@ The following is the list of Bitbank's error codes.
 - `20011` MFA failed.
 - `20014` SMS verification failed.
 - `20018` Please login. (This happens when you request API without `/v1/`.)
+- `20019` Please login. (This also happens when you request API without `/v1/`.)
 - `20023` Missing OTP code.
 - `20024` Missing SMS code.
 - `20025` Missing OTP and SMS code.

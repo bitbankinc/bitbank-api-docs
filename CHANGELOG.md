@@ -1,5 +1,14 @@
-# CHANGELOG for Bitbank's API (2025-07-07)
+# CHANGELOG for Bitbank's API (2025-07-14)
 
+## 2025-07-14
+* Fixed sample CURL in
+  * `rest-api.md`
+  * `rest-api_JP.md`
+* Added 20019 error code in
+  * `errors.md`
+  * `errors_JP.md`
+
+---
 ## 2025-07-07
 * Added a GET /user/margin/status endpoint to
   * `rest-api.md`
