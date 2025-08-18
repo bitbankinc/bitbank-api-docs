@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2025-07-14)
+# CHANGELOG for Bitbank's API (2025-08-14)
 
+## 2025-08-14
+* Updated docs
+  * `pairs.md`
+  * `assets.md`
+
+---
 ## 2025-07-14
 * Fixed sample CURL in
   * `rest-api.md`

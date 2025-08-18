@@ -72,3 +72,4 @@ render_jpy | render | jpy | false
 trx_jpy | trx | jpy | false
 lpt_jpy | lpt | jpy | false
 atom_jpy | atom | jpy | false
+sui_jpy | sui | jpy | false
