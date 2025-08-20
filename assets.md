@@ -58,3 +58,4 @@ render | render
 trx | tron
 lpt | livepeer
 atom | cosmos
+sui | sui
