@@ -59,3 +59,4 @@ trx | tron
 lpt | livepeer
 atom | cosmos
 sui | sui
+sky | sky 
