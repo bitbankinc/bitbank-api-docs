@@ -2,11 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [pairs (2024-12-11)](#pairs-2024-12-11)
+- [pairs](#pairs)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# pairs (2024-12-11)
+# pairs
 
 The following is the list of pair.
 
@@ -35,7 +35,7 @@ xym_jpy | xym | jpy | false
 xym_btc | xym | btc | true
 link_jpy | link | jpy | false
 link_btc | link | btc | true
-mkr_jpy | mkr | jpy | false
+mkr_jpy | mkr | jpy | true
 mkr_btc | mkr | btc | true
 boba_jpy | boba | jpy | false
 boba_btc | boba | btc | true
@@ -73,3 +73,4 @@ trx_jpy | trx | jpy | false
 lpt_jpy | lpt | jpy | false
 atom_jpy | atom | jpy | false
 sui_jpy | sui | jpy | false
+sky_jpy | sui | jpy | false
