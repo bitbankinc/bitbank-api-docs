@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2025-09-19)
+# CHANGELOG for Bitbank's API (2025-12-22)
 
+## 2025-12-22
+* Updated docs
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2025-09-19
 * Updated docs
   * `pairs.md`

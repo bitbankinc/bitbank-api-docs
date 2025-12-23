@@ -307,7 +307,7 @@ ordered_at | number | ordered at unix timestamp (milliseconds)
 expire_at | number \| null | expiration time in unix timestamp (milliseconds)
 triggered_at | number \| undefined | triggered at unix timestamp (milliseconds) (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
 trigger_price | string \| undefined | trigger price (present only if type = `stop`, `stop_limit`, `take_profit`, `stop_loss`)
-status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`
+status | string | status enum: `INACTIVE`, `UNFILLED`, `PARTIALLY_FILLED`, `FULLY_FILLED`, `CANCELED_UNFILLED`, `CANCELED_PARTIALLY_FILLED`, `REJECTED`
 
 **Caveat:**
 
