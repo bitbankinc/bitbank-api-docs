@@ -406,7 +406,7 @@ average_price | string | 平均約定価格
 ordered_at | number | 注文日時(UnixTimeのミリ秒)
 expire_at | number \| null | 有効期限(UnixTimeのミリ秒)
 trigger_price | string \| undefined | トリガー価格（type = `stop`, `stop_limit`, `take_profit`, `stop_loss` 時のみ）
-status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定)
+status | string | 注文ステータス: `INACTIVE` 非アクティブ, `UNFILLED` 注文中, `PARTIALLY_FILLED` 注文中(一部約定), `FULLY_FILLED` 約定済み, `CANCELED_UNFILLED` 取消済, `CANCELED_PARTIALLY_FILLED` 取消済(一部約定), `REJECTED` 無効
 
 **注意事項:**
 - circuit_break_info.mode が `NONE` 以外の場合は成行注文を行うことができず、`70020`エラーが返ります。
