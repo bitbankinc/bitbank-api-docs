@@ -999,7 +999,7 @@ GET /user/deposit_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | enum: [asset list](assets.md)
+asset | string | NO | enum: [asset list](assets.md)
 count | number | NO | take limit (up to 100)
 since | number | NO | since unix timestamp
 end | number | NO | end unix timestamp
@@ -1020,6 +1020,8 @@ confirmed_at | number | confirmed (about to be added to your balance) at unix ti
 
 **Caveat:**
 
+* If you do not specify the asset parameter, the deposit history for all crypto assets will be returned.
+* To retrieve the history in JPY, set the `asset` parameter to `jpy`.
 * The deposit history response currently does not contain destination tag, memo and bank account. Use txid for matching asset flows with other systems.
 
 **Sample code:**
@@ -1032,9 +1034,9 @@ confirmed_at | number | confirmed (about to be added to your balance) at unix ti
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
 export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
 
-curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/deposit_history?asset=btc"
+curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/deposit_history"
 ```
 
 </p>
@@ -1484,7 +1486,7 @@ GET /user/withdrawal_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | enum: [asset list](assets.md)
+asset | string | NO | enum: [asset list](assets.md)
 count | number | NO | take limit (up to 100)
 since | number | NO | since unix timestamp
 end | number | NO | end unix timestamp
@@ -1511,6 +1513,11 @@ account_owner | string | owner of withdrawal account (only for fiat assets)
 status | string | withdrawal status enum: `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | requested at unix timestamp (milliseconds)
 
+**Caveat:**
+
+* If you do not specify the asset parameter, the withdrawal history for all crypto assets will be returned.
+* To retrieve the history in JPY, set the `asset` parameter to `jpy`.
+
 **Sample code:**
 
 <details>
@@ -1520,10 +1527,10 @@ requested_at | number | requested at unix timestamp (milliseconds)
 ```sh
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history" | openssl dgst -sha256 -hmac "$API_SECRET")"
 
-curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/withdrawal_history?asset=btc"
+curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/withdrawal_history"
 ```
 
 </p>
