@@ -1007,7 +1007,7 @@ GET /user/deposit_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | アセット名: [アセット一覧](assets.md)
+asset | string | NO | アセット名: [アセット一覧](assets.md)
 count | number | NO | 取得する履歴数(最大100)
 since | number | NO | 開始UNIXタイムスタンプ(ミリ秒)
 end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
@@ -1028,6 +1028,8 @@ confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(�
 
 **注意事項:**
 
+* `asset`を指定しなかった場合は全ての暗号資産の履歴を取得します。
+* 日本円の履歴を取得する場合は`aseet`に`jpy`を指定してください。
 * 現時点では入金履歴レスポンスには宛先タグ、メモおよび銀行口座情報が含まれていません。他システムの送金・送信との突合にはtxidをお使いください。
 
 **サンプルコード:**
@@ -1039,10 +1041,10 @@ confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(�
 ```sh
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/deposit_history" | openssl dgst -sha256 -hmac "$API_SECRET")"
 
-curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/deposit_history?asset=btc"
+curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/deposit_history"
 ```
 
 </p>
@@ -1492,7 +1494,7 @@ GET /user/withdrawal_history
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | string | YES | アセット名: [アセット一覧](assets.md)
+asset | string | NO | アセット名: [アセット一覧](assets.md)
 count | number | NO | 取得する履歴数(最大100)
 since | number | NO | 開始UNIXタイムスタンプ(ミリ秒)
 end | number | NO | 終了UNIXタイムスタンプ(ミリ秒)
@@ -1519,6 +1521,11 @@ account_owner | string | 出金先口座名義(法定通貨の時のみ)
 status | string | `CONFIRMING`, `EXAMINING`, `SENDING`,  `DONE`, `REJECTED`, `CANCELED`, `CONFIRM_TIMEOUT`
 requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒)
 
+**注意事項:**
+
+* `asset`を指定しなかった場合は全ての暗号資産の履歴を取得します。
+* 日本円の履歴を取得する場合は`aseet`に`jpy`を指定してください。
+
 **サンプルコード:**
 
 <details>
@@ -1528,10 +1535,10 @@ requested_at | number | リクエスト日時UNIXタイムスタンプ(ミリ秒
 ```sh
 export API_KEY=___your api key___
 export API_SECRET=___your api secret___
-export ACCESS_NONCE="$(date +%s)000"
-export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history?asset=btc" | openssl dgst -sha256 -hmac "$API_SECRET" | awk '{print $NF}')"
+export ACCESS_NONCE="$(date +%s)"
+export ACCESS_SIGNATURE="$(echo -n "$ACCESS_NONCE/v1/user/withdrawal_history" | openssl dgst -sha256 -hmac "$API_SECRET")"
 
-curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/withdrawal_history?asset=btc"
+curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNATURE: $ACCESS_SIGNATURE" "https://api.bitbank.cc/v1/user/withdrawal_history"
 ```
 
 </p>
