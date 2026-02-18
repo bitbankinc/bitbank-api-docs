@@ -317,6 +317,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 type | string | candle type enum: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 ohlcv | [string, string, string, string, string, number][] | [open, high, low, close, volume, **unix timestamp (milliseconds)**]
+timestamp | number | published at unix timestamp (milliseconds)
 
 **Response format:**
 
@@ -336,7 +337,8 @@ ohlcv | [string, string, string, string, string, number][] | [open, high, low, c
             "string",
             0
           ]
-        ]
+        ],
+        "timestamp": 0
       }
     ]
   }

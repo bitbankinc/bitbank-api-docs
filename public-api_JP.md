@@ -317,6 +317,7 @@ Name | Type | Description
 ------------ | ------------ | ------------
 type | string | 以下の期間から指定: `1min`, `5min`, `15min`, `30min`, `1hour`, `4hour`, `8hour`, `12hour`, `1day`, `1week`, `1month`
 ohlcv | [string, string, string, string, string, number][] | [始値, 高値, 安値, 終値, 出来高, **UnixTimeのミリ秒**]
+timestamp | number | 公開日時（UnixTimeのミリ秒）
 
 **レスポンスのフォーマット:**
 
@@ -336,7 +337,8 @@ ohlcv | [string, string, string, string, string, number][] | [始値, 高値, �
             "string",
             0
           ]
-        ]
+        ],
+        "timestamp": 0
       }
     ]
   }
