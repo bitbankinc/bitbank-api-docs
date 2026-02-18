@@ -203,6 +203,7 @@ The following is the list of Bitbank's error codes.
 - `60017` Withdrawal amount has exceeded the upper limit.
 - `60018` Trigger price to trigger immediately cannot be specified.
 - `60019` The side of a TakeProfit or StopLoss order must be in the close direction.
+- `60020` Exceeded the amount that can be withdrawn at one time. Please reduce the amount and request again.
 
 ## STOP_UPDATE_REQUEST_SYSTEM_STATUS
 

@@ -1,5 +1,14 @@
-# CHANGELOG for Bitbank's API (2025-12-23)
+# CHANGELOG for Bitbank's API (2026-02-18)
 
+## 2026-02-18
+* Updated docs
+  * `public-api.md`
+  * `public-api_JP.md`
+* Added 60020 error code in
+  * `errors.md`
+  * `errors_JP.md`
+
+---
 ## 2025-12-23
 * Updated docs
   * `rest-api.md`
