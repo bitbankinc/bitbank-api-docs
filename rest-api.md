@@ -1402,8 +1402,8 @@ Name | Type | Mandatory | Description
 asset | string | YES | enum: [asset list](assets.md)
 uuid | string | YES | withdrawal account's uuid
 amount | string | YES | withdrawal amount
-otp_token | string | NO | provide if MFA is set up
-sms_token | string | NO | provide if MFA is set up
+otp_token | string | NO | Two-factor authentication token (required if enabled)
+sms_token | string | NO | SMS authentication token (required if enabled)
 
 **Response:**
 
