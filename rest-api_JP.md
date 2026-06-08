@@ -1410,8 +1410,8 @@ Name | Type | Mandatory | Description
 asset | string | YES | アセット名: [アセット一覧](assets.md)
 uuid | string | YES | 出金アカウントのuuid
 amount | string | YES | 出金数量
-otp_token | string | NO | 二段階認証トークン(設定している場合、otp_tokenかsms_tokenのどちらか一方を指定)
-sms_token | string | NO | SMS認証トークン
+otp_token | string | NO | 二段階認証トークン(設定している場合、指定必須)
+sms_token | string | NO | SMS認証トークン(設定している場合、指定必須)
 
 **Response:**
 
