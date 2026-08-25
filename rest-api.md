@@ -1015,6 +1015,7 @@ network | string | enum: [network list](networks.md)
 amount | number | deposit amount
 txid | string \| null | deposit transaction id (only for crypto assets)
 status | string | deposit status enum: `FOUND`, `CONFIRMED`, `DONE`
+category | string | deposit category: `NORMAL`, `MANUAL`, `STAKING`
 found_at | number | found at unix timestamp (milliseconds)
 confirmed_at | number | confirmed (about to be added to your balance) at unix timestamp (milliseconds, exists only for confirmed one)
 
@@ -1057,6 +1058,7 @@ curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNA
         "amount": "string",
         "txid": "string",
         "status": "string",
+        "category": "string",
         "found_at": 0,
         "confirmed_at": 0
       }
