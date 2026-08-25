@@ -1023,6 +1023,7 @@ network | string | ネットワーク名: [ネットワーク一覧](networks.md
 amount | number | 入金数量
 txid | string \| null | 入金トランザクションID(暗号資産の時のみ)
 status | string | 入金状態: `FOUND`, `CONFIRMED`, `DONE`
+category | string | 入金種別: `NORMAL`, `MANUAL`, `STAKING`
 found_at | number | 検知UNIXタイムスタンプ(ミリ秒)
 confirmed_at | number | 承認(残高追加確定時)UNIXタイムスタンプ(ミリ秒、承認後のみ存在)
 
@@ -1065,6 +1066,7 @@ curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNA
         "amount": "string",
         "txid": "string",
         "status": "string",
+        "category": "string",
         "found_at": 0,
         "confirmed_at": 0
       }
