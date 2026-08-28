@@ -143,8 +143,8 @@ The following is the list of Bitbank's error codes.
 - `40160` Invalid originator substantial controller name.
 - `40163` Invalid beneficiary substantial controller name.
 - `40164` Invalid position side.
-- `40165` Can not be margin trading with such pair.
-- `40200` Stop open orders cannot be accepted.
+- `40167` Can not be margin trading with such pair.
+- `40202` Stop open orders cannot be accepted.
 
 ## DATA_ERROR
 
@@ -180,15 +180,16 @@ The following is the list of Bitbank's error codes.
 - `50060` Temporarily restricting new margin orders. Please try your request again after a while.
 - `50061` Exceeds available balance for open order.
 - `50062` Exceeds total margin position.
-- `50070` Withdrawals in JPY are not available.
-- `50071` Withdrawals in CC are not available.
-- `50072` Buy orders cannot be used in spot transactions.
-- `50073` Sell orders cannot be used in spot transactions.
-- `50078` Open orders cannot be used in margin trading.
-- `50079` Close orders cannot be used in margin trading.
-- `50080` Open orders cannot be used in margin trading.
-- `50081` Close orders cannot be used in margin trading.
-- `50083` Withdrawals can not be used due to realized loss.
+- `50073` JPY withdrawals are not available.
+- `50074` Crypto asset withdrawals are not available.
+- `50075` Spot buy orders are not available.
+- `50076` Spot sell orders are not available.
+- `50081` Margin sell orders to open positions are not available.
+- `50082` Margin sell orders to close positions are not available.
+- `50083` Margin buy orders to open positions are not available.
+- `50084` Margin buy orders to close positions are not available.
+- `50086` Withdrawals are not available due to realized losses.
+- `50088` Withdrawals are not available due to outstanding debt on a held account.
 
 ## VALUE_ERROR
 
