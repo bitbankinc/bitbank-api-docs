@@ -1,5 +1,14 @@
-# CHANGELOG for Bitbank's API (2026-06-08)
+# CHANGELOG for Bitbank's API (2026-08-28)
 
+## 2026-08-28
+* Fixed incorrect error code numbers and clarified descriptions in
+  * `errors.md`
+  * `errors_JP.md`
+* Added 50088 error code in
+  * `errors.md`
+  * `errors_JP.md`
+
+---
 ## 2026-06-08
 * Updated docs
   * `rest-api.md`
