@@ -1,5 +1,11 @@
-# CHANGELOG for Bitbank's API (2026-08-28)
+# CHANGELOG for Bitbank's API (2026-09-08)
 
+## 2026-09-08
+* Added `locked_amount` to GET /user/margin/positions and documented `notice` and `positions` fields in more detail in
+  * `rest-api.md`
+  * `rest-api_JP.md`
+
+---
 ## 2026-08-28
 * Fixed incorrect error code numbers and clarified descriptions in
   * `errors.md`
