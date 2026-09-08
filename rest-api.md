@@ -842,10 +842,32 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | information regarding `margin_call` or `debt` or `settled`
+notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | information regarding `margin_call` or `debt` or `settled`; see below
 payables | { amount: string } | payables amount
-positions | [{ pair: string, position_side: string, open_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | information of positions
+positions | [{ pair: string, position_side: string, open_amount: string, locked_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | information of positions; see below
 losscut_threshold | { individual: string, company: string } | losscut threshold
+
+`notice` has the following structure:
+
+Name | Type | Description
+------------ | ------------ | ------------
+what | string \| null | what the notice is for (`margin_call`, `debt`, or `settled`). `null` if there is no notice.
+occurred_at | number \| null | unix timestamp when the notice occurred. `null` if there is no notice.
+amount | string \| null | amount of the notice in JPY. `null` if there is no notice or if `what` is `settled`.
+due_date_at | number \| null | unix timestamp of the due date. `null` if there is no notice or if `what` is `settled`.
+
+Each item in `positions` has the following structure:
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | pair enum: [pair list](pairs.md)
+position_side | string | `long` or `short`
+open_amount | string | open amount
+locked_amount | string | locked amount (equal to the total `remaining_amount` of active margin-close orders)
+product | string | quote amount of this position
+average_price | string | average executed price (`product` / `open_amount`)
+unrealized_fee_amount | string | unrealized fee amount
+unrealized_interest_amount | string | unrealized interest amount
 
 **Sample code:**
 
@@ -886,6 +908,7 @@ curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNA
         "pair": "string",
         "position_side": "string",
         "open_amount": "0",
+        "locked_amount": "0",
         "product": "0",
         "average_price": "0",
         "unrealized_fee_amount": "0",

@@ -850,10 +850,32 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | `追証` または `不足金` または `精算` に関する情報
+notice | { what: string \| null, occurred_at: number \| null, amount: string \| null, due_date_at: number \| null } | `追証` または `不足金` または `精算` に関する情報。詳細は後述
 payables | { amount: string } | 不足金額
-positions | [{ pair: string, position_side: string, open_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | 建玉情報
+positions | [{ pair: string, position_side: string, open_amount: string, locked_amount: string, product: string, average_price: string, unrealized_fee_amount: string, unrealized_interest_amount: string }] | 建玉情報。詳細は後述
 losscut_threshold | { individual: string, company: string } | 強制決済掛け目
+
+notice の各項目は以下の通りです:
+
+Name | Type | Description
+------------ | ------------ | ------------
+what | string \| null | 何についての通知か。(`margin_call`(追証) または `debt`(不足金あり) または `settled`(精算済)。) 通知がない場合は `null`。
+occurred_at | number \| null | 通知発生日時のUNIXタイムスタンプ。通知がない場合は `null`。
+amount | string \| null | 通知の金額(JPY)。通知がない場合または `what` が `settled` の場合は `null`。
+due_date_at | number \| null | 対応期限のUNIXタイムスタンプ。通知がない場合または `what` が `settled` の場合は `null`。
+
+positions の各項目は以下の通りです:
+
+Name | Type | Description
+------------ | ------------ | ------------
+pair | string | 通貨ペア: [ペア一覧](pairs.md)
+position_side | string | `long` または `short`
+open_amount | string | 建玉数量
+locked_amount | string | 建玉ロック数量（アクティブ信用決済注文の `remaining_amount` の合計）
+product | string | この建玉のquote量
+average_price | string | 平均約定価格（`product` / `open_amount`）
+unrealized_fee_amount | string | 未実現手数料
+unrealized_interest_amount | string | 未実現利息
 
 **サンプルコード:**
 
@@ -894,6 +916,7 @@ curl -H "ACCESS-KEY: $API_KEY" -H "ACCESS-NONCE: $ACCESS_NONCE" -H "ACCESS-SIGNA
         "pair": "string",
         "position_side": "string",
         "open_amount": "0",
+        "locked_amount": "0",
         "product": "0",
         "average_price": "0",
         "unrealized_fee_amount": "0",
