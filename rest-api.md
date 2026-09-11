@@ -1103,7 +1103,7 @@ None
 
 Name | Type | Description
 ------------ | ------------ | ------------
-uuid | string | deposit uuid
+uuid | string | unconfirmed deposit uuid
 asset | string | enum: [asset list](assets.md)
 amount | string | deposit amount
 network | string | enum: [network list](networks.md)
@@ -1164,10 +1164,10 @@ Name | Type | Description
 ------------ | ------------ | ------------
 uuid | string | originator uuid
 label | string | originator label
-deposit_type | string | deposit type enum: `WALLET`, `ELSE`
+deposit_type | string | deposit source enum: `WALLET` (private wallet), `ELSE` (other)
 deposit_purpose | string \| null | deposit purpose
-originator_status | string | originator status enum: `SCREENING`, `CONFIRMED`, `REJECTED`, `DEPRECATED`
-originator_type | string | originator type enum: `OWN`, `PERSON`, `COMPANY`
+originator_status | string | originator status enum: `SCREENING` (under review), `CONFIRMED` (accepted), `REJECTED` (rejected), `DEPRECATED` (revision required)
+originator_type | string | originator type enum: `OWN` (yourself), `PERSON` (an individual other than yourself), `COMPANY` (a corporation other than yours)
 originator_last_name | string \| null | originator last name
 originator_first_name | string \| null | originator first name
 originator_country | string \| null | originator country
@@ -1177,11 +1177,11 @@ originator_address | string \| null | originator address
 originator_building | string \| null | originator building
 originator_company_name | string \| null | originator company name
 originator_company_type | string \| null | originator company type
-originator_company_type_position \| null | string | originator company type position
+originator_company_type_position | string \| null | originator company type position (prefix or suffix)
 uuid | string | originator substantial controller uuid
 name | string | originator substantial controller name
 country | string | originator substantial controller country
-prefecture | string \| null | originator substantial controller prefecture
+prefecture | string \| null | originator substantial controller prefecture/state/province/region
 
 **Sample code:**
 
