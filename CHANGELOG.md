@@ -1,5 +1,10 @@
-# CHANGELOG for Bitbank's API (2026-09-08)
+# CHANGELOG for Bitbank's API (2026-09-09)
 
+## 2026-09-09
+* Fixed descriptions of the unconfirmed deposits / deposit originators APIs in
+  * `rest-api.md`
+
+---
 ## 2026-09-08
 * Added `locked_amount` to GET /user/margin/positions and documented `notice` and `positions` fields in more detail in
   * `rest-api.md`
