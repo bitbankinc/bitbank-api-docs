@@ -1,5 +1,13 @@
-# CHANGELOG for Bitbank's API (2026-09-09)
+# CHANGELOG for Bitbank's API (2026-10-30)
 
+## 2026-10-30
+* Clarified that `side` in the public/stream transactions API is the taker's side, in
+  * `public-api.md`
+  * `public-api_JP.md`
+  * `public-stream.md`
+  * `public-stream_JP.md`
+
+---
 ## 2026-09-09
 * Fixed descriptions of the unconfirmed deposits / deposit originators APIs in
   * `rest-api.md`

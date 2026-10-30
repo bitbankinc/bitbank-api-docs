@@ -104,7 +104,7 @@ Transactions channel name is `transactions_{pair}`, available pairs are written 
 Name | Type | Description
 ------------ | ------------ | ------------
 transaction_id | number | transaction id
-side | string | enum: `buy`, `sell`
+side | string | taker's side. enum: `buy`, `sell`
 price | string | price
 amount | string | amount
 executed_at | number | executed at unix timestamp (milliseconds)

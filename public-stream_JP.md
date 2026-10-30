@@ -107,7 +107,7 @@ connected (press CTRL+C to quit)
 Name | Type | Description
 ------------ | ------------ | ------------
 transaction_id | number | 取引ID
-side | string | `buy` または `sell`
+side | string | taker側の売/買。`buy` または `sell`
 price | string | 価格
 amount | string | 数量
 executed_at | number | 約定日時（UnixTimeのミリ秒）
