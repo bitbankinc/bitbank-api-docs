@@ -1,5 +1,10 @@
-# CHANGELOG for Bitbank's API (2026-10-30)
+# CHANGELOG for Bitbank's API (2026-11-20)
 
+## 2026-11-20
+* Updated docs
+  * `pairs.md`
+
+---
 ## 2026-10-30
 * Clarified that `side` in the public/stream transactions API is the taker's side, in
   * `public-api.md`

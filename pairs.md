@@ -39,7 +39,7 @@ mkr_jpy | mkr | jpy | true
 mkr_btc | mkr | btc | true
 boba_jpy | boba | jpy | false
 boba_btc | boba | btc | true
-enj_jpy | enj | jpy | false
+enj_jpy | enj | jpy | true
 enj_btc | enj | btc | true
 matic_jpy | matic | jpy | true
 matic_btc | matic | btc | true
